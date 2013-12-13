@@ -61,7 +61,7 @@ class Asset extends \Dsc\Controller
                 $f3->set('pagetitle', 'View Asset');
                 
                 $view = new \Dsc\Template;
-                echo $view->renderLayout('Assets/View.php');
+                echo $view->renderLayout('assets/view.php');
                 
                 break;
         }

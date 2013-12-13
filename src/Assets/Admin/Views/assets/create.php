@@ -7,7 +7,7 @@
             <div class="form-group clearfix">
                 <fieldset>
                 <legend>Local</legend>
-                <?php echo $this->renderLayout('Assets/Create_Local.php'); ?>
+                <?php echo $this->renderLayout('assets/create_local.php'); ?>
                 </fieldset>
             </div>
             <!-- /.form-group -->
@@ -15,7 +15,7 @@
             <div class="form-group clearfix">
                 <fieldset>
                 <legend>Amazon S3</legend>            
-                <?php echo $this->renderLayout('Assets/Create_S3.php'); ?>
+                <?php echo $this->renderLayout('assets/create_s3.php'); ?>
                 </fieldset>
             </div>
             <!-- /.form-group -->

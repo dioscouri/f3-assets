@@ -26,7 +26,7 @@ class Assets extends \Admin\Controllers\BaseAuth
         \Base::instance()->set('pagination', $pagination );
         
         $view = new \Dsc\Template;
-        echo $view->render('Assets/List.php');
+        echo $view->render('assets/list.php');
     }
     
     public function element()
@@ -46,7 +46,7 @@ class Assets extends \Admin\Controllers\BaseAuth
         \Base::instance()->set('elementItemTitleKey', $this->getElementItemTitleKey() );
                 
         $view = new \Dsc\Template;
-        echo $view->setLayout('app.php')->render('Element/List.php');
+        echo $view->setLayout('app.php')->render('element/list.php');
     }
     
     public function elementImage()
@@ -66,7 +66,7 @@ class Assets extends \Admin\Controllers\BaseAuth
         \Base::instance()->set('elementItemTitleKey', $this->getElementItemTitleKey() );        
         
         $view = new \Dsc\Template;
-        echo $view->setLayout('app.php')->render('Element/List.php');
+        echo $view->setLayout('app.php')->render('element/list.php');
     }
     
     public function fetchElementImage($id, $value=null, $options=array() ) 

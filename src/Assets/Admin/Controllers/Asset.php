@@ -246,7 +246,7 @@ class Asset extends \Admin\Controllers\BaseAuth
         \Base::instance()->set('all_tags', $all_tags );
         
         $view = new \Dsc\Template;
-        echo $view->render('Assets/Create.php');
+        echo $view->render('assets/create.php');
     }
     
     protected function displayEdit()
@@ -258,7 +258,7 @@ class Asset extends \Admin\Controllers\BaseAuth
         \Base::instance()->set('all_tags', $all_tags );
         
         $view = new \Dsc\Template;
-        echo $view->render('Assets/Edit.php');
+        echo $view->render('assets/edit.php');
     }
     
     /**

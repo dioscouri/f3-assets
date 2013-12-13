@@ -3,6 +3,6 @@
 
 <form id="assets" class="searchForm" action="./admin/assets" method="post">
 
-    <?php echo $this->renderLayout('Assets/List_Datatable.php'); ?>
+    <?php echo $this->renderLayout('assets/list_datatable.php'); ?>
 
 </form>
