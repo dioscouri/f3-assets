@@ -1,7 +1,7 @@
 {
     "name": "dioscouri/f3-assets",
     "type": "component",
-    "description": "Assets componenr for the F3-framework",
+    "description": "Assets component for the F3-framework",
     "keywords": ["F3","RAD", "Media Asset Manager"],
     "homepage": "https://github.com/dioscouri/f3-assets",
     "license": "GPL",
