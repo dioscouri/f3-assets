@@ -28,7 +28,7 @@ switch ($global_app_name)
         $f3->route('GET|POST /admin/assets/element/image/@id', '\Assets\Admin\Controllers\Assets->elementImage');
         $f3->route('GET|POST /admin/assets/element/image/@id/@page', '\Assets\Admin\Controllers\Assets->elementImage');
         
-        // append this app's UI folder to the path, e.g. UI=../apps/blog/admin/views/
+        // append this app's UI folder to the path
         $ui = $f3->get('UI');
         $ui .= ";" . $f3->get('PATH_ROOT') . "vendor/dioscouri/f3-assets/src/Assets/Admin/Views/";
         $f3->set('UI', $ui);
@@ -40,7 +40,7 @@ switch ($global_app_name)
         // TODO register all the routes
         $f3->route('GET /asset/@slug', '\Assets\Site\Controllers\Asset->read');
         
-        // append this app's UI folder to the path, e.g. UI=../apps/blog/site/views/
+        // append this app's UI folder to the path
         $ui = $f3->get('UI');
         $ui .= ";" . $f3->get('PATH_ROOT') . "vendor/dioscouri/f3-assets/src/Assets/Site/Views/";
         $f3->set('UI', $ui);
