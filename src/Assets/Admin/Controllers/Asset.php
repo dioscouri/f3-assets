@@ -257,8 +257,10 @@ class Asset extends \Admin\Controllers\BaseAuth
         $all_tags = $this->getModel()->getTags();
         \Base::instance()->set('all_tags', $all_tags );
         
-        $view = new \Dsc\Template;
-        echo $view->render('assets/edit.php');
+		$view = new \Dsc\Template;
+		$view->event = $view->trigger( 'onDisplayAdminAssetEdit', array( 'item' => $this->getItem(), 'tabs' => array(), 'content' => array() ) );
+        
+        echo $view->render('Assets/Admin/Views::assets/edit.php');
     }
     
     /**
