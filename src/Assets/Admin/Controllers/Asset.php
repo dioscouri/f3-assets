@@ -246,7 +246,7 @@ class Asset extends \Admin\Controllers\BaseAuth
         \Base::instance()->set('all_tags', $all_tags );
         
         $view = new \Dsc\Template;
-        echo $view->render('assets/create.php');
+        echo $view->render('Assets/Admin/Views::assets/create.php');
     }
     
     protected function displayEdit()

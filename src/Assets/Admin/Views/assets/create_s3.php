@@ -98,7 +98,7 @@ jQuery(document).ready(function () {
             // optional feature
             validation: {
                 itemLimit: 5,
-                sizeLimit: <?php echo \Base::instance()->get('aws.maxsize'); ?>
+                sizeLimit: <?php echo \Base::instance()->get('aws.maxsize') ? \Base::instance()->get('aws.maxsize') : 10; ?>
             },
 
             classes: {

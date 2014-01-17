@@ -7,19 +7,20 @@
             <div class="form-group clearfix">
                 <fieldset>
                 <legend>Local</legend>
-                <?php echo $this->renderLayout('assets/create_local.php'); ?>
+                <?php echo $this->renderLayout('Assets/Admin/Views::assets/create_local.php'); ?>
                 </fieldset>
             </div>
             <!-- /.form-group -->
             
+            <?php if (\Base::instance()->get('aws.bucketname')) { ?>
             <div class="form-group clearfix">
                 <fieldset>
                 <legend>Amazon S3</legend>            
-                <?php echo $this->renderLayout('assets/create_s3.php'); ?>
+                <?php echo $this->renderLayout('Assets/Admin/Views::assets/create_s3.php'); ?>
                 </fieldset>
             </div>
             <!-- /.form-group -->
-    
+            <?php } ?>
         </div>
         
     </div>
