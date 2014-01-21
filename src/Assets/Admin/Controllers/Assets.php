@@ -16,7 +16,7 @@ class Assets extends \Admin\Controllers\BaseAuth
         \Base::instance()->set('subtitle', '');
         
         $model = new \Assets\Admin\Models\Assets;
-        $state = $model->populateState()->getState();
+        $state = $model->populateState()->setState('filter.type', true)->getState();
         \Base::instance()->set('state', $state );
         
         $list = $model->paginate();
@@ -26,13 +26,13 @@ class Assets extends \Admin\Controllers\BaseAuth
         \Base::instance()->set('pagination', $pagination );
         
         $view = new \Dsc\Template;
-        echo $view->render('assets/list.php');
+        echo $view->render('Assets/Admin/Views::assets/list.php');
     }
     
     public function element()
     {
         $model = new \Assets\Admin\Models\Assets;
-        $state = $model->populateState()->getState();
+        $state = $model->populateState()->setState('filter.type', true)->getState();
         \Base::instance()->set('state', $state );
     
         $list = $model->paginate();
@@ -46,13 +46,13 @@ class Assets extends \Admin\Controllers\BaseAuth
         \Base::instance()->set('elementItemTitleKey', $this->getElementItemTitleKey() );
                 
         $view = new \Dsc\Template;
-        echo $view->setLayout('app.php')->render('element/list.php');
+        echo $view->setLayout('app.php')->render('Assets/Admin/Views::element/list.php');
     }
     
     public function elementImage()
     {
         $model = new \Assets\Admin\Models\Assets;
-        $state = $model->populateState()->setState('filter.type', 'image/')->getState();
+        $state = $model->populateState()->setState('filter.type', true)->setState('filter.content_type', 'image/')->getState();
         \Base::instance()->set('state', $state );
     
         $list = $model->paginate();
@@ -66,7 +66,7 @@ class Assets extends \Admin\Controllers\BaseAuth
         \Base::instance()->set('elementItemTitleKey', $this->getElementItemTitleKey() );        
         
         $view = new \Dsc\Template;
-        echo $view->setLayout('app.php')->render('element/list.php');
+        echo $view->setLayout('app.php')->render('Assets/Admin/Views::element/list.php');
     }
     
     public function fetchElementImage($id, $value=null, $options=array() ) 
