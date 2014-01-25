@@ -8,6 +8,7 @@ class Listener extends \Prefab
         if ($mapper = $event->getArgument('mapper')) 
         {
             $mapper->reset();
+            $mapper->priority = 40;
             $mapper->id = 'f3-assets';
             $mapper->title = 'Media Assets';
             $mapper->route = '';
