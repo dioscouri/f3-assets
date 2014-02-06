@@ -37,7 +37,7 @@ switch ($global_app_name)
                 
         break;
     case "site":
-        // TODO register all the routes
+        $f3->route('GET /asset/thumb/@slug', '\Assets\Site\Controllers\Asset->thumb'); // TODO Make this support dimensions, e.g. /asset/thumb/@slug/@width/@height 
         $f3->route('GET /asset/@slug', '\Assets\Site\Controllers\Asset->read');
         
         // append this app's UI folder to the path

@@ -61,10 +61,36 @@ class Asset extends \Dsc\Controller
                 $f3->set('pagetitle', 'View Asset');
                 
                 $view = new \Dsc\Template;
-                echo $view->renderLayout('assets/view.php');
+                echo $view->renderLayout('Assets/Site/Views::assets/view.php');
                 
                 break;
         }
+    }
+    
+    /**
+     * Displays the thumb
+     */
+    public function thumb()
+    {
+        $f3 = \Base::instance();
+        $flash = \Dsc\Flash::instance();
+        $f3->set('flash', $flash );
+    
+        $model = $this->getModel();
+        $item = $this->getItem();
+    
+        $f3->set('model', $model );
+        $f3->set('item', $item );
+    
+        if (method_exists($item, 'cast')) {
+            $item_data = $item->cast();
+        } else {
+            $item_data = \Joomla\Utilities\ArrayHelper::fromObject($item);
+        }
+        $flash->store($item_data);
+    
+	    $view = new \Dsc\Template;
+	    echo $view->renderLayout('Assets/Site/Views::assets/thumb.php');
     }
     
 }
