@@ -275,4 +275,56 @@ class Asset extends \Admin\Controllers\BaseAuth
     }
     
     protected function displayRead() {}
+    
+    public function rebuildThumb()
+    {
+        $f3 = \Base::instance();
+        
+    	$model = $this->getModel();
+    	$db = $model->getDb();
+    	$gridfs = $db->getGridFS( $model->getGridFSCollectionName() );
+    	
+    	$id = $this->inputfilter->clean( $f3->get('PARAMS.id'), 'alnum' );
+    	$item = $this->getItem();
+    	
+    	if (empty($item->id)) {
+    		return false;
+    	}
+    	
+    	$length = $item->{"length"};
+    	$chunkSize = $item->{"chunkSize"};
+    	$chunks = ceil( $length / $chunkSize );
+    	
+    	$collChunkName = $model->getGridFSCollectionName() . ".chunks";
+    	$collChunks = $model->getDb()->{$collChunkName};
+    	
+    	$buffer = null;
+    	for( $i=0; $i<$chunks; $i++ )
+    	{
+    	    $chunk = $collChunks->findOne( array( "files_id" => $item->_id, "n" => $i ) );
+    	    $buffer .= (string) $chunk["data"]->bin;
+    	}    	
+    	
+    	$thumb = null;
+    	if ( $thumb_binary_data = $model->getThumb( $buffer )) {
+    	    $thumb = new \MongoBinData( $thumb_binary_data, 2 );
+    	}
+
+    	
+    	$item->set( 'thumb', $thumb );
+    	if ($item->save()) {
+    	    \Dsc\System::instance()->addMessage('Thumb recreated.');
+    	} else {
+    	    \Dsc\System::instance()->addMessage('There was an error recreating the thumb.');
+    	}
+    	
+    	$this->setRedirect( $this->list_route );
+    	
+    	if ($route = $this->getRedirect()) {
+    	    \Base::instance()->reroute( $route );
+    	}
+    	    	
+    	return $this;
+
+    }
 }

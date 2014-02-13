@@ -19,6 +19,7 @@ switch ($global_app_name)
         $f3->route('POST /admin/asset/@id', '\Assets\Admin\Controllers\Asset->update');
         $f3->route('DELETE /admin/asset/@id', '\Assets\Admin\Controllers\Asset->delete');
         $f3->route('GET /admin/asset/@id/delete', '\Assets\Admin\Controllers\Asset->delete');
+        $f3->route('GET /admin/asset/rethumb/@id', '\Assets\Admin\Controllers\Asset->rebuildThumb');
         // upload handlers
         $f3->route('POST /admin/asset/handleTraditional', '\Assets\Admin\Controllers\Asset->handleTraditional');
         $f3->route('POST|DELETE /admin/asset/handleS3', '\Assets\Admin\Controllers\Asset->handleS3');
