@@ -60,7 +60,7 @@ class Asset extends \Dsc\Controller
                 $f3 = \Base::instance();
                 $f3->set('pagetitle', 'View Asset');
                 
-                $view = new \Dsc\Template;
+                $view = \Dsc\System::instance()->get('theme');
                 echo $view->renderLayout('Assets/Site/Views::assets/view.php');
                 
                 break;
@@ -89,7 +89,7 @@ class Asset extends \Dsc\Controller
         }
         $flash->store($item_data);
     
-	    $view = new \Dsc\Template;
+	    $view = \Dsc\System::instance()->get('theme');
 	    echo $view->renderLayout('Assets/Site/Views::assets/thumb.php');
     }
     

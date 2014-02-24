@@ -30,6 +30,9 @@ switch ($global_app_name)
         $f3->route('GET|POST /admin/assets/element/image/@id/@page', '\Assets\Admin\Controllers\Assets->elementImage');
         
         // append this app's UI folder to the path
+        // new way
+        \Dsc\System::instance()->get('theme')->registerViewPath( __dir__ . '/src/Assets/Admin/Views/', 'Assets/Admin/Views' );
+        // old way
         $ui = $f3->get('UI');
         $ui .= ";" . $f3->get('PATH_ROOT') . "vendor/dioscouri/f3-assets/src/Assets/Admin/Views/";
         $f3->set('UI', $ui);
@@ -42,6 +45,9 @@ switch ($global_app_name)
         $f3->route('GET /asset/@slug', '\Assets\Site\Controllers\Asset->read');
         
         // append this app's UI folder to the path
+        // new way
+        \Dsc\System::instance()->get('theme')->registerViewPath( __dir__ . '/src/Assets/Site/Views/', 'Assets/Site/Views' );
+        // old way        
         $ui = $f3->get('UI');
         $ui .= ";" . $f3->get('PATH_ROOT') . "vendor/dioscouri/f3-assets/src/Assets/Site/Views/";
         $f3->set('UI', $ui);

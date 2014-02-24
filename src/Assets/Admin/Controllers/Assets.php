@@ -24,9 +24,8 @@ class Assets extends \Admin\Controllers\BaseAuth
         
         $pagination = new \Dsc\Pagination($list['total'], $list['limit']);       
         \Base::instance()->set('pagination', $pagination );
-        
-        $view = new \Dsc\Template;
-        echo $view->render('Assets/Admin/Views::assets/list.php');
+
+        echo \Dsc\System::instance()->get('theme')->renderTheme('Assets/Admin/Views::assets/list.php');
     }
     
     public function element()
@@ -44,9 +43,8 @@ class Assets extends \Admin\Controllers\BaseAuth
         \Base::instance()->set('select_function_name', $this->getElementSelectFunction() );
         \Base::instance()->set('elementItemKey', $this->getElementItemKey() );
         \Base::instance()->set('elementItemTitleKey', $this->getElementItemTitleKey() );
-                
-        $view = new \Dsc\Template;
-        echo $view->setLayout('app.php')->render('Assets/Admin/Views::element/list.php');
+
+        echo \Dsc\System::instance()->get('theme')->setVariant('app')->renderTheme('Assets/Admin/Views::element/list.php');
     }
     
     public function elementImage()
@@ -64,9 +62,8 @@ class Assets extends \Admin\Controllers\BaseAuth
         \Base::instance()->set('select_function_name', $this->getElementSelectFunction() );
         \Base::instance()->set('elementItemKey', $this->getElementItemKey() );
         \Base::instance()->set('elementItemTitleKey', $this->getElementItemTitleKey() );        
-        
-        $view = new \Dsc\Template;
-        echo $view->setLayout('app.php')->render('Assets/Admin/Views::element/list.php');
+
+        echo \Dsc\System::instance()->get('theme')->setVariant('app')->renderTheme('Assets/Admin/Views::element/list.php');
     }
     
     public function fetchElementImage($id, $value=null, $options=array() ) 
