@@ -10,6 +10,7 @@ switch ($global_app_name)
         
     	// register all the routes
     	\Dsc\System::instance()->get('router')->mount( new \Assets\Admin\Routes );
+    	
         // append this app's UI folder to the path
         // new way
         \Dsc\System::instance()->get('theme')->registerViewPath( __dir__ . '/src/Assets/Admin/Views/', 'Assets/Admin/Views' );

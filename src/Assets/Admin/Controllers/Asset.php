@@ -8,9 +8,9 @@ class Asset extends \Admin\Controllers\BaseAuth
     use \Dsc\Traits\Controllers\CrudItem;
 
     protected $list_route = '/admin/assets';
-    protected $create_item_route = '/admin/asset';
-    protected $get_item_route = '/admin/asset/{id}';    
-    protected $edit_item_route = '/admin/asset/{id}/edit';
+    protected $create_item_route = '/admin/asset/create';
+    protected $get_item_route = '/admin/asset/read/{id}';    
+    protected $edit_item_route = '/admin/asset/edit/{id}';
     
     public function handleS3()
     {

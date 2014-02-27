@@ -78,7 +78,7 @@
 				    </div> <!-- /.thumbnail -->                
                     <?php } else { ?>
                         <div class="thumbnail text-center">
-                        <a href="./admin/asset/<?php echo $item->id; ?>/edit">
+                        <a href="./admin/asset/edit/<?php echo $item->id; ?>">
                         <img src="<?php echo \Dsc\Image::dataUri( $item->thumb->bin ); ?>" alt="<?php echo $item->{'metadata.title'}; ?>" />
                         </a>
                         </div>
@@ -88,7 +88,7 @@
             
             <td class="">
                 <h5>
-                <a href="./admin/asset/<?php echo $item->id; ?>/edit">
+                <a href="./admin/asset/edit/<?php echo $item->id; ?>">
                 <?php echo $item->{'metadata.title'}; ?>
                 </a>
                 </h5>
@@ -121,11 +121,11 @@
             </td>
                 
             <td class="text-center">
-                <a class="btn btn-xs btn-secondary" href="./admin/asset/<?php echo $item->_id; ?>/edit">
+                <a class="btn btn-xs btn-secondary" href="./admin/asset/edit/<?php echo $item->_id; ?>">
                     <i class="fa fa-pencil"></i>
                 </a>
                 &nbsp;
-                <a class="btn btn-xs btn-danger" data-bootbox="confirm" href="./admin/asset/<?php echo $item->_id; ?>/delete">
+                <a class="btn btn-xs btn-danger" data-bootbox="confirm" href="./admin/asset/delete/<?php echo $item->_id; ?>">
                     <i class="fa fa-times"></i>
                 </a>
                 <a class="btn btn-xs btn-success" href="./admin/asset/rethumb/<?php echo $item->_id; ?>">

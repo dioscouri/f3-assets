@@ -10,7 +10,7 @@ class Assets extends \Admin\Controllers\BaseAuth
     protected $element_url = '/admin/assets/element/{id}'; // where {id} will be replaced by the id of the element object
     protected $element_url_image = '/admin/assets/element/image/{id}'; // where {id} will be replaced by the id of the element object
     
-    public function display()
+    public function index()
     {
         \Base::instance()->set('pagetitle', 'Asset Library');
         \Base::instance()->set('subtitle', '');

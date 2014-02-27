@@ -1,5 +1,5 @@
 
-<form id="detail-form" action="./admin/asset/<?php echo $item->get( $model->getItemKey() ); ?>" class="form" method="post">
+<form id="detail-form" action="./admin/asset/update/<?php echo $item->get( $model->getItemKey() ); ?>" class="form" method="post">
 
     <div class="row">
         <div class="col-md-12">

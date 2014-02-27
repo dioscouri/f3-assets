@@ -24,55 +24,8 @@ class Routes extends \Dsc\Routes\Group{
 				)
 		);
 		
-		$this->add( '/assets', array('GET', 'POST'), array(
-								'controller' => 'Assets',
-								'action' => 'display'
-								));
-
-		$this->add( '/assets/@page', array('GET', 'POST'), array(
-				'controller' => 'Assets',
-				'action' => 'display'
-		));
-
-		$this->add( '/assets/delete', array('GET', 'POST'), array(
-				'controller' => 'Assets',
-				'action' => 'delete'
-		));
-
-		$this->add( '/asset', 'GET', array(
-				'controller' => 'Asset',
-				'action' => 'create'
-		));
-
-		$this->add( '/asset', 'POST', array(
-				'controller' => 'Asset',
-				'action' => 'add'
-		));
-
-		$this->add( '/asset/@id', 'GET', array(
-				'controller' => 'Asset',
-				'action' => 'read'
-		));
-
-		$this->add( '/asset/@id/edit', 'GET', array(
-				'controller' => 'Asset',
-				'action' => 'edit'
-		));
-
-		$this->add( '/asset/@id', 'POST', array(
-				'controller' => 'Asset',
-				'action' => 'update'
-		));
-
-		$this->add( '/asset/@id', 'DELETE', array(
-				'controller' => 'Asset',
-				'action' => 'delete'
-		));
-
-		$this->add( '/asset/@id/delete', 'GET', array(
-				'controller' => 'Asset',
-				'action' => 'delete'
-		));
+		$this->addCrudList( 'Assets' );
+		$this->addCrudItem( 'Asset' );
 
 		$this->add( '/asset/rethumb/@id', 'GET', array(
 				'controller' => 'Asset',
