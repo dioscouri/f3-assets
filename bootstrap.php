@@ -9,7 +9,7 @@ switch ($global_app_name)
         \Dsc\System::instance()->getDispatcher()->addListener(\Assets\Listener::instance());
         
     	// register all the routes
-    	\Dsc\System::instance()->get('router')->mount( new \Assets\Admin\Routes );
+    	\Dsc\System::instance()->get('router')->mount( new \Assets\Admin\Routes, 'assets' );
     	
         // append this app's UI folder to the path
         // new way
@@ -24,7 +24,7 @@ switch ($global_app_name)
         break;
     case "site":
         // register all the routes
-        \Dsc\System::instance()->get('router')->mount( new \Assets\Site\Routes );
+        \Dsc\System::instance()->get('router')->mount( new \Assets\Site\Routes, 'assets' );
         // append this app's UI folder to the path
         // new way
         \Dsc\System::instance()->get('theme')->registerViewPath( __dir__ . '/src/Assets/Site/Views/', 'Assets/Site/Views' );
