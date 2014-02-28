@@ -15,7 +15,7 @@ class Listener extends \Prefab
             $mapper->icon = 'fa fa-picture-o';
             $mapper->children = array(
                     json_decode(json_encode(array( 'title'=>'Library', 'route'=>'/admin/assets', 'icon'=>'fa fa-list' )))
-                    ,json_decode(json_encode(array( 'title'=>'Add New', 'route'=>'/admin/asset', 'icon'=>'fa fa-plus' )))
+                    ,json_decode(json_encode(array( 'title'=>'Add New', 'route'=>'/admin/asset/create', 'icon'=>'fa fa-plus' )))
             );
             $mapper->save();
             
