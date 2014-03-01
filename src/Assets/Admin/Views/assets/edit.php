@@ -46,61 +46,79 @@
                 <div class="tab-pane active" id="tab-basics">
                 
                     <div class="row">
-                        <div class="col-md-9">
+                        <div class="col-md-2">
+                        
+                            <h3>Details</h3>
+                                    
+                        </div>
+                        <!-- /.col-md-2 -->
+                                    
+                        <div class="col-md-10">
+                        
+                            <div class="form-group">
+                                <p class="help-block">
+                                    Full-size Link: 
+                                    <a target="_blank" href="./asset/<?php echo $item->{'metadata.slug'}; ?>">
+                                    /<?php echo $item->{'metadata.slug'}; ?>
+                                    </a>
+                                </p>
+                            </div>
+                            <!-- /.form-group -->
+                                                        
+                            <div class="form-group">
+                                <p class="help-block">
+                                    Thumb Link: 
+                                    <a target="_blank" href="./asset/thumb/<?php echo $item->{'metadata.slug'}; ?>">
+                                    /thumb/<?php echo $item->{'metadata.slug'}; ?>
+                                    </a>
+                                </p>
+                            </div>
+                            <!-- /.form-group -->                            
+                            
+                            
                             <div class="form-group">
                                 <label>Title</label>
                                 <input type="text" name="metadata[title]" placeholder="Title" value="<?php echo $flash->old('metadata.title'); ?>" class="form-control" />
-                                <?php if ($flash->old('metadata.slug')) { ?>
-                                    <p class="help-block">
-                                    <label>Slug</label>
-                                    <input type="text" name="metadata[slug]" value="<?php echo $flash->old('metadata.slug'); ?>" class="form-control" />
-                                    </p>
-                                <?php } ?>
-                                
-                                <p class="help-block">
-                                Current Link: 
-                                <a target="_blank" href="./asset/<?php echo $item->{'metadata.slug'}; ?>">
-                                /<?php echo $item->{'metadata.slug'}; ?>
-                                </a>
-                                </p>
-                                
                             </div>
                             <!-- /.form-group -->
                             
+                            <div class="form-group">
+                                <label>Slug</label>
+                                <input type="text" name="metadata[slug]" value="<?php echo $flash->old('metadata.slug'); ?>" class="form-control" />
+                            </div>
+                            <!-- /.form-group -->
+                            
+                            <div class="form-group">
+                                <label>Tags: Enter multiple tags, separated by a comma</label>
+                                <input name="metadata[tags]" data-tags='<?php echo json_encode( $all_tags ); ?>' value="<?php echo implode(",", (array) $flash->old('metadata.tags') ); ?>" type="text" name="tags" class="form-control ui-select2-tags" />
+                            </div>
+                            <!-- /.form-group -->
+                            
+                            
+                        </div>
+                        <!-- /.col-md-10 -->
+                    </div>
+                    <!-- /.row -->
+                    
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h3>Preview</h3>                                    
+                        </div>
+                        <!-- /.col-md-2 -->
+                                    
+                        <div class="col-md-10">
+                    
                             <?php if ($item->isImage()) { ?>
                             <div class="form-group">
                                 <img src="./asset/<?php echo $item->{'metadata.slug'}; ?>" class="img-responsive" />
                             </div>
                             <!-- /.form-group -->
                             <?php } ?>
-                    
-                        </div>
-                        <div class="col-md-3">
-                                    
-                            <div class="portlet">
-                
-                                <div class="portlet-header">
-                
-                                    <h3>Tags</h3>
-                
-                                </div>
-                                <!-- /.portlet-header -->
-                
-                                <div class="portlet-content">
-                                
-                                    <div class="input-group">
-                                        <input name="metadata[tags]" data-tags='<?php echo json_encode( $all_tags ); ?>' value="<?php echo implode(",", (array) $flash->old('metadata.tags') ); ?>" type="text" name="tags" class="form-control ui-select2-tags" /> 
-                                    </div>
-                                    <!-- /.form-group -->
-                
-                                </div>
-                                <!-- /.portlet-content -->
-                
-                            </div>
-                            <!-- /.portlet -->        
-                        </div>
                         
+                        </div>
+                        <!-- /.col-md-10 -->
                     </div>
+                    <!-- /.row -->                    
                 
                 </div>
                 <!-- /.tab-pane -->
