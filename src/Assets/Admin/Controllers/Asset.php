@@ -249,37 +249,6 @@ class Asset extends \Admin\Controllers\BaseAuth
         echo $view->renderTheme('Assets/Admin/Views::assets/create.php');
     }
     
-    protected function doEdit(array $data)
-    {
-        $f3 = \Base::instance();
-        $flash = \Dsc\Flash::instance();
-        $f3->set('flash', $flash );
-    
-        $model = $this->getModel();
-        $item = $this->getItem();
-    
-        $f3->set('model', $model );
-        $f3->set('item', $item );
-    
-        $use_flash = \Dsc\System::instance()->getUserState('use_flash.' . $this->edit_item_route);
-        if (!$use_flash) {
-            $item_data = array();
-            if (method_exists($item, 'cast')) {
-                $item_data = $item->cast();
-            } elseif (is_object($item)) {
-                $item_data = \Joomla\Utilities\ArrayHelper::fromObject($item);
-            }
-            unset($item_data['thumb']);
-            $flash->store($item_data);
-        }
-        \Dsc\System::instance()->setUserState('use_flash.' . $this->edit_item_route, false);
-    
-        $this->displayEdit();
-    
-        return $this;
-    }
-    
-    
     protected function displayEdit()
     {
         $f3 = \Base::instance();
