@@ -24,8 +24,7 @@ class Routes extends \Dsc\Routes\Group{
 				)
 		);
 		
-		$this->addCrudList( 'Assets' );
-		$this->addCrudItem( 'Asset' );
+		$this->addCrudGroup( 'Assets', 'Asset');
 
 		$this->add( '/asset/rethumb/@id', 'GET', array(
 				'controller' => 'Asset',
