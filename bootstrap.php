@@ -1,5 +1,5 @@
 <?php 
-class AssetsBootstrap extends \Dsc\BaseBootstrap{
+class AssetsBootstrap extends \Dsc\Bootstrap{
 	protected $dir = __DIR__;
 	protected $namespace = 'Assets';
 }
