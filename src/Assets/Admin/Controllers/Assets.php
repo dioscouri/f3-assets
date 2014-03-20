@@ -102,12 +102,12 @@ class Assets extends \Admin\Controllers\BaseAuth
         
         $model = new \Assets\Admin\Models\Assets;
         $model->setState('filter.slug', $value);
+        $item = $model->getItem();
         
-        try {
-            $item = $model->getItem();
-            $title = $item->{'metadata.title'}; 
-            
-        } catch ( \Exception $e ) {
+        if (!empty($item->{'metadata.title'})) {
+            $title = $item->{'metadata.title'};
+        }
+        else {
             $title = "Invalid Item";
         }
         
