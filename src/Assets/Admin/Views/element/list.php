@@ -2,7 +2,7 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#createNew">
+        <a data-toggle="collapse" data-parent="#accordion" href="javascript:void(0);" onclick="$('#createNew').collapse('toggle');">
           Create a New Asset
         </a>
         &nbsp;&nbsp;&nbsp;&nbsp;
