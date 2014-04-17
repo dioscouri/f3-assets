@@ -16,7 +16,7 @@ class Assets extends \Admin\Controllers\BaseAuth
         \Base::instance()->set('subtitle', '');
         
         $model = new \Assets\Admin\Models\Assets;
-        $state = $model->populateState()->setState('filter.type', true)->getState();
+        $state = $model->populateState()->getState();
         \Base::instance()->set('state', $state );
         
         $list = $model->paginate();
@@ -31,7 +31,7 @@ class Assets extends \Admin\Controllers\BaseAuth
     public function element()
     {
         $model = new \Assets\Admin\Models\Assets;
-        $state = $model->populateState()->setState('filter.type', true)->getState();
+        $state = $model->populateState()->getState();
         \Base::instance()->set('state', $state );
     
         $list = $model->paginate();
@@ -50,7 +50,7 @@ class Assets extends \Admin\Controllers\BaseAuth
     public function elementImage()
     {
         $model = new \Assets\Admin\Models\Assets;
-        $state = $model->populateState()->setState('filter.type', true)->setState('filter.content_type', 'image/')->getState();
+        $state = $model->populateState()->setState('filter.content_type', 'image/')->getState();
         \Base::instance()->set('state', $state );
     
         $list = $model->paginate();

@@ -10,31 +10,59 @@
 <h3>Select from an Existing Asset</h3>
 <form id="assets" class="searchForm" action="./admin/assets/element/<?php echo $PARAMS['id']; ?>" method="post">
 
-    <div class="row datatable-header">
-        <div class="col-sm-6">
-            <div class="row row-marginless">
-                <?php if (!empty($list['subset'])) { ?>
-                <div class="col-sm-2">
-                    <?php echo $pagination->getLimitBox( $state->get('list.limit') ); ?>
+    <div class="row">
+        <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+        
+            <ul class="list-filters list-unstyled list-inline">
+                <li>
+                    <select name="filter[type]" class="form-control" onchange="this.form.submit();">
+                        <option value="-1">All Types</option>
+                        <?php foreach (\Dsc\Models\Assets::distinctTypes() as $type) { ?>
+                        	<option value="<?php echo $type; ?>" <?php if ($state->get('filter.type') == $type) { echo "selected='selected'"; } ?>><?php echo $type; ?></option>
+                        <?php } ?>                            
+                    </select>
+                </li>
+            </ul>    
+            
+        </div>
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+            <div class="form-group">
+                <div class="input-group">
+                    <input class="form-control" type="text" name="filter[keyword]" placeholder="Search..." maxlength="200" value="<?php echo $state->get('filter.keyword'); ?>"> <span class="input-group-btn"> <input class="btn btn-primary" type="submit"
+                        onclick="this.form.submit();" value="Search"
+                    />
+                        <button class="btn btn-danger" type="button" onclick="Dsc.resetFormFilters(this.form);">Reset</button>
+                    </span>
                 </div>
-                <?php } ?>
-                <?php if (!empty($list['count']) && $list['count'] > 1) { ?>
-                <div class="col-sm-10">
-                    <?php echo (!empty($list['count']) && $list['count'] > 1) ? $pagination->serve() : null; ?>
-                </div>
-                <?php } ?>
-            </div>
-        </div>    
-        <div class="col-sm-6">
-            <div class="input-group">
-                <input class="form-control" type="text" name="filter[keyword]" placeholder="Keyword" maxlength="200" value="<?php echo $state->get('filter.keyword'); ?>"> 
-                <span class="input-group-btn">
-                    <input class="btn btn-primary" type="submit" onclick="this.form.submit();" value="Search" />
-                    <button class="btn btn-danger" type="button" onclick="Dsc.resetFormFilters(this.form);">Reset</button>
-                </span>
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-5 col-md-3 col-lg-3">
+            <span class="pagination">
+                <div class="input-group">
+                    
+                </div>
+            </span>
+        </div>
+        <div class="col-xs-12 col-sm-7 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+            <div class="row text-align-right">
+                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                    <?php if (!empty($list['count']) && $list['count'] > 1) { ?>
+                        <?php echo $pagination->serve(); ?>
+                    <?php } ?>
+                </div>
+                <?php if (!empty($list['subset'])) { ?>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <span class="pagination">
+                    <?php echo $pagination->getLimitBox( $state->get('list.limit') ); ?>
+                    </span>
+                </div>
+                <?php } ?>
+            </div>
+        </div>
+    </div>    
     
     <input type="hidden" name="list[order]" value="<?php echo $state->get('list.order'); ?>" />
     <input type="hidden" name="list[direction]" value="<?php echo $state->get('list.direction'); ?>" />

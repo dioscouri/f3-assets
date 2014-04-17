@@ -19,19 +19,29 @@
     
         <div class="row">
             <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
-                <?php /* ?>
+            
                 <ul class="list-filters list-unstyled list-inline">
                     <li>
+                        <select name="filter[type]" class="form-control" onchange="this.form.submit();">
+                            <option value="-1">All Types</option>
+                            <?php foreach (\Dsc\Models\Assets::distinctTypes() as $type) { ?>
+                            	<option value="<?php echo $type; ?>" <?php if ($state->get('filter.type') == $type) { echo "selected='selected'"; } ?>><?php echo $type; ?></option>
+                            <?php } ?>                            
+                        </select>
+                    </li>
+                    <?php /* ?>
+                    <li>
                         <a class="btn btn-link">Advanced Filtering</a>
-                    </li>
+                    </li>                
                     <li>
                         <a class="btn btn-link">Quicklink Filter</a>
                     </li>
                     <li>
                         <a class="btn btn-link">Quicklink Filter</a>
-                    </li>
-                </ul>
-                */ ?>
+                    </li>      
+                    */ ?>              
+                </ul>    
+                
             </div>
             <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
                 <div class="form-group">
