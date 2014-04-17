@@ -1,11 +1,22 @@
-<h3>Create a New Asset
-<small><a href="javascript:void(0);" onclick="location.reload();">Refresh after uploading</a> in order to select one of the new assets.</small>
-</h3>
-
-<div class="well well-sm">
-    <?php echo $this->renderLayout('Assets/Admin/Views::assets/create.php'); ?>
+<div class="panel-group" id="accordion">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#createNew">
+          Create a New Asset
+        </a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <small><a href="javascript:void(0);" onclick="location.reload();">Refresh after uploading</a> in order to select one of the new assets.</small>
+        <div class="pull-right"><a href="javascript:void(0);" onclick="$('#createNew').collapse('toggle');"><span class="fa fa-unsorted"></span> Toggle </a></div>
+      </h4>
+    </div>
+    <div id="createNew" class="panel-collapse collapse">
+      <div class="panel-body">
+        <?php echo $this->renderLayout('Assets/Admin/Views::assets/create.php'); ?>
+      </div>
+    </div>
+  </div>
 </div>
-
 
 <h3>Select from an Existing Asset</h3>
 <form id="assets" class="searchForm" action="./admin/assets/element/<?php echo $PARAMS['id']; ?>" method="post">
