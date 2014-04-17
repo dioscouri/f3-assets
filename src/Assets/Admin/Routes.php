@@ -53,7 +53,7 @@ class Routes extends \Dsc\Routes\Group
             'action' => 'element' 
         ) );
         
-        $this->add( '/assets/element/@id/@page', array(
+        $this->add( '/assets/element/@id/page/@page', array(
             'GET',
             'POST' 
         ), array(
@@ -69,7 +69,7 @@ class Routes extends \Dsc\Routes\Group
             'action' => 'elementImage' 
         ) );
         
-        $this->add( '/assets/element/image/@id/@page', array(
+        $this->add( '/assets/element/image/@id/page/@page', array(
             'GET',
             'POST' 
         ), array(
