@@ -80,7 +80,7 @@ class Asset extends \Admin\Controllers\BaseAuth
                         'url' => $url,
                         'length' => $objectInfoValues['ContentLength'],
                         'metadata' => array(
-                            "title" => \Joomla\String\Normalise::toSpaceSeparated( $this->inputfilter->clean( $name ) )
+                            "title" => \Joomla\String\Normalise::toSpaceSeparated( $model->inputfilter()->clean( $name ) )
                         ),
                         'details' => array(
                             'bucket' => $bucket,
@@ -170,16 +170,15 @@ class Asset extends \Admin\Controllers\BaseAuth
                 if ( $thumb_binary_data = $model->getThumb( $buffer, $pathinfo['extension'] )) {
                     $thumb = new \MongoBinData( $thumb_binary_data, 2 );
                 }
-                
                 $values = array(
                     'storage' => 'gridfs',
                     'contentType' => $model->getMimeType( $buffer ),
                     'md5' => md5_file( $files_path . "/" . $filename ),
                     'thumb' => $thumb,
                     'url' => null,
-                    'metadata' => array(
-                        "title" => \Joomla\String\Normalise::toSpaceSeparated( $this->inputfilter->clean( $originalname ) )
-                    ),
+                	'metadata' => array(
+                			"title" => \Joomla\String\Normalise::toSpaceSeparated( $model->inputfilter()->clean( $originalname ) ),
+	                ),
                     'details' => array(
                         "filename" => $originalname
                      )
@@ -191,18 +190,15 @@ class Asset extends \Admin\Controllers\BaseAuth
                 
                 $values['metadata']['slug'] = $model->generateSlug( $values );
                 $values['url'] = "/asset/" . $values['metadata']['slug']; 
-
                 // save the file
                 if ($storedfile = $grid->storeFile( $files_path . "/" . $filename, $values )) 
                 {
-                    $mapper = $model->getMapper();
-                    $mapper->load(array('_id'=>$storedfile));
-                    $mapper = $model->update( $mapper, $values );
+                	$model->load(array('_id'=>$storedfile));
+                    $model->overwrite( $values );
                 }
-                
                 // $storedfile has newly stored file's Document ID
                 $result["asset_id"] = (string) $storedfile;
-                $result["slug"] = $mapper->{'metadata.slug'};
+                $result["slug"] = $model->get('metadata.slug');
             } 
             
             echo json_encode($result);
@@ -222,9 +218,9 @@ class Asset extends \Admin\Controllers\BaseAuth
     protected function getItem() 
     {
         $f3 = \Base::instance();
-        $id = $this->inputfilter->clean( $f3->get('PARAMS.id'), 'alnum' );
-        $model = $this->getModel()
-            ->setState('filter.id', $id);
+        $model = $this->getModel();
+        $id = $model->inputfilter()->clean( $f3->get('PARAMS.id'), 'alnum' );
+        $model->setState('filter.id', $id);
 
         try {
             $item = $model->getItem();
@@ -283,7 +279,7 @@ class Asset extends \Admin\Controllers\BaseAuth
     	$db = $model->getDb();
     	$gridfs = $db->getGridFS( $model->getGridFSCollectionName() );
     	
-    	$id = $this->inputfilter->clean( $f3->get('PARAMS.id'), 'alnum' );
+    	$id = $model->inputfilter()->clean( $f3->get('PARAMS.id'), 'alnum' );
     	$item = $this->getItem();
     	
     	if (empty($item->id)) {
@@ -300,7 +296,7 @@ class Asset extends \Admin\Controllers\BaseAuth
     	$buffer = null;
     	for( $i=0; $i<$chunks; $i++ )
     	{
-    	    $chunk = $collChunks->findOne( array( "files_id" => $item->_id, "n" => $i ) );
+    	    $chunk = $collChunks->findOne( array( "files_id" => $item->id, "n" => $i ) );
     	    $buffer .= (string) $chunk["data"]->bin;
     	}    	
     	

@@ -74,19 +74,19 @@
                 </div>
                 <div class="col-xs-12 col-sm-7 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
                     <div class="row text-align-right">
-                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                            <?php if (!empty($list['count']) && $list['count'] > 1) { ?>
-                                <?php echo $pagination->serve(); ?>
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            <?php if (!empty($paginated->total_pages) && $paginated->total_pages > 1) { ?>
+                                <?php echo $paginated->serve(); ?>
                             <?php } ?>
                         </div>
-                        <?php if (!empty($list['subset'])) { ?>
-                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <?php if (!empty($paginated->items)) { ?>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                             <span class="pagination">
-                            <?php echo $pagination->getLimitBox( $state->get('list.limit') ); ?>
+                            <?php echo $paginated->getLimitBox( $state->get('list.limit') ); ?>
                             </span>
                         </div>
                         <?php } ?>
-                    </div>
+                    </div>            
                 </div>
             </div>
 
@@ -114,9 +114,9 @@
             	</thead>
             	<tbody>    
             
-                <?php if (!empty($list['subset'])) { ?>
-            
-                <?php foreach ($list['subset'] as $item) { ?>
+        <?php if (!empty($paginated->items)) { ?>
+    
+            <?php foreach($paginated->items as $item) { ?>
                     <tr>
                         <td class="checkbox-column">
                             <input type="checkbox" class="icheck-input" name="ids[]" value="<?php echo $item->_id; ?>">
@@ -204,22 +204,22 @@
         
         </div>
         
-        <div class="dt-row dt-bottom-row">
-            <div class="row">
-                <div class="col-sm-10">
-                <?php if (!empty($list['count']) && $list['count'] > 1) { ?>
-                    <?php echo (!empty($list['count']) && $list['count'] > 1) ? $pagination->serve() : null; ?>
-                <?php } ?>
-                </div>
-                <div class="col-sm-2">
-                    <div class="datatable-results-count pull-right">
-                        <span class="pagination">
-                            <?php echo (!empty($pagination)) ? $pagination->getResultsCounter() : null; ?>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+	 <div class="dt-row dt-bottom-row">
+		<div class="row">
+			<div class="col-sm-10">
+		    	<?php if (!empty($paginated->total_pages) && $paginated->total_pages > 1) { ?>
+		        	<?php echo $paginated->serve(); ?>
+		        <?php } ?>
+	      	</div>
+	     	<div class="col-sm-2">
+	       		<div class="datatable-results-count pull-right">
+	           		<span class="pagination">
+	                	<?php echo (!empty($paginated->total_pages)) ? $paginated->getResultsCounter() : null; ?>
+	            	</span>
+	        	</div>
+	    	</div>        
+		</div>
+	</div>
+        
     </div>
 </form>

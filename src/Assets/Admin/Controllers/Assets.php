@@ -3,34 +3,36 @@ namespace Assets\Admin\Controllers;
 
 class Assets extends \Admin\Controllers\BaseAuth 
 {
-    use \Dsc\Traits\Controllers\Element;
+	
+    use \Dsc\Traits\Controllers\AdminList;
+	use \Dsc\Traits\Controllers\Element;
     
     protected $element_item_key = 'metadata.slug'; // returns the property used to get the value from the element object.  If you want the $item->id, this method should return "id"
     protected $element_item_title_key = 'metadata.title'; // returns the property used to get the title from the element object.  If you want the $item->title, this method should return "title"
     protected $element_url = '/admin/assets/element/{id}'; // where {id} will be replaced by the id of the element object
     protected $element_url_image = '/admin/assets/element/image/{id}'; // where {id} will be replaced by the id of the element object
     
+    public function getModel(){
+    	$model = new \Assets\Admin\Models\Assets;
+    	return $model;
+    }
+    
     public function index()
     {
         \Base::instance()->set('pagetitle', 'Asset Library');
         \Base::instance()->set('subtitle', '');
         
-        $model = new \Assets\Admin\Models\Assets;
-        $state = $model->populateState()->getState();
+        $model = $this->getModel();
+        $state = $model->emptyState()->populateState()->getState();
         \Base::instance()->set('state', $state );
-        
-        $list = $model->paginate();
-        \Base::instance()->set('list', $list );
-        
-        $pagination = new \Dsc\Pagination($list['total'], $list['limit']);       
-        \Base::instance()->set('pagination', $pagination );
+        \Base::instance()->set( 'paginated', $model->paginate() );
 
         echo \Dsc\System::instance()->get('theme')->renderTheme('Assets/Admin/Views::assets/list.php');
     }
     
     public function element()
     {
-        $model = new \Assets\Admin\Models\Assets;
+        $model = $this->getModel();
         $state = $model->populateState()->getState();
         \Base::instance()->set('state', $state );
     
@@ -49,7 +51,7 @@ class Assets extends \Admin\Controllers\BaseAuth
     
     public function elementImage()
     {
-        $model = new \Assets\Admin\Models\Assets;
+        $model = $this->getModel();
         $state = $model->populateState()->setState('filter.content_type', 'image/')->getState();
         \Base::instance()->set('state', $state );
     
@@ -100,7 +102,7 @@ class Assets extends \Admin\Controllers\BaseAuth
             return "Select";
         }
         
-        $model = new \Assets\Admin\Models\Assets;
+        $model = $this->getModel();
         $model->setState('filter.slug', $value);
         $item = $model->getItem();
         
@@ -120,7 +122,7 @@ class Assets extends \Admin\Controllers\BaseAuth
             return $html_pieces;
         }
                 
-        $model = new \Assets\Admin\Models\Assets;
+        $model = $this->getModel();
         $model->setState('filter.slug', $value);
         
         try {
