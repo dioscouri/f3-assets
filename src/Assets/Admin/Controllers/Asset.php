@@ -22,8 +22,21 @@ class Asset extends \Admin\Controllers\BaseAuth
             'serverPrivateKey' => $app->get('aws.serverPrivateKey'),
             'expectedBucketName' => $app->get('aws.bucketname'),
             'expectedMaxSize' => $app->get('aws.maxsize'), 
-            'cors_origin' => 'http://dev.dioscouri.com' // TODO set this automatically
+            'cors_origin' => $app->get('SCHEME') . "://" . $app->get('HOST') . $app->get('BASE')
         );
+        
+        if (empty($options['clientPrivateKey'])
+            || empty($options['serverPublicKey'])
+            || empty($options['serverPrivateKey'])
+            || empty($options['expectedBucketName'])
+            || empty($options['expectedMaxSize'])
+        ) {
+            $response = array(
+            	'error' => 'Invalid configuration settings'
+            );
+            echo json_encode($response);
+            return;
+        }
         
         $handler = new \Fineuploader\S3\Handler($options);
         
