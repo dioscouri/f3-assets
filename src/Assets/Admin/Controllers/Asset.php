@@ -176,29 +176,27 @@ class Asset extends \Admin\Controllers\BaseAuth
                     'md5' => md5_file( $files_path . "/" . $filename ),
                     'thumb' => $thumb,
                     'url' => null,
-                	'metadata' => array(
-                			"title" => \Joomla\String\Normalise::toSpaceSeparated( $model->inputfilter()->clean( $originalname ) ),
-	                ),
+           			"title" => \Joomla\String\Normalise::toSpaceSeparated( $model->inputfilter()->clean( $originalname ) ),
                     'details' => array(
                         "filename" => $originalname
                      )
                 );
                                 
-                if (empty($values['metadata']['title'])) {
-                    $values['metadata']['title'] = $values['md5'];
+                if (empty($values['title'])) {
+                    $values['title'] = $values['md5'];
                 }
-                
-                $values['metadata']['slug'] = $model->generateSlug( $values );
-                $values['url'] = "/asset/" . $values['metadata']['slug']; 
                 // save the file
                 if ($storedfile = $grid->storeFile( $files_path . "/" . $filename, $values )) 
                 {
                 	$model->load(array('_id'=>$storedfile));
-                    $model->overwrite( $values );
+                	$model->bind( $values );
+	                $model->{'slug'} = $model->generateSlug();
+     	            $model->{'url'} = "/asset/" . $model->{'slug'}; 
+     	            $model->save();
                 }
                 // $storedfile has newly stored file's Document ID
                 $result["asset_id"] = (string) $storedfile;
-                $result["slug"] = $model->get('metadata.slug');
+                $result["slug"] = $model->{'slug'};
             } 
             
             echo json_encode($result);
