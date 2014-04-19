@@ -155,7 +155,7 @@ class Asset extends \Admin\Controllers\BaseAuth
                 // OK, we have the file in the tmp folder, let's now fire up the assets model and save it to Mongo
                 $model = $this->getModel();
                 $db = $model->getDb();
-                $grid = $db->getGridFS( $model->getGridFSCollectionName() );
+                $grid = $model->collectionGridFS();
                 
                 // The file's location in the File System
                 $filename = $result["uploadName"];
