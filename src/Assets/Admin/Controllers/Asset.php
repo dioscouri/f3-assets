@@ -43,14 +43,14 @@ class Asset extends \Admin\Controllers\BaseAuth
         // This is all you really need if not using the delete file feature
         // and not working in a CORS environment
         else if	($method == 'POST') {
-            $handler->handlePreflightedRequest();
-        
+        	$handler->handlePreflightedRequest();
+        	 
             // Assumes the successEndpoint has a parameter of "success" associated with it,
             // to allow the server to differentiate between a successEndpoint request
             // and other POST requests (all requests are sent to the same endpoint in this example).
             // This condition is not needed if you don't require a callback on upload success.
             if (isset($_REQUEST["success"])) {
-                $response = $handler->verifyFileInS3($handler->shouldIncludeThumbnail());
+            	$response = $handler->verifyFileInS3($handler->shouldIncludeThumbnail());
                 if (empty($response['error'])) {
                     // store it in the assets model
                     $bucket = $_POST["bucket"];
@@ -95,8 +95,8 @@ class Asset extends \Admin\Controllers\BaseAuth
                     }
                     $values['metadata']['slug'] = $model->generateSlug( $values );
                     
-                    $mapper = $model->create( $values );
-                    $response["asset_id"] = (string) $mapper->id;
+                    $model->insert( $values );
+                    $response["asset_id"] = (string) $model->get('id');
                     $response["slug"] = $values['metadata']['slug'];
                 }
                 
