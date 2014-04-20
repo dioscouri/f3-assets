@@ -116,7 +116,10 @@
             
         <?php if (!empty($paginated->items)) { ?>
     
-            <?php foreach($paginated->items as $item) { ?>
+            <?php foreach($paginated->items as $item) 
+            	{ 
+            		
+            		?>
                     <tr>
                         <td class="checkbox-column">
                             <input type="checkbox" class="icheck-input" name="ids[]" value="<?php echo $item->_id; ?>">
