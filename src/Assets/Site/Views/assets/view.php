@@ -30,7 +30,7 @@ $length = $flash->old("length");
 $chunkSize = $flash->old("chunkSize");
 $chunks = ceil( $length / $chunkSize );
 
-$collChunkName = $model->getGridFSCollectionName() . ".chunks";
+$collChunkName = $model->collectionNameGridFS() . ".chunks";
 $collChunks = $model->getDb()->{$collChunkName};
  
 for( $i=0; $i<$chunks; $i++ )

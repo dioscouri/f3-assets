@@ -74,19 +74,19 @@
                 </div>
                 <div class="col-xs-12 col-sm-7 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
                     <div class="row text-align-right">
-                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                            <?php if (!empty($list['count']) && $list['count'] > 1) { ?>
-                                <?php echo $pagination->serve(); ?>
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            <?php if (!empty($paginated->total_pages) && $paginated->total_pages > 1) { ?>
+                                <?php echo $paginated->serve(); ?>
                             <?php } ?>
                         </div>
-                        <?php if (!empty($list['subset'])) { ?>
-                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <?php if (!empty($paginated->items)) { ?>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                             <span class="pagination">
-                            <?php echo $pagination->getLimitBox( $state->get('list.limit') ); ?>
+                            <?php echo $paginated->getLimitBox( $state->get('list.limit') ); ?>
                             </span>
                         </div>
                         <?php } ?>
-                    </div>
+                    </div>            
                 </div>
             </div>
 
@@ -104,7 +104,7 @@
             		<tr>
             		    <th class="checkbox-column"><input type="checkbox" class="icheck-input"></th>
             		    <th class="col-md-1"></th>
-            			<th data-sortable="metadata.title">Title</th>
+            			<th data-sortable="title">Title</th>
             			<th class="col-md-1" data-sortable="storage">Location</th>
             			<th>Tags</th>
             			<th data-sortable="metadata.created.time">Created</th>
@@ -114,9 +114,9 @@
             	</thead>
             	<tbody>    
             
-                <?php if (!empty($list['subset'])) { ?>
-            
-                <?php foreach ($list['subset'] as $item) { ?>
+        <?php if (!empty($paginated->items)) { ?>
+    
+            <?php foreach($paginated->items as $item) { ?>
                     <tr>
                         <td class="checkbox-column">
                             <input type="checkbox" class="icheck-input" name="ids[]" value="<?php echo $item->_id; ?>">
@@ -127,15 +127,15 @@
                                 <?php if ($item->isImage()) { ?>
                             	<div class="thumbnail text-center">
                                 	<div class="thumbnail-view">
-                                		<a class="thumbnail-view-hover ui-lightbox" href="./asset/<?php echo $item->{'metadata.slug'}; ?>">
+                                		<a class="thumbnail-view-hover ui-lightbox" href="./asset/<?php echo $item->slug; ?>">
                                 		</a>
-                                        <img src="<?php echo \Dsc\Image::dataUri( $item->thumb->bin ); ?>" alt="<?php echo $item->{'metadata.title'}; ?>" />
+                                        <img src="<?php echo \Dsc\Image::dataUri( $item->thumb->bin ); ?>" alt="<?php echo $item->{'title'}; ?>" />
             				        </div>
             				    </div> <!-- /.thumbnail -->                
                                 <?php } else { ?>
                                     <div class="thumbnail text-center">
                                     <a href="./admin/asset/edit/<?php echo $item->id; ?>">
-                                    <img src="<?php echo \Dsc\Image::dataUri( $item->thumb->bin ); ?>" alt="<?php echo $item->{'metadata.title'}; ?>" />
+                                    <img src="<?php echo \Dsc\Image::dataUri( $item->thumb->bin ); ?>" alt="<?php echo $item->{'title'}; ?>" />
                                     </a>
                                     </div>
                                 <?php } ?>
@@ -145,12 +145,12 @@
                         <td class="">
                             <h5>
                             <a href="./admin/asset/edit/<?php echo $item->id; ?>">
-                            <?php echo $item->{'metadata.title'}; ?>
+                            <?php echo $item->title; ?>
                             </a>
                             </h5>
             
-                            <a class="help-block" target="_blank" href="./asset/<?php echo $item->{'metadata.slug'}; ?>">
-                            /<?php echo $item->{'metadata.slug'}; ?>
+                            <a class="help-block" target="_blank" href="./asset/<?php echo $item->slug; ?>">
+                            /<?php echo $item->slug; ?>
                             </a>
                             
                             <p class="help-block">
@@ -204,22 +204,22 @@
         
         </div>
         
-        <div class="dt-row dt-bottom-row">
-            <div class="row">
-                <div class="col-sm-10">
-                <?php if (!empty($list['count']) && $list['count'] > 1) { ?>
-                    <?php echo (!empty($list['count']) && $list['count'] > 1) ? $pagination->serve() : null; ?>
-                <?php } ?>
-                </div>
-                <div class="col-sm-2">
-                    <div class="datatable-results-count pull-right">
-                        <span class="pagination">
-                            <?php echo (!empty($pagination)) ? $pagination->getResultsCounter() : null; ?>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+	 <div class="dt-row dt-bottom-row">
+		<div class="row">
+			<div class="col-sm-10">
+		    	<?php if (!empty($paginated->total_pages) && $paginated->total_pages > 1) { ?>
+		        	<?php echo $paginated->serve(); ?>
+		        <?php } ?>
+	      	</div>
+	     	<div class="col-sm-2">
+	       		<div class="datatable-results-count pull-right">
+	           		<span class="pagination">
+	                	<?php echo (!empty($paginated->total_pages)) ? $paginated->getResultsCounter() : null; ?>
+	            	</span>
+	        	</div>
+	    	</div>        
+		</div>
+	</div>
+        
     </div>
 </form>

@@ -1,6 +1,6 @@
 <?php 
 namespace Assets\Admin\Models;
 
-class Assets extends \Dsc\Models\Assets 
+class Assets extends \Dsc\Mongo\Collections\Assets 
 {
 }

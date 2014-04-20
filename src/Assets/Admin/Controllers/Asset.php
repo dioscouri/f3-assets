@@ -56,14 +56,14 @@ class Asset extends \Admin\Controllers\BaseAuth
         // This is all you really need if not using the delete file feature
         // and not working in a CORS environment
         else if	($method == 'POST') {
-            $handler->handlePreflightedRequest();
-        
+        	$handler->handlePreflightedRequest();
+        	 
             // Assumes the successEndpoint has a parameter of "success" associated with it,
             // to allow the server to differentiate between a successEndpoint request
             // and other POST requests (all requests are sent to the same endpoint in this example).
             // This condition is not needed if you don't require a callback on upload success.
             if (isset($_REQUEST["success"])) {
-                $response = $handler->verifyFileInS3($handler->shouldIncludeThumbnail());
+            	$response = $handler->verifyFileInS3($handler->shouldIncludeThumbnail());
                 if (empty($response['error'])) {
                     // store it in the assets model
                     $bucket = $_POST["bucket"];
@@ -92,9 +92,7 @@ class Asset extends \Admin\Controllers\BaseAuth
                         'thumb' => $thumb,
                         'url' => $url,
                         'length' => $objectInfoValues['ContentLength'],
-                        'metadata' => array(
-                            "title" => \Joomla\String\Normalise::toSpaceSeparated( $this->inputfilter->clean( $name ) )
-                        ),
+                        "title" => \Joomla\String\Normalise::toSpaceSeparated( $model->inputfilter()->clean( $name ) ),
                         'details' => array(
                             'bucket' => $bucket,
                             'key' => $key,
@@ -103,14 +101,13 @@ class Asset extends \Admin\Controllers\BaseAuth
                         ) + $objectInfoValues
                     );
 
-                    if (empty($values['metadata']['title'])) {
-                        $values['metadata']['title'] = $values['md5'];
+                    if (empty($values['title'])) {
+                        $values['title'] = $values['md5'];
                     }
-                    $values['metadata']['slug'] = $model->generateSlug( $values );
                     
-                    $mapper = $model->create( $values );
-                    $response["asset_id"] = (string) $mapper->id;
-                    $response["slug"] = $values['metadata']['slug'];
+                    $model->insert( $values );
+                    $response["asset_id"] = (string) $model->get('id');
+                    $response["slug"] = $model->{'slug'};
                 }
                 
                 echo json_encode($response);
@@ -168,7 +165,7 @@ class Asset extends \Admin\Controllers\BaseAuth
                 // OK, we have the file in the tmp folder, let's now fire up the assets model and save it to Mongo
                 $model = $this->getModel();
                 $db = $model->getDb();
-                $grid = $db->getGridFS( $model->getGridFSCollectionName() );
+                $grid = $model->collectionGridFS();
                 
                 // The file's location in the File System
                 $filename = $result["uploadName"];
@@ -183,39 +180,33 @@ class Asset extends \Admin\Controllers\BaseAuth
                 if ( $thumb_binary_data = $model->getThumb( $buffer, $pathinfo['extension'] )) {
                     $thumb = new \MongoBinData( $thumb_binary_data, 2 );
                 }
-                
                 $values = array(
                     'storage' => 'gridfs',
                     'contentType' => $model->getMimeType( $buffer ),
                     'md5' => md5_file( $files_path . "/" . $filename ),
                     'thumb' => $thumb,
                     'url' => null,
-                    'metadata' => array(
-                        "title" => \Joomla\String\Normalise::toSpaceSeparated( $this->inputfilter->clean( $originalname ) )
-                    ),
+           			"title" => \Joomla\String\Normalise::toSpaceSeparated( $model->inputfilter()->clean( $originalname ) ),
                     'details' => array(
                         "filename" => $originalname
                      )
                 );
                                 
-                if (empty($values['metadata']['title'])) {
-                    $values['metadata']['title'] = $values['md5'];
+                if (empty($values['title'])) {
+                    $values['title'] = $values['md5'];
                 }
-                
-                $values['metadata']['slug'] = $model->generateSlug( $values );
-                $values['url'] = "/asset/" . $values['metadata']['slug']; 
-
                 // save the file
                 if ($storedfile = $grid->storeFile( $files_path . "/" . $filename, $values )) 
                 {
-                    $mapper = $model->getMapper();
-                    $mapper->load(array('_id'=>$storedfile));
-                    $mapper = $model->update( $mapper, $values );
+                	$model->load(array('_id'=>$storedfile));
+                	$model->bind( $values );
+	                $model->{'slug'} = $model->generateSlug();
+     	            $model->{'url'} = "/asset/" . $model->{'slug'}; 
+     	            $model->save();
                 }
-                
                 // $storedfile has newly stored file's Document ID
                 $result["asset_id"] = (string) $storedfile;
-                $result["slug"] = $mapper->{'metadata.slug'};
+                $result["slug"] = $model->{'slug'};
             } 
             
             echo json_encode($result);
@@ -235,9 +226,9 @@ class Asset extends \Admin\Controllers\BaseAuth
     protected function getItem() 
     {
         $f3 = \Base::instance();
-        $id = $this->inputfilter->clean( $f3->get('PARAMS.id'), 'alnum' );
-        $model = $this->getModel()
-            ->setState('filter.id', $id);
+        $model = $this->getModel();
+        $id = $model->inputfilter()->clean( $f3->get('PARAMS.id'), 'alnum' );
+        $model->setState('filter.id', $id);
 
         try {
             $item = $model->getItem();
@@ -296,7 +287,7 @@ class Asset extends \Admin\Controllers\BaseAuth
     	$db = $model->getDb();
     	$gridfs = $db->getGridFS( $model->getGridFSCollectionName() );
     	
-    	$id = $this->inputfilter->clean( $f3->get('PARAMS.id'), 'alnum' );
+    	$id = $model->inputfilter()->clean( $f3->get('PARAMS.id'), 'alnum' );
     	$item = $this->getItem();
     	
     	if (empty($item->id)) {
@@ -313,7 +304,7 @@ class Asset extends \Admin\Controllers\BaseAuth
     	$buffer = null;
     	for( $i=0; $i<$chunks; $i++ )
     	{
-    	    $chunk = $collChunks->findOne( array( "files_id" => $item->_id, "n" => $i ) );
+    	    $chunk = $collChunks->findOne( array( "files_id" => $item->id, "n" => $i ) );
     	    $buffer .= (string) $chunk["data"]->bin;
     	}    	
     	
