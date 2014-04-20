@@ -105,7 +105,7 @@
             		    <th class="checkbox-column"><input type="checkbox" class="icheck-input"></th>
             		    <th class="col-md-1"></th>
             			<th data-sortable="metadata.title">Title</th>
-            			<th class="col-md-1" data-sortable="storage">Location</th>
+            			<th class="col-md-1">Location</th>
             			<th>Tags</th>
             			<th data-sortable="metadata.created.time">Created</th>
             			<th data-sortable="metadata.last_modified.time">Last Modified</th>
