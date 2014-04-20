@@ -23,7 +23,7 @@
                 <ul class="list-filters list-unstyled list-inline">
                     <li>
                         <select name="filter[type]" class="form-control" onchange="this.form.submit();">
-                            <option value="-1">All Types</option>
+                            <option value="">All Types</option>
                             <?php foreach (\Dsc\Models\Assets::distinctTypes() as $type) { ?>
                             	<option value="<?php echo $type; ?>" <?php if ($state->get('filter.type') == $type) { echo "selected='selected'"; } ?>><?php echo $type; ?></option>
                             <?php } ?>                            
@@ -104,7 +104,7 @@
             		<tr>
             		    <th class="checkbox-column"><input type="checkbox" class="icheck-input"></th>
             		    <th class="col-md-1"></th>
-            			<th data-sortable="title">Title</th>
+            			<th data-sortable="metadata.title">Title</th>
             			<th class="col-md-1" data-sortable="storage">Location</th>
             			<th>Tags</th>
             			<th data-sortable="metadata.created.time">Created</th>
@@ -130,7 +130,7 @@
                                 <?php if ($item->isImage()) { ?>
                             	<div class="thumbnail text-center">
                                 	<div class="thumbnail-view">
-                                		<a class="thumbnail-view-hover ui-lightbox" href="./asset/<?php echo $item->slug; ?>">
+                                		<a class="thumbnail-view-hover ui-lightbox" href="./asset/<?php echo $item->{'metadata.slug'}; ?>">
                                 		</a>
                                         <img src="<?php echo \Dsc\Image::dataUri( $item->thumb->bin ); ?>" alt="<?php echo $item->{'title'}; ?>" />
             				        </div>
@@ -148,12 +148,12 @@
                         <td class="">
                             <h5>
                             <a href="./admin/asset/edit/<?php echo $item->id; ?>">
-                            <?php echo $item->title; ?>
+                            <?php echo $item->{'metadata.title'}; ?>
                             </a>
                             </h5>
             
-                            <a class="help-block" target="_blank" href="./asset/<?php echo $item->slug; ?>">
-                            /<?php echo $item->slug; ?>
+                            <a class="help-block" target="_blank" href="./asset/<?php echo $item->{'metadata.slug'}; ?>">
+                            /<?php echo $item->{'metadata.slug'}; ?>
                             </a>
                             
                             <p class="help-block">

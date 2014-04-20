@@ -27,7 +27,7 @@
             <ul class="list-filters list-unstyled list-inline">
                 <li>
                     <select name="filter[type]" class="form-control" onchange="this.form.submit();">
-                        <option value="-1">All Types</option>
+                        <option value="">All Types</option>
                         <?php foreach (\Dsc\Models\Assets::distinctTypes() as $type) { ?>
                         	<option value="<?php echo $type; ?>" <?php if ($state->get('filter.type') == $type) { echo "selected='selected'"; } ?>><?php echo $type; ?></option>
                         <?php } ?>                            
