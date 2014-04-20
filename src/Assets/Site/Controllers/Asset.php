@@ -14,7 +14,6 @@ class Asset extends \Dsc\Controller
         $f3 = \Base::instance();
         $slug = $this->inputfilter->clean( $f3->get('PARAMS.slug'), 'PATH' );
         $id = $this->inputfilter->clean( $f3->get('PARAMS.id'), 'alnum' );
-        
         $model = $this->getModel()
             ->setState('filter.slug', $slug)
             ->setState('filter.id', $id);

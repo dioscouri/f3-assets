@@ -79,9 +79,7 @@ class Asset extends \Admin\Controllers\BaseAuth
                         'thumb' => $thumb,
                         'url' => $url,
                         'length' => $objectInfoValues['ContentLength'],
-                        'metadata' => array(
-                            "title" => \Joomla\String\Normalise::toSpaceSeparated( $model->inputfilter()->clean( $name ) )
-                        ),
+                        "title" => \Joomla\String\Normalise::toSpaceSeparated( $model->inputfilter()->clean( $name ) ),
                         'details' => array(
                             'bucket' => $bucket,
                             'key' => $key,
@@ -90,14 +88,13 @@ class Asset extends \Admin\Controllers\BaseAuth
                         ) + $objectInfoValues
                     );
 
-                    if (empty($values['metadata']['title'])) {
-                        $values['metadata']['title'] = $values['md5'];
+                    if (empty($values['title'])) {
+                        $values['title'] = $values['md5'];
                     }
-                    $values['metadata']['slug'] = $model->generateSlug( $values );
                     
                     $model->insert( $values );
                     $response["asset_id"] = (string) $model->get('id');
-                    $response["slug"] = $values['metadata']['slug'];
+                    $response["slug"] = $model->{'slug'};
                 }
                 
                 echo json_encode($response);

@@ -104,7 +104,7 @@
             		<tr>
             		    <th class="checkbox-column"><input type="checkbox" class="icheck-input"></th>
             		    <th class="col-md-1"></th>
-            			<th data-sortable="metadata.title">Title</th>
+            			<th data-sortable="title">Title</th>
             			<th class="col-md-1" data-sortable="storage">Location</th>
             			<th>Tags</th>
             			<th data-sortable="metadata.created.time">Created</th>
@@ -127,15 +127,15 @@
                                 <?php if ($item->isImage()) { ?>
                             	<div class="thumbnail text-center">
                                 	<div class="thumbnail-view">
-                                		<a class="thumbnail-view-hover ui-lightbox" href="./asset/<?php echo $item->{'metadata.slug'}; ?>">
+                                		<a class="thumbnail-view-hover ui-lightbox" href="./asset/<?php echo $item->slug; ?>">
                                 		</a>
-                                        <img src="<?php echo \Dsc\Image::dataUri( $item->thumb->bin ); ?>" alt="<?php echo $item->{'metadata.title'}; ?>" />
+                                        <img src="<?php echo \Dsc\Image::dataUri( $item->thumb->bin ); ?>" alt="<?php echo $item->{'title'}; ?>" />
             				        </div>
             				    </div> <!-- /.thumbnail -->                
                                 <?php } else { ?>
                                     <div class="thumbnail text-center">
                                     <a href="./admin/asset/edit/<?php echo $item->id; ?>">
-                                    <img src="<?php echo \Dsc\Image::dataUri( $item->thumb->bin ); ?>" alt="<?php echo $item->{'metadata.title'}; ?>" />
+                                    <img src="<?php echo \Dsc\Image::dataUri( $item->thumb->bin ); ?>" alt="<?php echo $item->{'title'}; ?>" />
                                     </a>
                                     </div>
                                 <?php } ?>
@@ -145,12 +145,12 @@
                         <td class="">
                             <h5>
                             <a href="./admin/asset/edit/<?php echo $item->id; ?>">
-                            <?php echo $item->{'metadata.title'}; ?>
+                            <?php echo $item->title; ?>
                             </a>
                             </h5>
             
-                            <a class="help-block" target="_blank" href="./asset/<?php echo $item->{'metadata.slug'}; ?>">
-                            /<?php echo $item->{'metadata.slug'}; ?>
+                            <a class="help-block" target="_blank" href="./asset/<?php echo $item->slug; ?>">
+                            /<?php echo $item->slug; ?>
                             </a>
                             
                             <p class="help-block">

@@ -58,8 +58,8 @@
                             <div class="form-group">
                                 <p class="help-block">
                                     Full-size Link: 
-                                    <a target="_blank" href="./asset/<?php echo $item->{'metadata.slug'}; ?>">
-                                    /<?php echo $item->{'metadata.slug'}; ?>
+                                    <a target="_blank" href="./asset/<?php echo $item->{'slug'}; ?>">
+                                    /<?php echo $item->{'slug'}; ?>
                                     </a>
                                 </p>
                             </div>
@@ -68,8 +68,8 @@
                             <div class="form-group">
                                 <p class="help-block">
                                     Thumb Link: 
-                                    <a target="_blank" href="./asset/thumb/<?php echo $item->{'metadata.slug'}; ?>">
-                                    /thumb/<?php echo $item->{'metadata.slug'}; ?>
+                                    <a target="_blank" href="./asset/thumb/<?php echo $item->{'slug'}; ?>">
+                                    /thumb/<?php echo $item->{'slug'}; ?>
                                     </a>
                                 </p>
                             </div>
@@ -78,13 +78,13 @@
                             
                             <div class="form-group">
                                 <label>Title</label>
-                                <input type="text" name="metadata[title]" placeholder="Title" value="<?php echo $flash->old('metadata.title'); ?>" class="form-control" />
+                                <input type="text" name="title" placeholder="Title" value="<?php echo $flash->old('title'); ?>" class="form-control" />
                             </div>
                             <!-- /.form-group -->
                             
                             <div class="form-group">
                                 <label>Slug</label>
-                                <input type="text" name="metadata[slug]" value="<?php echo $flash->old('metadata.slug'); ?>" class="form-control" />
+                                <input type="text" name="slug" value="<?php echo $flash->old('slug'); ?>" class="form-control" />
                             </div>
                             <!-- /.form-group -->
                             
@@ -110,7 +110,7 @@
                     
                             <?php if ($item->isImage()) { ?>
                             <div class="form-group">
-                                <img src="./asset/<?php echo $item->{'metadata.slug'}; ?>" class="img-responsive" />
+                                <img src="./asset/<?php echo $item->slug; ?>" class="img-responsive" />
                             </div>
                             <!-- /.form-group -->
                             <?php } ?>

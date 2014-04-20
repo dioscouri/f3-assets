@@ -7,7 +7,8 @@ class Assets extends \Admin\Controllers\BaseAuth
     use \Dsc\Traits\Controllers\AdminList;
 	use \Dsc\Traits\Controllers\Element;
     
-    protected $element_item_key = 'metadata.slug'; // returns the property used to get the value from the element object.  If you want the $item->id, this method should return "id"
+    protected $list_route = '/admin/assets';
+	protected $element_item_key = 'metadata.slug'; // returns the property used to get the value from the element object.  If you want the $item->id, this method should return "id"
     protected $element_item_title_key = 'metadata.title'; // returns the property used to get the title from the element object.  If you want the $item->title, this method should return "title"
     protected $element_url = '/admin/assets/element/{id}'; // where {id} will be replaced by the id of the element object
     protected $element_url_image = '/admin/assets/element/image/{id}'; // where {id} will be replaced by the id of the element object
