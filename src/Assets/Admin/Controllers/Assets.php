@@ -37,12 +37,7 @@ class Assets extends \Admin\Controllers\BaseAuth
         $state = $model->populateState()->getState();
         \Base::instance()->set('state', $state );
     
-        $list = $model->paginate();
-        \Base::instance()->set('list', $list );
-    
-        $pagination = new \Dsc\Pagination($list['total'], $list['limit']);
-        \Base::instance()->set('pagination', $pagination );
-    
+        \Base::instance()->set('paginated', $model->paginate());
         \Base::instance()->set('select_function_name', $this->getElementSelectFunction() );
         \Base::instance()->set('elementItemKey', $this->getElementItemKey() );
         \Base::instance()->set('elementItemTitleKey', $this->getElementItemTitleKey() );
@@ -56,12 +51,7 @@ class Assets extends \Admin\Controllers\BaseAuth
         $state = $model->populateState()->setState('filter.content_type', 'image/')->getState();
         \Base::instance()->set('state', $state );
     
-        $list = $model->paginate();
-        \Base::instance()->set('list', $list );
-    
-        $pagination = new \Dsc\Pagination($list['total'], $list['limit']);
-        \Base::instance()->set('pagination', $pagination );
-    
+        \Base::instance()->set('paginated', $model->paginate());
         \Base::instance()->set('select_function_name', $this->getElementSelectFunction() );
         \Base::instance()->set('elementItemKey', $this->getElementItemKey() );
         \Base::instance()->set('elementItemTitleKey', $this->getElementItemTitleKey() );        
@@ -107,8 +97,8 @@ class Assets extends \Admin\Controllers\BaseAuth
         $model->setState('filter.slug', $value);
         $item = $model->getItem();
         
-        if (!empty($item->{'metadata.title'})) {
-            $title = $item->{'metadata.title'};
+        if (!empty($item->{'title'})) {
+            $title = $item->{'title'};
         }
         else {
             $title = "Invalid Item";
@@ -137,7 +127,7 @@ class Assets extends \Admin\Controllers\BaseAuth
         {
             $html_pieces[] = '<div id="' . $id . '_thumb" class="text-center">';
             $html_pieces[] = '<div class="thumbnail text-center">';
-            $html_pieces[] = '<img src="' . \Base::instance()->get( 'BASE' ) . '/asset/' . $item->{'metadata.slug'} . '" alt="' . $item->{'metadata.title'} . '" />';
+            $html_pieces[] = '<img src="' . \Base::instance()->get( 'BASE' ) . '/asset/' . $item->{'slug'} . '" alt="' . $item->{'title'} . '" />';
             $html_pieces[] = '</div>';
             $html_pieces[] = '</div>';
         }        
