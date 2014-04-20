@@ -44,6 +44,11 @@ class Routes extends \Dsc\Routes\Group
             'action' => 'handleS3' 
         ) );
         
+        $this->add( '/asset/handleS3/@id', 'DELETE' , array(
+            'controller' => 'Asset',
+            'action' => 'handleS3' 
+        ) );
+        
         // element routes
         $this->add( '/assets/element/@id', array(
             'GET',

@@ -91,7 +91,7 @@ jQuery(document).ready(function () {
             // optional feature
             deleteFile: {
                 enabled: true,
-                method: "POST",
+                method: "DELETE",
                 endpoint: "./admin/asset/handleS3"
             },
 

@@ -50,8 +50,11 @@ class Asset extends \Admin\Controllers\BaseAuth
         // This second conditional will only ever evaluate to true if
         // the delete file feature is enabled
         else if ($method == "DELETE") {
-            $handler->handlePreflightedRequest(); // only needed in a CORS environment
-            $handler->deleteObject();
+        	$handler->handlePreflightedRequest(); // only needed in a CORS environment
+        	$handler->getS3Client()->deleteObject(array(
+        			'Bucket' => $_REQUEST['bucket'],
+        			'Key' => $_REQUEST['key']
+        	));
         }
         // This is all you really need if not using the delete file feature
         // and not working in a CORS environment
@@ -62,9 +65,10 @@ class Asset extends \Admin\Controllers\BaseAuth
             // to allow the server to differentiate between a successEndpoint request
             // and other POST requests (all requests are sent to the same endpoint in this example).
             // This condition is not needed if you don't require a callback on upload success.
-            if (isset($_REQUEST["success"])) {
+        	if (isset($_REQUEST["success"])) {
             	$response = $handler->verifyFileInS3($handler->shouldIncludeThumbnail());
                 if (empty($response['error'])) {
+                	
                     // store it in the assets model
                     $bucket = $_POST["bucket"];
                     $key = $_POST["key"];
