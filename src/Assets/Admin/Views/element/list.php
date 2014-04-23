@@ -28,7 +28,7 @@
                 <li>
                     <select name="filter[type]" class="form-control" onchange="this.form.submit();">
                         <option value="">All Types</option>
-                        <?php foreach (\Dsc\Models\Assets::distinctTypes() as $type) { ?>
+                        <?php foreach (\Dsc\Mongo\Collections\Assets::distinctTypes() as $type) { ?>
                         	<option value="<?php echo $type; ?>" <?php if ($state->get('filter.type') == $type) { echo "selected='selected'"; } ?>><?php echo $type; ?></option>
                         <?php } ?>                            
                     </select>
