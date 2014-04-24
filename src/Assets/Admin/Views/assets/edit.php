@@ -34,6 +34,9 @@
                 <li class="active">
                     <a href="#tab-basics" data-toggle="tab"> Basics </a>
                 </li>
+                <li>
+                    <a href="#tab-details" data-toggle="tab"> Details </a>
+                </li>                
                 <?php if (!empty($this->event)) { foreach ((array) $this->event->getArgument('tabs') as $key => $title ) { ?>
                 <li>
                     <a href="#tab-<?php echo $key; ?>" data-toggle="tab"> <?php echo $title; ?> </a>
@@ -48,33 +51,41 @@
                     <div class="row">
                         <div class="col-md-2">
                         
-                            <h3>Details</h3>
+                            <h3>Links</h3>
                                     
                         </div>
                         <!-- /.col-md-2 -->
                                     
                         <div class="col-md-10">
-                        
                             <div class="form-group">
-                                <p class="help-block">
-                                    Full-size Link: 
-                                    <a target="_blank" href="./asset/<?php echo $item->{'slug'}; ?>">
-                                    /<?php echo $item->{'slug'}; ?>
-                                    </a>
-                                </p>
+                                <div>Full-size:</div> 
+                                <a target="_blank" href="./asset/<?php echo $item->{'slug'}; ?>">
+                                /<?php echo $item->{'slug'}; ?>
+                                </a>
                             </div>
                             <!-- /.form-group -->
                                                         
                             <div class="form-group">
-                                <p class="help-block">
-                                    Thumb Link: 
-                                    <a target="_blank" href="./asset/thumb/<?php echo $item->{'slug'}; ?>">
-                                    /thumb/<?php echo $item->{'slug'}; ?>
-                                    </a>
-                                </p>
+                                <div>Thumb:</div> 
+                                <a target="_blank" href="./asset/thumb/<?php echo $item->{'slug'}; ?>">
+                                /thumb/<?php echo $item->{'slug'}; ?>
+                                </a>
                             </div>
                             <!-- /.form-group -->                            
-                            
+                        </div>
+                    </div>
+                                
+                    <hr/>
+                
+                    <div class="row">
+                        <div class="col-md-2">
+                        
+                            <h3>Basics</h3>
+                                    
+                        </div>
+                        <!-- /.col-md-2 -->
+                                    
+                        <div class="col-md-10">
                             
                             <div class="form-group">
                                 <label>Title</label>
@@ -110,6 +121,8 @@
                     </div>
                     <!-- /.row -->
                     
+                    <hr/>
+                    
                     <div class="row">
                         <div class="col-md-2">
                             <h3>Preview</h3>                                    
@@ -129,6 +142,40 @@
                         <!-- /.col-md-10 -->
                     </div>
                     <!-- /.row -->                    
+                
+                </div>
+                <!-- /.tab-pane -->
+                
+                <div class="tab-pane" id="tab-details">
+                
+                    <div class="row">
+                        <div class="col-md-2">
+                        
+                            <h3>Source</h3>
+                                    
+                        </div>
+                        <!-- /.col-md-2 -->
+                                    
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <div>URL:</div>
+                                <?php if ($item->{'details.source_url'}) { ?> 
+                                <a target="_blank" href="<?php echo $item->{'details.source_url'}; ?>">
+                                <?php echo $item->{'details.source_url'}; ?>
+                                </a>
+                                <?php } ?>
+                            </div>
+                            <!-- /.form-group -->
+                                                        
+                            <div class="form-group">
+                                <div>Filename:</div> 
+                                <?php echo $item->{'details.filename'}; ?>
+                            </div>
+                            <!-- /.form-group -->                            
+                        </div>
+                    </div>
+                                
+                    <hr/>                
                 
                 </div>
                 <!-- /.tab-pane -->
