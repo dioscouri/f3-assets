@@ -289,7 +289,7 @@ class Asset extends \Admin\Controllers\BaseAuth
         
     	$model = $this->getModel();
     	$db = $model->getDb();
-    	$gridfs = $db->getGridFS( $model->getGridFSCollectionName() );
+    	$gridfs = $db->getGridFS( $model->collectionNameGridFS() );
     	
     	$id = $model->inputfilter()->clean( $f3->get('PARAMS.id'), 'alnum' );
     	$item = $this->getItem();
@@ -302,7 +302,7 @@ class Asset extends \Admin\Controllers\BaseAuth
     	$chunkSize = $item->{"chunkSize"};
     	$chunks = ceil( $length / $chunkSize );
     	
-    	$collChunkName = $model->getGridFSCollectionName() . ".chunks";
+    	$collChunkName = $model->collectionNameGridFS() . ".chunks";
     	$collChunks = $model->getDb()->{$collChunkName};
     	
     	$buffer = null;
