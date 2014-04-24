@@ -29,17 +29,6 @@
                             <?php } ?>                            
                         </select>
                     </li>
-                    <?php /* ?>
-                    <li>
-                        <a class="btn btn-link">Advanced Filtering</a>
-                    </li>                
-                    <li>
-                        <a class="btn btn-link">Quicklink Filter</a>
-                    </li>
-                    <li>
-                        <a class="btn btn-link">Quicklink Filter</a>
-                    </li>      
-                    */ ?>              
                 </ul>    
                 
             </div>
@@ -104,7 +93,7 @@
             		<tr>
             		    <th class="checkbox-column"><input type="checkbox" class="icheck-input"></th>
             		    <th class="col-md-1"></th>
-            			<th data-sortable="metadata.title">Title</th>
+            			<th data-sortable="title">Title</th>
             			<th class="col-md-1">Location</th>
             			<th>Tags</th>
             			<th data-sortable="metadata.created.time">Created</th>
@@ -114,12 +103,9 @@
             	</thead>
             	<tbody>    
             
-        <?php if (!empty($paginated->items)) { ?>
+                <?php if (!empty($paginated->items)) { ?>
     
-            <?php foreach($paginated->items as $item) 
-            	{ 
-            		
-            		?>
+                <?php foreach($paginated->items as $item) { ?>
                     <tr>
                         <td class="checkbox-column">
                             <input type="checkbox" class="icheck-input" name="ids[]" value="<?php echo $item->_id; ?>">
@@ -130,7 +116,7 @@
                                 <?php if ($item->isImage()) { ?>
                             	<div class="thumbnail text-center">
                                 	<div class="thumbnail-view">
-                                		<a class="thumbnail-view-hover ui-lightbox" href="./asset/<?php echo $item->{'metadata.slug'}; ?>">
+                                		<a class="thumbnail-view-hover ui-lightbox" href="./asset/<?php echo $item->{'slug'}; ?>">
                                 		</a>
                                         <img src="<?php echo \Dsc\Image::dataUri( $item->thumb->bin ); ?>" alt="<?php echo $item->{'title'}; ?>" />
             				        </div>
@@ -148,12 +134,12 @@
                         <td class="">
                             <h5>
                             <a href="./admin/asset/edit/<?php echo $item->id; ?>">
-                            <?php echo $item->{'metadata.title'}; ?>
+                            <?php echo $item->{'title'}; ?>
                             </a>
                             </h5>
             
-                            <a class="help-block" target="_blank" href="./asset/<?php echo $item->{'metadata.slug'}; ?>">
-                            /<?php echo $item->{'metadata.slug'}; ?>
+                            <a class="help-block" target="_blank" href="./asset/<?php echo $item->{'slug'}; ?>">
+                            /<?php echo $item->{'slug'}; ?>
                             </a>
                             
                             <p class="help-block">
@@ -167,7 +153,7 @@
                         </td>
                          
                         <td class="">
-                        <?php echo implode(", ", (array) $item->{'metadata.tags'} ); ?>
+                        <?php echo implode(", ", (array) $item->{'tags'} ); ?>
                         </td>
                         
                         <td class="">

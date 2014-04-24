@@ -5,7 +5,7 @@ use Aws\S3\S3Client;
 
 class Asset extends \Admin\Controllers\BaseAuth 
 {
-    use \Dsc\Traits\Controllers\CrudItem;
+    use \Dsc\Traits\Controllers\CrudItemCollection;
 
     protected $list_route = '/admin/assets';
     protected $create_item_route = '/admin/asset/create';

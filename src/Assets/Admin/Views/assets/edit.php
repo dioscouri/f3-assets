@@ -90,10 +90,20 @@
                             
                             <div class="form-group">
                                 <label>Tags: Enter multiple tags, separated by a comma</label>
-                                <input name="metadata[tags]" data-tags='<?php echo json_encode( $all_tags ); ?>' value="<?php echo implode(",", (array) $flash->old('metadata.tags') ); ?>" type="text" name="tags" class="form-control ui-select2-tags" />
+                                <input name="tags" data-tags='<?php echo json_encode( \Dsc\Mongo\Collections\Assets::distinctTags() ); ?>' value="<?php echo implode(",", (array) $flash->old('tags') ); ?>" type="text" name="tags" class="form-control ui-select2-tags" />
                             </div>
                             <!-- /.form-group -->
                             
+                            <div class="form-group">
+                                <label>Type</label>
+                                <select name="type" class="form-control">
+                                    <option value="common.assets">Common Asset</option>
+                                    <?php foreach (\Dsc\Mongo\Collections\Assets::distinctTypes() as $type) { ?>
+                                    	<option value="<?php echo $type; ?>" <?php if ($flash->old('type') == $type) { echo "selected='selected'"; } ?>><?php echo $type; ?></option>
+                                    <?php } ?>                            
+                                </select>                            
+                            </div>
+                            <!-- /.form-group -->
                             
                         </div>
                         <!-- /.col-md-10 -->
