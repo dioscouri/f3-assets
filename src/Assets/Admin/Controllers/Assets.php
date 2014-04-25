@@ -36,9 +36,11 @@ class Assets extends \Admin\Controllers\BaseAuth
         $model = $this->getModel();
         $state = $model->populateState()->getState();
         \Base::instance()->set('state', $state );
+        
+        $id = \Base::instance()->get('PARAMS.id');
     
         \Base::instance()->set('paginated', $model->paginate());
-        \Base::instance()->set('select_function_name', $this->getElementSelectFunction() );
+        \Base::instance()->set('select_function_name', $this->getElementSelectFunction() . '_' . $this->inputfilter->clean( $id ) );
         \Base::instance()->set('elementItemKey', $this->getElementItemKey() );
         \Base::instance()->set('elementItemTitleKey', $this->getElementItemTitleKey() );
 
@@ -51,8 +53,10 @@ class Assets extends \Admin\Controllers\BaseAuth
         $state = $model->populateState()->setState('filter.content_type', 'image/')->getState();
         \Base::instance()->set('state', $state );
     
+        $id = \Base::instance()->get('PARAMS.id');
+        
         \Base::instance()->set('paginated', $model->paginate());
-        \Base::instance()->set('select_function_name', $this->getElementSelectFunction() );
+        \Base::instance()->set('select_function_name', $this->getElementSelectFunction() . '_' . $this->inputfilter->clean( $id ) );
         \Base::instance()->set('elementItemKey', $this->getElementItemKey() );
         \Base::instance()->set('elementItemTitleKey', $this->getElementItemTitleKey() );        
 
@@ -65,7 +69,7 @@ class Assets extends \Admin\Controllers\BaseAuth
         {
             $html_pieces[] = '<div id="' . $id . '_thumb" class="text-center">';
             $html_pieces[] = '<div class="thumbnail text-center">';
-            $html_pieces[] = '<img src="' . \Base::instance()->get( 'BASE' ) . '/asset/{value}" />';
+            $html_pieces[] = '<img src="' . \Base::instance()->get( 'BASE' ) . '/asset/thumb/{value}" />';
             $html_pieces[] = '</div>';
             $html_pieces[] = '</div>';
             $html = implode(" ", $html_pieces);
@@ -127,7 +131,7 @@ class Assets extends \Admin\Controllers\BaseAuth
         {
             $html_pieces[] = '<div id="' . $id . '_thumb" class="text-center">';
             $html_pieces[] = '<div class="thumbnail text-center">';
-            $html_pieces[] = '<img src="' . \Base::instance()->get( 'BASE' ) . '/asset/' . $item->{'slug'} . '" alt="' . $item->{'title'} . '" />';
+            $html_pieces[] = '<img src="' . \Base::instance()->get( 'BASE' ) . '/asset/thumb/' . $item->{'slug'} . '" alt="' . $item->{'title'} . '" />';
             $html_pieces[] = '</div>';
             $html_pieces[] = '</div>';
         }        
