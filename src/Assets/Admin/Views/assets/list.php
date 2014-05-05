@@ -7,13 +7,13 @@
     <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
         <ul id="sparks" class="list-actions list-unstyled list-inline">
             <li>
-                <a class="btn btn-default" href="./admin/asset/create">Add New</a>
+                <a class="btn btn-default" href="/admin/asset/create">Add New</a>
             </li>
         </ul>
     </div>
 </div>
 
-<form class="searchForm" method="post" action="./admin/assets">
+<form class="searchForm" method="post" action="/admin/assets">
 
     <div class="no-padding">
     
@@ -53,7 +53,7 @@
                         <div class="input-group">
                             <select id="bulk-actions" name="bulk_action" class="form-control">
                                 <option value="null">-Bulk Actions-</option>
-                                <option value="delete" data-action="./admin/assets/delete">Delete</option>
+                                <option value="delete" data-action="/admin/assets/delete">Delete</option>
                             </select>
                             <span class="input-group-btn">
                                 <button class="btn btn-default bulk-actions" type="button" data-target="bulk-actions">Apply</button>
@@ -116,14 +116,14 @@
                                 <?php if ($item->isImage()) { ?>
                             	<div class="thumbnail text-center">
                                 	<div class="thumbnail-view">
-                                		<a class="thumbnail-view-hover ui-lightbox" href="./asset/<?php echo $item->{'slug'}; ?>">
+                                		<a class="thumbnail-view-hover ui-lightbox" href="/asset/<?php echo $item->{'slug'}; ?>">
                                 		</a>
                                         <img src="<?php echo \Dsc\Image::dataUri( $item->thumb->bin ); ?>" alt="<?php echo $item->{'title'}; ?>" />
             				        </div>
             				    </div> <!-- /.thumbnail -->                
                                 <?php } else { ?>
                                     <div class="thumbnail text-center">
-                                    <a href="./admin/asset/edit/<?php echo $item->id; ?>">
+                                    <a href="/admin/asset/edit/<?php echo $item->id; ?>">
                                     <img src="<?php echo \Dsc\Image::dataUri( $item->thumb->bin ); ?>" alt="<?php echo $item->{'title'}; ?>" />
                                     </a>
                                     </div>
@@ -133,12 +133,12 @@
                         
                         <td class="">
                             <h5>
-                            <a href="./admin/asset/edit/<?php echo $item->id; ?>">
+                            <a href="/admin/asset/edit/<?php echo $item->id; ?>">
                             <?php echo $item->{'title'}; ?>
                             </a>
                             </h5>
             
-                            <a class="help-block" target="_blank" href="./asset/<?php echo $item->{'slug'}; ?>">
+                            <a class="help-block" target="_blank" href="/asset/<?php echo $item->{'slug'}; ?>">
                             /<?php echo $item->{'slug'}; ?>
                             </a>
                             
@@ -166,14 +166,14 @@
                         </td>
                             
                         <td class="text-center">
-                            <a class="btn btn-xs btn-secondary" href="./admin/asset/edit/<?php echo $item->_id; ?>">
+                            <a class="btn btn-xs btn-secondary" href="/admin/asset/edit/<?php echo $item->_id; ?>">
                                 <i class="fa fa-pencil"></i>
                             </a>
                             &nbsp;
-                            <a class="btn btn-xs btn-danger" data-bootbox="confirm" href="./admin/asset/delete/<?php echo $item->_id; ?>">
+                            <a class="btn btn-xs btn-danger" data-bootbox="confirm" href="/admin/asset/delete/<?php echo $item->_id; ?>">
                                 <i class="fa fa-times"></i>
                             </a>
-                            <a class="btn btn-xs btn-success" href="./admin/asset/rethumb/<?php echo $item->_id; ?>">
+                            <a class="btn btn-xs btn-success" href="/admin/asset/rethumb/<?php echo $item->_id; ?>">
                                 <i class="fa fa-magic"></i>
                             </a>                
                         </td>
