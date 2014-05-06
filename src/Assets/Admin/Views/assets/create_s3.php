@@ -61,7 +61,7 @@ jQuery(document).ready(function () {
             // REQUIRED: Path to our local server where requests
             // can be signed.
             signature: {
-                endpoint: "/admin/asset/handleS3"
+                endpoint: "./admin/asset/handleS3"
             },
 
             // OPTIONAL: An endopint for Fine Uploader to POST to
@@ -69,13 +69,13 @@ jQuery(document).ready(function () {
             // Server-side, we can declare this upload a failure
             // if something is wrong with the file.
             uploadSuccess: {
-                endpoint: "/admin/asset/handleS3?success=1"
+                endpoint: "./admin/asset/handleS3?success=1"
             },
 
             // USUALLY REQUIRED: Blank file on the same domain
             // as this page, for IE9 and older support.
             iframeSupport: {
-                localBlankPagePath: "/blank.html"
+                localBlankPagePath: "./blank.html"
             },
 
             // optional feature
@@ -92,7 +92,7 @@ jQuery(document).ready(function () {
             deleteFile: {
                 enabled: true,
                 method: "DELETE",
-                endpoint: "/admin/asset/handleS3"
+                endpoint: "./admin/asset/handleS3"
             },
 
             // optional feature
@@ -108,8 +108,8 @@ jQuery(document).ready(function () {
 
             thumbnails: {
                 placeholders: {
-                    notAvailablePath: "/fineuploader/placeholders/not_available-generic.png",
-                    waitingPath: "/fineuploader/placeholders/waiting-generic.png"
+                    notAvailablePath: "./fineuploader/placeholders/not_available-generic.png",
+                    waitingPath: "./fineuploader/placeholders/waiting-generic.png"
                 }
             }
         })
@@ -118,7 +118,7 @@ jQuery(document).ready(function () {
                 $editBtn = $fileEl.find(".edit-btn");
 
             if (response.asset_id) {
-                $editBtn.attr("href", '/admin/asset/edit/'+response.asset_id );
+                $editBtn.attr("href", './admin/asset/edit/'+response.asset_id );
                 $editBtn.removeClass('hide').show();
             }
         });

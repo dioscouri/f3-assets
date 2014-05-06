@@ -19,7 +19,7 @@
 </div>
 
 <h3>Select from an Existing Asset</h3>
-<form id="assets" class="searchForm" action="/admin/assets/element/<?php echo $PARAMS['id']; ?>" method="post">
+<form id="assets" class="searchForm" action="./admin/assets/element/<?php echo $PARAMS['id']; ?>" method="post">
 
     <div class="row">
         <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
@@ -111,7 +111,7 @@
                     </a>
                     </h5>
     
-                    <a class="help-block" target="_blank" href="/asset/<?php echo $item->{'slug'}; ?>">
+                    <a class="help-block" target="_blank" href="./asset/<?php echo $item->{'slug'}; ?>">
                     /<?php echo $item->{'slug'}; ?>
                     </a>
     

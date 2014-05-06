@@ -45,7 +45,7 @@
 jQuery(document).ready(function () {
     jQuery('#bootstrapped-fine-uploader').fineUploader({
         request: {
-            endpoint: '/admin/asset/handleTraditional'
+            endpoint: './admin/asset/handleTraditional'
         },
         template: 'qq-template-bootstrap',
         classes: {
@@ -55,8 +55,8 @@ jQuery(document).ready(function () {
 
         thumbnails: {
             placeholders: {
-                notAvailablePath: "/fineuploader/placeholders/not_available-generic.png",
-                waitingPath: "/fineuploader/placeholders/waiting-generic.png"
+                notAvailablePath: "./fineuploader/placeholders/not_available-generic.png",
+                waitingPath: "./fineuploader/placeholders/waiting-generic.png"
             }
         }
     })
@@ -65,7 +65,7 @@ jQuery(document).ready(function () {
             $editBtn = $fileEl.find(".edit-btn");
 
         if (response.asset_id) {
-            $editBtn.attr("href", '/admin/asset/edit/'+response.asset_id);
+            $editBtn.attr("href", './admin/asset/edit/'+response.asset_id);
             $editBtn.removeClass('hide').show();
         }
     });    

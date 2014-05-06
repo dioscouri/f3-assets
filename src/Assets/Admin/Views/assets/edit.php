@@ -22,7 +22,7 @@
                     </div>
 
                     &nbsp;
-                    <a class="btn btn-default" href="/admin/assets">Cancel</a>
+                    <a class="btn btn-default" href="./admin/assets">Cancel</a>
                 </div>
 
             </div>
@@ -59,7 +59,7 @@
                         <div class="col-md-10">
                             <div class="form-group">
                                 <div>Full-size:</div> 
-                                <a target="_blank" href="/asset/<?php echo $item->{'slug'}; ?>">
+                                <a target="_blank" href="./asset/<?php echo $item->{'slug'}; ?>">
                                 /<?php echo $item->{'slug'}; ?>
                                 </a>
                             </div>
@@ -67,7 +67,7 @@
                                                         
                             <div class="form-group">
                                 <div>Thumb:</div> 
-                                <a target="_blank" href="/asset/thumb/<?php echo $item->{'slug'}; ?>">
+                                <a target="_blank" href="./asset/thumb/<?php echo $item->{'slug'}; ?>">
                                 /thumb/<?php echo $item->{'slug'}; ?>
                                 </a>
                             </div>
@@ -133,7 +133,7 @@
                     
                             <?php if ($item->isImage()) { ?>
                             <div class="form-group">
-                                <img src="/asset/<?php echo $item->slug; ?>" class="img-responsive" />
+                                <img src="./asset/<?php echo $item->slug; ?>" class="img-responsive" />
                             </div>
                             <!-- /.form-group -->
                             <?php } ?>
