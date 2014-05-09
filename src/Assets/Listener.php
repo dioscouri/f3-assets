@@ -5,20 +5,28 @@ class Listener extends \Prefab
 {
     public function onSystemRebuildMenu( $event )
     {
-        if ($mapper = $event->getArgument('mapper')) 
+        if ($model = $event->getArgument('model')) 
         {
-            $mapper->reset();
-            $mapper->priority = 40;
-            $mapper->id = 'f3-assets';
-            $mapper->title = 'Media Assets';
-            $mapper->route = '';
-            $mapper->icon = 'fa fa-picture-o';
-            $mapper->children = array(
-                    json_decode(json_encode(array( 'title'=>'Library', 'route'=>'/admin/assets', 'icon'=>'fa fa-list' )))
-                    ,json_decode(json_encode(array( 'title'=>'Add New', 'route'=>'/admin/asset/create', 'icon'=>'fa fa-plus' )))
-            );
-            $mapper->save();
-            
+        	$root = $event->getArgument( 'root' );
+        	$assets = clone $model;
+        	
+        	$assets->insert(
+        			array(
+        					'type'	=> 'admin.nav',
+        					'priority' => 70,
+        					'title'	=> 'Media Assets',
+        					'icon'	=> 'fa fa-picture-o',
+        					'is_root' => false,
+        					'tree'	=> $root,
+							'base' => '/admin/asset',
+        		)
+        	);
+        	$children = array(
+        			array( 'title'=>'Library', 'route'=>'/admin/assets', 'icon'=>'fa fa-list' ),
+        			array( 'title'=>'Add New', 'route'=>'/admin/asset/create', 'icon'=>'fa fa-plus' ),
+        	);
+	        $assets->addChildrenItems( $children, $root, $model );
+        	            
             \Dsc\System::instance()->addMessage('Assets added its admin menu items.');
         }
         
