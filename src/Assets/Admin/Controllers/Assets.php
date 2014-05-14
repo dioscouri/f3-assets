@@ -122,6 +122,9 @@ class Assets extends \Admin\Controllers\BaseAuth
         
         try {
             $item = $model->getItem();
+            if (empty($item->id)) {
+            	throw new \Exception('Invalid Item');
+            }
             
         } catch ( \Exception $e ) {
             return $html_pieces;
