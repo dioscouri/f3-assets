@@ -57,7 +57,8 @@ class Asset extends \Dsc\Controller
             case "gridfs":
             default:
                 $f3 = \Base::instance();
-                $f3->set('pagetitle', 'View Asset');
+                
+                $this->app->set('meta.title', $item->slug);
                 
                 $view = \Dsc\System::instance()->get('theme');
                 echo $view->renderLayout('Assets/Site/Views::assets/view.php');
