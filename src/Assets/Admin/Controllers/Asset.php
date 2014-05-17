@@ -248,10 +248,11 @@ class Asset extends \Admin\Controllers\BaseAuth
     protected function displayCreate() 
     {
         $f3 = \Base::instance();
-        $f3->set('pagetitle', 'Upload New Assets');
 
         $all_tags = $this->getModel()->getTags();
         \Base::instance()->set('all_tags', $all_tags );
+        
+        $this->app->set('meta.title', 'Upload New Assets');
         
         $view = \Dsc\System::instance()->get('theme');
         echo $view->renderTheme('Assets/Admin/Views::assets/create.php');
@@ -260,10 +261,11 @@ class Asset extends \Admin\Controllers\BaseAuth
     protected function displayEdit()
     {
         $f3 = \Base::instance();
-        $f3->set('pagetitle', 'Edit Asset');
 
         $all_tags = $this->getModel()->getTags();
         \Base::instance()->set('all_tags', $all_tags );
+
+        $this->app->set('meta.title', 'Edit Asset');
         
 		$view = \Dsc\System::instance()->get('theme');
 		$view->event = $view->trigger( 'onDisplayAdminAssetEdit', array( 'item' => $this->getItem(), 'tabs' => array(), 'content' => array() ) );

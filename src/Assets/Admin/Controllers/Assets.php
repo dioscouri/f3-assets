@@ -20,14 +20,13 @@ class Assets extends \Admin\Controllers\BaseAuth
     
     public function index()
     {
-        \Base::instance()->set('pagetitle', 'Asset Library');
-        \Base::instance()->set('subtitle', '');
-        
         $model = $this->getModel();
         $state = $model->emptyState()->populateState()->getState();
         \Base::instance()->set('state', $state );
         \Base::instance()->set( 'paginated', $model->paginate() );
 
+        $this->app->set('meta.title', 'Asset Library');
+        
         echo \Dsc\System::instance()->get('theme')->renderTheme('Assets/Admin/Views::assets/list.php');
     }
     
@@ -43,6 +42,8 @@ class Assets extends \Admin\Controllers\BaseAuth
         \Base::instance()->set('select_function_name', $this->getElementSelectFunction() . '_' . $this->inputfilter->clean( $id ) );
         \Base::instance()->set('elementItemKey', $this->getElementItemKey() );
         \Base::instance()->set('elementItemTitleKey', $this->getElementItemTitleKey() );
+        
+        $this->app->set('meta.title', 'Asset Element');
 
         echo \Dsc\System::instance()->get('theme')->setVariant('app')->renderTheme('Assets/Admin/Views::element/list.php');
     }
@@ -60,6 +61,8 @@ class Assets extends \Admin\Controllers\BaseAuth
         \Base::instance()->set('elementItemKey', $this->getElementItemKey() );
         \Base::instance()->set('elementItemTitleKey', $this->getElementItemTitleKey() );        
 
+        $this->app->set('meta.title', 'Asset Image Element');
+        
         echo \Dsc\System::instance()->get('theme')->setVariant('app')->renderTheme('Assets/Admin/Views::element/list.php');
     }
     
