@@ -25,7 +25,7 @@ class Listener extends \Prefab
         			array( 'title'=>'Library', 'route'=>'/admin/assets', 'icon'=>'fa fa-list' ),
         			array( 'title'=>'Add New', 'route'=>'/admin/asset/create', 'icon'=>'fa fa-plus' ),
         	);
-	        $assets->addChildrenItems( $children, $root );
+	        $assets->addChildren( $children, $root );
         	            
             \Dsc\System::instance()->addMessage('Assets added its admin menu items.');
         }
