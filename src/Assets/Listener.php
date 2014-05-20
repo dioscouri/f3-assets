@@ -18,12 +18,11 @@ class Listener extends \Prefab
         					'icon'	=> 'fa fa-picture-o',
         					'is_root' => false,
         					'tree'	=> $root,
-							'base' => '/admin/asset',
         		)
         	);
         	$children = array(
-        			array( 'title'=>'Library', 'route'=>'/admin/assets', 'icon'=>'fa fa-list' ),
-        			array( 'title'=>'Add New', 'route'=>'/admin/asset/create', 'icon'=>'fa fa-plus' ),
+        			array( 'title'=>'Library', 'route'=>'./admin/assets', 'icon'=>'fa fa-list' ),
+        			array( 'title'=>'Add New', 'route'=>'./admin/asset/create', 'icon'=>'fa fa-plus' ),
         	);
 	        $assets->addChildren( $children, $root );
         	            
