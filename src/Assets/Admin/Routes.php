@@ -18,68 +18,72 @@ class Routes extends \Dsc\Routes\Group
      */
     public function initialize()
     {
-        $this->setDefaults( array(
+        $this->setDefaults(array(
             'namespace' => '\Assets\Admin\Controllers',
-            'url_prefix' => '/admin' 
-        ) );
+            'url_prefix' => '/admin'
+        ));
         
-        $this->addCrudGroup( 'Assets', 'Asset' );
+        $this->addCrudGroup('Assets', 'Asset');
         
-        $this->add( '/asset/rethumb/@id', 'GET', array(
+        $this->add('/asset/rethumb/@id', 'GET', array(
             'controller' => 'Asset',
-            'action' => 'rebuildThumb' 
-        ) );
+            'action' => 'rebuildThumb'
+        ));
         
-        // upload handlers
-        $this->add( '/asset/handleTraditional', 'POST', array(
+        $this->add('/asset/handleUrl', 'POST', array(
             'controller' => 'Asset',
-            'action' => 'handleTraditional' 
-        ) );
+            'action' => 'handleUrl'
+        ));
         
-        $this->add( '/asset/handleS3', array(
+        $this->add('/asset/handleTraditional', 'POST', array(
+            'controller' => 'Asset',
+            'action' => 'handleTraditional'
+        ));
+        
+        $this->add('/asset/handleS3', array(
             'POST',
-            'DELETE' 
+            'DELETE'
         ), array(
             'controller' => 'Asset',
-            'action' => 'handleS3' 
-        ) );
+            'action' => 'handleS3'
+        ));
         
-        $this->add( '/asset/handleS3/@id', 'DELETE' , array(
+        $this->add('/asset/handleS3/@id', 'DELETE', array(
             'controller' => 'Asset',
-            'action' => 'handleS3' 
-        ) );
+            'action' => 'handleS3'
+        ));
         
         // element routes
-        $this->add( '/assets/element/@id', array(
+        $this->add('/assets/element/@id', array(
             'GET',
-            'POST' 
+            'POST'
         ), array(
             'controller' => 'Assets',
-            'action' => 'element' 
-        ) );
+            'action' => 'element'
+        ));
         
-        $this->add( '/assets/element/@id/page/@page', array(
+        $this->add('/assets/element/@id/page/@page', array(
             'GET',
-            'POST' 
+            'POST'
         ), array(
             'controller' => 'Assets',
-            'action' => 'element' 
-        ) );
+            'action' => 'element'
+        ));
         
-        $this->add( '/assets/element/image/@id', array(
+        $this->add('/assets/element/image/@id', array(
             'GET',
-            'POST' 
+            'POST'
         ), array(
             'controller' => 'Assets',
-            'action' => 'elementImage' 
-        ) );
+            'action' => 'elementImage'
+        ));
         
-        $this->add( '/assets/element/image/@id/page/@page', array(
+        $this->add('/assets/element/image/@id/page/@page', array(
             'GET',
-            'POST' 
+            'POST'
         ), array(
             'controller' => 'Assets',
-            'action' => 'elementImage' 
-        ) );
+            'action' => 'elementImage'
+        ));
     }
 }

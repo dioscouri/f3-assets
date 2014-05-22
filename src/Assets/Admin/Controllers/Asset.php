@@ -221,6 +221,30 @@ class Asset extends \Admin\Controllers\BaseAuth
         
     }
     
+    public function handleUrl()
+    {
+        $f3 = \Base::instance();
+        $url = $this->input->get( 'upload_url', null, 'default' );
+
+        if (!empty($url)) {
+            try {
+                $result = \Assets\Admin\Models\Assets::createFromUrl( $url );
+                if (!empty($result['error'])) {
+                	throw new \Exception( $result['message'] );
+                }
+            }
+            catch (\Exception $e) {
+                \Dsc\System::instance()->addMessage( $e->getMessage(), 'error');
+                $f3->reroute( $this->create_item_route );
+                return;            	
+            }            
+        }
+        
+        \Dsc\System::instance()->addMessage( "Uploaded.  Edit here: <a href='./admin/asset/edit/".$result["asset_id"]."'>./admin/asset/edit/".$result["asset_id"]."</a>" );
+        $f3->reroute( $this->create_item_route );
+        return;        
+    }
+    
     protected function getModel() 
     {
         $model = new \Assets\Admin\Models\Assets;
