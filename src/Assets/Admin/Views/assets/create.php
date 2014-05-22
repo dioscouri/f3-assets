@@ -8,6 +8,8 @@
                         <input type="text" class="form-control" name="upload_url" />
                         <span class="input-group-btn">
                             <button class="btn btn-primary" type="submit">Upload</button>
+                            <?php $path = \Base::instance()->hive()['PATH']; ?>
+                            <?php \Dsc\System::instance()->get( 'session' )->set( 'assets.handleUrl.redirect', $path ); ?>
                         </span>                
                     </div>
             </div>

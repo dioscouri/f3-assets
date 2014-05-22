@@ -226,6 +226,9 @@ class Asset extends \Admin\Controllers\BaseAuth
         $f3 = \Base::instance();
         $url = $this->input->get( 'upload_url', null, 'default' );
 
+        $custom_redirect = \Dsc\System::instance()->get( 'session' )->get( 'assets.handleUrl.redirect' );
+        $redirect = $custom_redirect ? $custom_redirect : $this->create_item_route;
+        
         if (!empty($url)) {
             try {
                 $result = \Assets\Admin\Models\Assets::createFromUrl( $url );
@@ -235,13 +238,13 @@ class Asset extends \Admin\Controllers\BaseAuth
             }
             catch (\Exception $e) {
                 \Dsc\System::instance()->addMessage( $e->getMessage(), 'error');
-                $f3->reroute( $this->create_item_route );
+                $f3->reroute( $redirect );
                 return;            	
             }            
         }
         
         \Dsc\System::instance()->addMessage( "Uploaded.  Edit here: <a href='./admin/asset/edit/".$result["asset_id"]."'>./admin/asset/edit/".$result["asset_id"]."</a>" );
-        $f3->reroute( $this->create_item_route );
+        $f3->reroute( $redirect );
         return;        
     }
     
