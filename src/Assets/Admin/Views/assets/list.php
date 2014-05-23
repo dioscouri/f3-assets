@@ -119,7 +119,7 @@
                                 	<div class="thumbnail-view">
                                 		<a class="thumbnail-view-hover ui-lightbox" href="./asset/<?php echo $item->{'slug'}; ?>">
                                 		</a>
-                                        <img src="<?php echo \Dsc\Image::dataUri( $item->thumb->bin ); ?>" alt="<?php echo $item->{'title'}; ?>" />
+                                        <img src="./asset/thumb/<?php echo $item->slug; ?>" alt="<?php echo $item->{'title'}; ?>" />
             				        </div>
             				    </div> <!-- /.thumbnail -->                
                                 <?php } else { ?>

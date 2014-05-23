@@ -99,7 +99,7 @@
                 <td class="">
                     <?php if ($item->thumb) { ?>
                         <div class="thumbnail text-center">
-                        <img src="<?php echo \Dsc\Image::dataUri( $item->thumb->bin ); ?>" alt="<?php echo $item->{'title'}; ?>" />
+                        <img src="./asset/thumb/<?php echo $item->slug; ?>" alt="<?php echo $item->{'title'}; ?>" />
                         </div>
                     <?php } ?>
                 </td>
