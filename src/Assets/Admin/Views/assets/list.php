@@ -54,6 +54,7 @@
                             <select id="bulk-actions" name="bulk_action" class="form-control">
                                 <option value="null">-Bulk Actions-</option>
                                 <option value="delete" data-action="./admin/assets/delete">Delete</option>
+                                <option value="moveToS3" data-action="./admin/assets/moveToS3">Move To S3</option>
                             </select>
                             <span class="input-group-btn">
                                 <button class="btn btn-default bulk-actions" type="button" data-target="bulk-actions">Apply</button>

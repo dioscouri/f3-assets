@@ -144,4 +144,59 @@ class Assets extends \Admin\Controllers\BaseAuth
                         
         return $html_pieces;
     }
+    
+    public function moveToS3(){
+    	$f3 = \Base::instance();
+
+    	$data = $f3->get('REQUEST');    	
+    	$model = $this->getModel();
+    	$items = array();
+    	if (!empty($data['ids'])) // only selected assets
+    	{
+    		$selected = array();
+    		$input = (array) $data['ids'];
+    		foreach ($input as $id)
+    		{
+    			if ($id = $this->inputfilter->clean( $id, 'alnum' )) {
+    				$selected[] = $id;
+    			}
+    		}
+    		
+    		if( !empty( $selected ) ){
+    			$items = $model->setState('filter.ids', $selected)->getList();
+    		}
+    	} else { // all assets from GridFS
+    			$items = $model->setState('filter.storage', 'gridfs')->getList();
+    	}
+    	
+   		if (!empty($items))
+   		{
+			foreach ($items as $item)
+			{
+				if( $item->storage == 's3' ) { // skip items which already are on S3
+					continue;
+				}
+				try{
+					$item->moveToS3();
+  					
+					\Dsc\System::instance()->addMessage('This asset was successfully uploaded to Amazon S3.');
+				} catch( \Exception $e ){
+					$this->setError(true);
+					\Dsc\System::instance()->addMessage($e->getMessage() );
+				}
+			}   	
+   			if (!$errors = $this->getErrors())
+   			{
+   				\Dsc\System::instance()->addMessage('Items deleted');
+   			}
+   		}
+   		else
+   		{
+   			\Dsc\System::instance()->addMessage('No items selected to delete.', 'warning');
+   		}
+    	
+    	$f3->reroute( $this->list_route );
+    	return;
+    }
+    
 }
