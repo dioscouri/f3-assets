@@ -53,6 +53,16 @@ class Routes extends \Dsc\Routes\Group
             'action' => 'handleS3'
         ));
         
+        $this->add( '/asset/moveToS3/@id', 'GET', array(
+        	'controller' => 'Asset',
+        	'action'	=> 'moveToS3',
+        ) );
+        
+        $this->add( '/assets/moveToS3', 'POST', array(
+        		'controller' => 'Assets',
+        		'action'	=> 'moveToS3',
+        ) );
+        
         // element routes
         $this->add('/assets/element/@id', array(
             'GET',

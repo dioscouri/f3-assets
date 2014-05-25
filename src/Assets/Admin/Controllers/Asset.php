@@ -81,6 +81,7 @@ class Asset extends \Admin\Controllers\BaseAuth
                     $objectInfoValues = $objectInfo->getAll();
                     $object = $handler->getS3Client()->getObject(array( 'Bucket'=>$bucket, 'Key'=>$key )); 
                     
+                    
                     $model = $this->getModel();
                     $url = $handler->getS3Client()->getObjectUrl($bucket, $key);
                     
@@ -362,5 +363,23 @@ class Asset extends \Admin\Controllers\BaseAuth
     	    	
     	return $this;
 
+    }
+    
+    public function moveToS3(){
+    	$f3 = \Base::instance();
+    	
+    	$model = $this->getModel();
+    	$id = $model->inputfilter()->clean( $f3->get('PARAMS.id'), 'alnum' );
+    	$item = $this->getItem();
+
+    	try{
+    		$item->moveToS3();
+    		\Dsc\System::instance()->addMessage('This asset was successfully uploaded to Amazon S3.');
+    	} catch( \Exception $e ){
+    		\Dsc\System::instance()->addMessage('There was an error during uploading this asset to Amazon S3.');
+    	}
+    	
+    	\Base::instance()->reroute( $this->list_route );
+    	return;
     }
 }
