@@ -6,20 +6,31 @@ class Routes extends \Dsc\Routes\Group
 
     public function initialize()
     {
+        $f3 = \Base::instance();
+        
         $this->setDefaults(array(
             'namespace' => '\Assets\Site\Controllers',
             'url_prefix' => '/asset'
         ));
         
         // TODO Make these both support dimensions, e.g. /asset/thumb/@slug/@width/@height
-        $this->add('/thumb/@slug', 'GET', array(
-            'controller' => 'Asset',
-            'action' => 'thumb'
-        ));
         
-        $this->add('/@slug', 'GET', array(
-            'controller' => 'Asset',
-            'action' => 'read'
-        ));
+        if ($f3->get('CACHE') && !$f3->get('DEBUG'))
+        {
+            $f3->route( 'GET /asset/thumb/@slug', '\Assets\Site\Controllers\Asset->thumb', 3600*24 );
+            $f3->route( 'GET /asset/@slug', '\Assets\Site\Controllers\Asset->read', 3600*24 );
+        }
+        else
+        {
+            $this->add('/thumb/@slug', 'GET', array(
+                'controller' => 'Asset',
+                'action' => 'thumb'
+            ));
+            
+            $this->add('/@slug', 'GET', array(
+                'controller' => 'Asset',
+                'action' => 'read'
+            ));
+        }        
     }
 }
