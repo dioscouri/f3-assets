@@ -1,3 +1,5 @@
+<?php $settings = \Assets\Models\Settings::fetch(); ?>
+
 <div class="well">
 
 <form id="detail-form" class="form" method="post">
@@ -7,12 +9,12 @@
         
             <div class="clearfix">
                  <ul class="list-filters list-unstyled list-inline pull-right">
-<?php if( $flash->old('storage' ) != 's3' ) {?>                 
+                    <?php if ($flash->old('storage' ) != 's3' && $settings->isS3Enabled()) {?>                 
                     <li>
  		          		<a class="btn btn-success" href="./admin/asset/moveToS3/<?php echo (string)$flash->old('_id'); ?>">Move to S3</a>
-                     </li>
-<?php } ?>
-                     <li>
+                    </li>
+                    <?php } ?>
+                    <li>
                      	<div class="btn-group">
 	                        <button type="submit" class="btn btn-primary">Save</button>
 	                        <input id="primarySubmit" type="hidden" value="save_edit" name="submitType" />
@@ -25,10 +27,10 @@
 	                            </li>
 	                        </ul>
 	                    </div>
-                     </li>
-                     <li>
-                    	<a class="btn btn-default" href="./admin/assets">Cancel</a>
-                     </li>
+                    </li>
+                    <li>
+                        <a class="btn btn-default" href="./admin/assets">Cancel</a>
+                    </li>
                 </ul>    
 
             </div>
@@ -157,21 +159,39 @@
                     <div class="row">
                         <div class="col-md-2">
                         
-                            <h3>Source</h3>
+                            <h3>Storage</h3>
                                     
                         </div>
                         <!-- /.col-md-2 -->
                                     
                         <div class="col-md-10">
                             <div class="form-group">
+                                <?php echo $item->{'storage'}; ?>
+                            </div>
+                            <!-- /.form-group -->                            
+                        </div>
+                    </div>
+                                
+                    <hr/>
+                
+                    <div class="row">
+                        <div class="col-md-2">
+                        
+                            <h3>Source</h3>
+                                    
+                        </div>
+                        <!-- /.col-md-2 -->
+                                    
+                        <div class="col-md-10">
+                            <?php if ($item->{'details.source_url'}) { ?>
+                            <div class="form-group">
                                 <div>URL:</div>
-                                <?php if ($item->{'details.source_url'}) { ?> 
                                 <a target="_blank" href="<?php echo $item->{'details.source_url'}; ?>">
                                 <?php echo $item->{'details.source_url'}; ?>
                                 </a>
-                                <?php } ?>
                             </div>
                             <!-- /.form-group -->
+                            <?php } ?>
                                                         
                             <div class="form-group">
                                 <div>Filename:</div> 
@@ -181,7 +201,48 @@
                         </div>
                     </div>
                                 
-                    <hr/>                
+                    <hr/>
+                    
+                    <?php if ($flash->old('storage' ) == 's3') { ?>
+                    <div class="row">
+                        <div class="col-md-2">
+                        
+                            <h3>S3 Data</h3>
+                                    
+                        </div>
+                        <!-- /.col-md-2 -->
+                                    
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <div>URL:</div>
+                                <a target="_blank" href="<?php echo $item->{'url'}; ?>">
+                                    <?php echo $item->{'url'}; ?>
+                                </a>
+                            </div>
+                            <!-- /.form-group -->
+                                                        
+                            <div class="form-group">
+                                <div>Bucket:</div> 
+                                <?php echo $item->{'details.bucket'}; ?>
+                            </div>
+                            <!-- /.form-group -->
+                            
+                            <div class="form-group">
+                                <div>UUID:</div> 
+                                <?php echo $item->{'details.uuid'}; ?>
+                            </div>
+                            <!-- /.form-group -->
+                            
+                            <div class="form-group">
+                                <div>ETag:</div> 
+                                <?php echo $item->{'details.ETag'}; ?>
+                            </div>
+                            <!-- /.form-group -->
+                        </div>
+                    </div>
+                                
+                    <hr/>                    
+                    <?php } ?>                
                 
                 </div>
                 <!-- /.tab-pane -->

@@ -1,3 +1,5 @@
+<?php $settings = \Assets\Models\Settings::fetch(); ?>
+
 <div class="row">
     <div class="col-md-12">
 
@@ -24,7 +26,7 @@
             <!-- /.form-group -->
         </form>
         
-        <?php if (\Base::instance()->get('aws.bucketname')) { ?>
+        <?php if ($settings->isS3Enabled()) { ?>
         <form id="create_s3_form" class="form" method="post">
             <div class="form-group clearfix">
                 <legend>Upload directly to Amazon S3</legend>            

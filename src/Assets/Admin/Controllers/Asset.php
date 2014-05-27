@@ -14,6 +14,16 @@ class Asset extends \Admin\Controllers\BaseAuth
     
     public function handleS3()
     {
+        $settings = \Assets\Models\Settings::fetch();
+         
+        if (!$settings->isS3Enabled()) {
+            $response = array(
+            	'error' => 'Amazon S3 is not enabled'
+            );
+            echo json_encode($response);
+            return;
+        }
+                
         $app = \Base::instance();
         
         $options = array(
@@ -365,7 +375,10 @@ class Asset extends \Admin\Controllers\BaseAuth
 
     }
     
-    public function moveToS3(){
+    public function moveToS3()
+    {
+        $settings = \Assets\Models\Settings::fetch();
+        
     	$f3 = \Base::instance();
     	
     	$model = $this->getModel();
@@ -373,10 +386,19 @@ class Asset extends \Admin\Controllers\BaseAuth
     	$item = $this->getItem();
 
     	try{
+    	    if (!$settings->isS3Enabled()) {
+    	        throw new \Exception('Amazon S3 is not enabled');
+    	    }
+    	        	    
     		$item->moveToS3();
     		\Dsc\System::instance()->addMessage('This asset was successfully uploaded to Amazon S3.');
+    		
+    		$route = str_replace('{id}', $id, $this->edit_item_route );
+    		$f3->reroute( $route );    		
+    		
     	} catch( \Exception $e ){
-    		\Dsc\System::instance()->addMessage('There was an error during uploading this asset to Amazon S3.');
+    		\Dsc\System::instance()->addMessage('This assets upload failed.', 'error');
+    		\Dsc\System::addMessage( $e->$e->getMessage(), 'error' );
     	}
     	
     	\Base::instance()->reroute( $this->list_route );
