@@ -173,26 +173,31 @@ class Assets extends \Admin\Controllers\BaseAuth
    		{
 			foreach ($items as $item)
 			{
+			    set_time_limit( 0 );
+			    
 				if( $item->storage == 's3' ) { // skip items which already are on S3
 					continue;
 				}
+				
 				try{
 					$item->moveToS3();
   					
-					\Dsc\System::instance()->addMessage('This asset was successfully uploaded to Amazon S3.');
+					\Dsc\System::instance()->addMessage('Asset was successfully uploaded to Amazon S3.');
 				} catch( \Exception $e ){
 					$this->setError(true);
-					\Dsc\System::instance()->addMessage($e->getMessage() );
+					\Dsc\System::instance()->addMessage('There was an error moving asset # '. (string) $item->id .' to Amazon S3.');
+					\Dsc\System::instance()->addMessage($e->getMessage(), 'error');
 				}
 			}   	
+			
    			if (!$errors = $this->getErrors())
    			{
-   				\Dsc\System::instance()->addMessage('Items deleted');
+   				\Dsc\System::instance()->addMessage('Items all moved to Amazon S3');
    			}
    		}
    		else
    		{
-   			\Dsc\System::instance()->addMessage('No items selected to delete.', 'warning');
+   			\Dsc\System::instance()->addMessage('No items selected to move to Amazon S3', 'warning');
    		}
     	
     	$f3->reroute( $this->list_route );

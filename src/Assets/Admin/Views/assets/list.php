@@ -29,6 +29,14 @@
                             <?php } ?>                            
                         </select>
                     </li>
+                    <li>
+                        <select name="filter[storage]" class="form-control" onchange="this.form.submit();">
+                            <option value="">All Stores</option>
+                            <?php foreach (\Dsc\Mongo\Collections\Assets::distinctStores() as $store) { ?>
+                            	<option value="<?php echo $store; ?>" <?php if ($state->get('filter.storage') == $store) { echo "selected='selected'"; } ?>><?php echo $store; ?></option>
+                            <?php } ?>                            
+                        </select>
+                    </li>                    
                 </ul>    
                 
             </div>
