@@ -1,4 +1,3 @@
-<?php   ?>
 <?php
 //get the last-modified-date of this very file
 $lastModified=$flash->old("metadata.last_modified.time");

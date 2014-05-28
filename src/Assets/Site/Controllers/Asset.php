@@ -38,15 +38,15 @@ class Asset extends \Dsc\Controller
         $model = $this->getModel();
         $item = $this->getItem();
         
+        if (empty($item->id)) 
+        {
+        	return $f3->error( 404, 'Invalid Item' );        	
+        }
+        
         $f3->set('model', $model );
         $f3->set('item', $item );
         
-        if (method_exists($item, 'cast')) {
-            $item_data = $item->cast();
-        } else {
-            $item_data = \Joomla\Utilities\ArrayHelper::fromObject($item);
-        }
-        $flash->store($item_data);
+        $flash->store((array) $item->cast());
 
         switch ($flash->old('storage')) 
         {
@@ -78,16 +78,16 @@ class Asset extends \Dsc\Controller
     
         $model = $this->getModel();
         $item = $this->getItem();
+        
+        if (empty($item->id) || empty($item->thumb))
+        {
+            return $f3->error( 404, 'Invalid Thumb' );
+        }
     
         $f3->set('model', $model );
         $f3->set('item', $item );
     
-        if (method_exists($item, 'cast')) {
-            $item_data = $item->cast();
-        } else {
-            $item_data = \Joomla\Utilities\ArrayHelper::fromObject($item);
-        }
-        $flash->store($item_data);
+        $flash->store((array) $item->cast());
     
 	    $view = \Dsc\System::instance()->get('theme');
 	    echo $view->renderLayout('Assets/Site/Views::assets/thumb.php');
