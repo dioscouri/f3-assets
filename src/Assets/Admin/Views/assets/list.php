@@ -104,7 +104,6 @@
             		    <th class="col-md-1"></th>
             			<th data-sortable="title">Title</th>
             			<th class="col-md-1">Location</th>
-            			<th>Tags</th>
             			<th data-sortable="metadata.created.time">Created</th>
             			<th data-sortable="metadata.last_modified.time">Last Modified</th>
             			<th class="col-md-1"></th>
@@ -154,15 +153,17 @@
                             <p class="help-block">
                             MD5: <?php echo $item->{'md5'} ? $item->{'md5'} : '<span class="text-danger"><strong>Invalid</strong></span>'; ?>
                             </p>
+                            
+                            <?php if ($item->{'tags'}) { ?>
+                            <p class="help-block">
+                            Tags: <?php echo implode(", ", (array) $item->{'tags'} ); ?>
+                            </p>                         
+                            <?php } ?>   
             
                         </td>
                         
                         <td class="">
                         <?php echo $item->{'storage'}; ?>
-                        </td>
-                         
-                        <td class="">
-                        <?php echo implode(", ", (array) $item->{'tags'} ); ?>
                         </td>
                         
                         <td class="">

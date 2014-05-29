@@ -84,7 +84,7 @@
     	<thead>
     		<tr>
     		    <th class="col-md-1"></th>
-    			<th data-sortable="metadata.title">Title</th>
+    			<th data-sortable="title">Title</th>
     			<th class="col-md-1">Location</th>
     		</tr>
     	</thead>
