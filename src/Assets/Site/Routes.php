@@ -22,12 +22,12 @@ class Routes extends \Dsc\Routes\Group
         }
         else
         {
-            $this->add('/thumb/@slug', 'GET', array(
+            $this->add('/thumb/@slug', 'GET|HEAD', array(
                 'controller' => 'Asset',
                 'action' => 'thumb'
             ));
             
-            $this->add('/@slug', 'GET', array(
+            $this->add('/@slug', 'GET|HEAD', array(
                 'controller' => 'Asset',
                 'action' => 'read'
             ));
