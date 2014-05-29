@@ -108,10 +108,10 @@ class Asset extends \Admin\Controllers\BaseAuth
                         'url' => $url,
                         'length' => $objectInfoValues['ContentLength'],
                         "title" => \Joomla\String\Normalise::toSpaceSeparated( $model->inputfilter()->clean( $name ) ),
+                        'filename' => $name,
                         'details' => array(
                             'bucket' => $bucket,
-                            'key' => $key,
-                            'filename' => $name,
+                            'key' => $key,                            
                             'uuid' => $uuid
                         ) + $objectInfoValues
                     );
@@ -202,9 +202,7 @@ class Asset extends \Admin\Controllers\BaseAuth
                     'thumb' => $thumb,
                     'url' => null,
            			"title" => \Joomla\String\Normalise::toSpaceSeparated( $model->inputfilter()->clean( $originalname ) ),
-                    'details' => array(
-                        "filename" => $originalname
-                     )
+                    "filename" => $originalname,
                 );
                                 
                 if (empty($values['title'])) {
@@ -216,7 +214,6 @@ class Asset extends \Admin\Controllers\BaseAuth
                 	$model->load(array('_id'=>$storedfile));
                 	$model->bind( $values );
 	                $model->{'slug'} = $model->generateSlug();
-     	            $model->{'url'} = "/asset/" . $model->{'slug'}; 
      	            $model->save();
                 }
                 // $storedfile has newly stored file's Document ID
