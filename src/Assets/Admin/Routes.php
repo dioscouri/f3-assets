@@ -35,6 +35,11 @@ class Routes extends \Dsc\Routes\Group
             'action' => 'handleUrl'
         ));
         
+        $this->add('/asset/handleUrlS3', 'POST', array(
+            'controller' => 'Asset',
+            'action' => 'handleUrlS3'
+        ));
+        
         $this->add('/asset/handleTraditional', 'POST', array(
             'controller' => 'Asset',
             'action' => 'handleTraditional'

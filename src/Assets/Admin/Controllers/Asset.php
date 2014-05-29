@@ -109,7 +109,7 @@ class Asset extends \Admin\Controllers\BaseAuth
                         'length' => $objectInfoValues['ContentLength'],
                         "title" => \Joomla\String\Normalise::toSpaceSeparated( $model->inputfilter()->clean( $name ) ),
                         'filename' => $name,
-                        'details' => array(
+                        's3' => array(
                             'bucket' => $bucket,
                             'key' => $key,                            
                             'uuid' => $uuid
@@ -254,6 +254,30 @@ class Asset extends \Admin\Controllers\BaseAuth
         \Dsc\System::instance()->addMessage( "Uploaded.  Edit here: <a href='./admin/asset/edit/".$result["asset_id"]."'>./admin/asset/edit/".$result["asset_id"]."</a>" );
         $f3->reroute( $redirect );
         return;        
+    }
+    
+    public function handleUrlS3()
+    {
+        $f3 = \Base::instance();
+        $url = $this->input->get( 'upload_url', null, 'default' );
+    
+        $custom_redirect = \Dsc\System::instance()->get( 'session' )->get( 'assets.handleUrl.redirect' );
+        $redirect = $custom_redirect ? $custom_redirect : $this->create_item_route;
+    
+        if (!empty($url)) {
+            try {
+                $asset = \Assets\Admin\Models\Assets::createFromUrlToS3( $url );
+            }
+            catch (\Exception $e) {
+                \Dsc\System::instance()->addMessage( $e->getMessage(), 'error');
+                $f3->reroute( $redirect );
+                return;
+            }
+        }
+    
+        \Dsc\System::instance()->addMessage( "Uploaded.  Edit here: <a href='./admin/asset/edit/" . $asset->id . "'>./admin/asset/edit/" . $asset->id . "</a>" );
+        $f3->reroute( $redirect );
+        return;
     }
     
     protected function getModel() 

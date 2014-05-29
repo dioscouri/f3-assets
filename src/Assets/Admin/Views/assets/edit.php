@@ -183,21 +183,24 @@
                         <!-- /.col-md-2 -->
                                     
                         <div class="col-md-10">
-                            <?php if ($item->{'details.source_url'}) { ?>
+                            <?php if ($item->{'source_url'}) { ?>
                             <div class="form-group">
                                 <div>URL:</div>
-                                <a target="_blank" href="<?php echo $item->{'details.source_url'}; ?>">
-                                <?php echo $item->{'details.source_url'}; ?>
+                                <a target="_blank" href="<?php echo $item->{'source_url'}; ?>">
+                                <?php echo $item->{'source_url'}; ?>
                                 </a>
                             </div>
                             <!-- /.form-group -->
                             <?php } ?>
-                                                        
+                            
+                            <?php if ($item->{'filename'}) { ?>                            
                             <div class="form-group">
                                 <div>Filename:</div> 
-                                <?php echo $item->{'details.filename'}; ?>
+                                <?php echo $item->{'filename'}; ?>
                             </div>
-                            <!-- /.form-group -->                            
+                            <!-- /.form-group -->
+                            <?php } ?>
+                                                        
                         </div>
                     </div>
                                 
@@ -223,19 +226,19 @@
                                                         
                             <div class="form-group">
                                 <div>Bucket:</div> 
-                                <?php echo $item->{'details.bucket'}; ?>
+                                <?php echo $item->{'s3.bucket'}; ?>
                             </div>
                             <!-- /.form-group -->
                             
                             <div class="form-group">
                                 <div>UUID:</div> 
-                                <?php echo $item->{'details.uuid'}; ?>
+                                <?php echo $item->{'s3.uuid'}; ?>
                             </div>
                             <!-- /.form-group -->
                             
                             <div class="form-group">
                                 <div>ETag:</div> 
-                                <?php echo $item->{'details.ETag'}; ?>
+                                <?php echo $item->{'s3.ETag'}; ?>
                             </div>
                             <!-- /.form-group -->
                         </div>
