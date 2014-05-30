@@ -344,56 +344,86 @@ class Asset extends \Admin\Controllers\BaseAuth
     
     protected function displayRead() {}
     
+    /**
+     * 
+     * @return \Assets\Admin\Controllers\Asset
+     */
     public function rebuildThumb()
     {
-        $f3 = \Base::instance();
+        $custom_redirect = \Dsc\System::instance()->get( 'session' )->get( 'asset.rethumb.redirect' );
+        $redirect = $custom_redirect ? $custom_redirect : $this->list_route;
         
     	$model = $this->getModel();
-    	$db = $model->getDb();
-    	$gridfs = $db->getGridFS( $model->collectionNameGridFS() );
-    	
-    	$id = $model->inputfilter()->clean( $f3->get('PARAMS.id'), 'alnum' );
+    	$id = $model->inputfilter()->clean( $this->app->get('PARAMS.id'), 'alnum' );
     	$item = $this->getItem();
     	
-    	if (empty($item->id)) {
-    		return false;
+    	if (empty($item->id)) 
+    	{
+    	    \Dsc\System::addMessage('There was an error recreating the thumb', 'error');
+    	    \Dsc\System::addMessage('Invalid Item', 'error');
+    		$this->app->reroute( $redirect );
     	}
     	
-    	$length = $item->{"length"};
-    	$chunkSize = $item->{"chunkSize"};
-    	$chunks = ceil( $length / $chunkSize );
-    	
-    	$collChunkName = $model->collectionNameGridFS() . ".chunks";
-    	$collChunks = $model->getDb()->{$collChunkName};
-    	
-    	$buffer = null;
-    	for( $i=0; $i<$chunks; $i++ )
+    	// Get the full image's binary data -- whether from S3 or GridFS
+    	switch ($item->storage) 
     	{
-    	    $chunk = $collChunks->findOne( array( "files_id" => $item->id, "n" => $i ) );
-    	    $buffer .= (string) $chunk["data"]->bin;
-    	}    	
-    	
-    	$thumb = null;
-    	if ( $thumb_binary_data = $model->getThumb( $buffer )) {
-    	    $thumb = new \MongoBinData( $thumb_binary_data, 2 );
+    		case "s3":
+
+    		    $request = \Web::instance()->request( $item->url );
+    		    if (empty($request['body'])) {
+    		        \Dsc\System::addMessage('There was an error recreating the thumb', 'error');
+    		        \Dsc\System::addMessage('Invalid Item URL', 'error');
+    		        $this->app->reroute( $redirect );    		        
+    		    }
+    		    
+    		    $buffer = $request['body'];
+    		    
+    		    break;
+    		    
+    		case "gridfs":
+    		    
+    		    $db = $model->getDb();
+    		    $gridfs = $db->getGridFS( $model->collectionNameGridFS() );
+    		    $length = $item->{"length"};
+    		    $chunkSize = $item->{"chunkSize"};
+    		    $chunks = ceil( $length / $chunkSize );
+    		    $collChunkName = $model->collectionNameGridFS() . ".chunks";
+    		    $collChunks = $model->getDb()->{$collChunkName};
+    		     
+    		    $buffer = null;
+    		    for( $i=0; $i<$chunks; $i++ )
+    		    {
+    		        $chunk = $collChunks->findOne( array( "files_id" => $item->id, "n" => $i ) );
+    		        $buffer .= (string) $chunk["data"]->bin;
+    		    }
+    		        		    
+    		    break;
+    		    
+    		default:
+    		    
+    		    \Dsc\System::addMessage('There was an error recreating the thumb', 'error');
+    		    \Dsc\System::addMessage('Invalid Item Storage', 'error');    		    
+    		    $this->app->reroute( $redirect );    	
+    		    	    
+    		    break;
     	}
 
-    	
-    	$item->set( 'thumb', $thumb );
-    	if ($item->save()) {
-    	    \Dsc\System::instance()->addMessage('Thumb recreated.');
-    	} else {
-    	    \Dsc\System::instance()->addMessage('There was an error recreating the thumb.');
+    	try {
+    	    $thumb = null;
+    	    if ( $thumb_binary_data = $model->getThumb( $buffer )) {
+    	        $thumb = new \MongoBinData( $thumb_binary_data, 2 );
+    	    }    	    
+    	    $item->set( 'thumb', $thumb )->save();
+    	    \Dsc\System::addMessage('Thumb recreated', 'success');
+    	}
+    	catch (\Exception $e) {
+    	    \Dsc\System::addMessage('There was an error recreating the thumb.', 'error');
+    	    \Dsc\System::addMessage($e->getMessage(), 'error');
     	}
     	
-    	$this->setRedirect( $this->list_route );
-    	
-    	if ($route = $this->getRedirect()) {
-    	    \Base::instance()->reroute( $route );
-    	}
+    	$this->app->reroute( $redirect );
     	    	
     	return $this;
-
     }
     
     public function moveToS3()

@@ -15,6 +15,10 @@
                     </li>
                     <?php } ?>
                     <li>
+ 		          		<a class="btn btn-info" href="./admin/asset/rethumb/<?php echo (string)$flash->old('_id'); ?>">Rebuild Thumb</a>
+ 		          		<?php \Dsc\System::instance()->get( 'session' )->set( 'asset.rethumb.redirect', '/admin/asset/edit/' . $flash->old('_id') ); ?>
+                    </li>                    
+                    <li>
                      	<div class="btn-group">
 	                        <button type="submit" class="btn btn-primary">Save</button>
 	                        <input id="primarySubmit" type="hidden" value="save_edit" name="submitType" />
