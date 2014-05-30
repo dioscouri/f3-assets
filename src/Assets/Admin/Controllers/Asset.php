@@ -353,10 +353,7 @@ class Asset extends \Admin\Controllers\BaseAuth
         $custom_redirect = \Dsc\System::instance()->get( 'session' )->get( 'asset.rethumb.redirect' );
         $redirect = $custom_redirect ? $custom_redirect : $this->list_route;
         
-    	$model = $this->getModel();
-    	$id = $model->inputfilter()->clean( $this->app->get('PARAMS.id'), 'alnum' );
-    	$item = $this->getItem();
-    	
+    	$item = $this->getItem();    	
     	if (empty($item->id)) 
     	{
     	    \Dsc\System::addMessage('There was an error recreating the thumb', 'error');
@@ -364,68 +361,22 @@ class Asset extends \Admin\Controllers\BaseAuth
     		$this->app->reroute( $redirect );
     	}
     	
-    	// Get the full image's binary data -- whether from S3 or GridFS
-    	switch ($item->storage) 
-    	{
-    		case "s3":
-
-    		    $request = \Web::instance()->request( $item->url );
-    		    if (empty($request['body'])) {
-    		        \Dsc\System::addMessage('There was an error recreating the thumb', 'error');
-    		        \Dsc\System::addMessage('Invalid Item URL', 'error');
-    		        $this->app->reroute( $redirect );    		        
-    		    }
-    		    
-    		    $buffer = $request['body'];
-    		    
-    		    break;
-    		    
-    		case "gridfs":
-    		    
-    		    $db = $model->getDb();
-    		    $gridfs = $db->getGridFS( $model->collectionNameGridFS() );
-    		    $length = $item->{"length"};
-    		    $chunkSize = $item->{"chunkSize"};
-    		    $chunks = ceil( $length / $chunkSize );
-    		    $collChunkName = $model->collectionNameGridFS() . ".chunks";
-    		    $collChunks = $model->getDb()->{$collChunkName};
-    		     
-    		    $buffer = null;
-    		    for( $i=0; $i<$chunks; $i++ )
-    		    {
-    		        $chunk = $collChunks->findOne( array( "files_id" => $item->id, "n" => $i ) );
-    		        $buffer .= (string) $chunk["data"]->bin;
-    		    }
-    		        		    
-    		    break;
-    		    
-    		default:
-    		    
-    		    \Dsc\System::addMessage('There was an error recreating the thumb', 'error');
-    		    \Dsc\System::addMessage('Invalid Item Storage', 'error');    		    
-    		    $this->app->reroute( $redirect );    	
-    		    	    
-    		    break;
-    	}
-
     	try {
-    	    $thumb = null;
-    	    if ( $thumb_binary_data = $model->getThumb( $buffer )) {
-    	        $thumb = new \MongoBinData( $thumb_binary_data, 2 );
-    	    }    	    
-    	    $item->set( 'thumb', $thumb )->save();
+    	    $item->rebuildThumb();
     	    \Dsc\System::addMessage('Thumb recreated', 'success');
     	}
     	catch (\Exception $e) {
     	    \Dsc\System::addMessage('There was an error recreating the thumb.', 'error');
     	    \Dsc\System::addMessage($e->getMessage(), 'error');
     	}
-    	
+    	 
     	$this->app->reroute( $redirect );
-    	    	
-    	return $this;
     }
     
+    /**
+     * 
+     * @throws \Exception
+     */
     public function moveToS3()
     {
         $settings = \Assets\Models\Settings::fetch();
@@ -453,6 +404,5 @@ class Asset extends \Admin\Controllers\BaseAuth
     	}
     	
     	\Base::instance()->reroute( $this->list_route );
-    	return;
     }
 }

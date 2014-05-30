@@ -1,6 +1,6 @@
 <?php
 //get the last-modified-date of this very file
-$lastModified=$flash->old("metadata.last_modified.time");
+$lastModified=$flash->old("last_modified");
 //get a unique hash of this file (etag)
 $etagFile = $flash->old("md5");
 //get the HTTP_IF_MODIFIED_SINCE header if set
@@ -25,5 +25,5 @@ if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])==$lastModified || $etagHeader
 }
 
 // display the binary data
-echo $flash->old('thumb')->bin;
+echo $flash->old('bin');
 ?>

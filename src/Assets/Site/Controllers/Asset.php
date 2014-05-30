@@ -72,25 +72,22 @@ class Asset extends \Dsc\Controller
      */
     public function thumb()
     {
-        $f3 = \Base::instance();
         $flash = \Dsc\Flash::instance();
-        $f3->set('flash', $flash );
-    
-        $model = $this->getModel();
-        $item = $this->getItem();
+        $this->app->set('flash', $flash );
+        $slug = $this->inputfilter->clean( $this->app->get('PARAMS.slug'), 'PATH' );
         
-        if (empty($item->id) || empty($item->thumb))
-        {
-            return $f3->error( 404, 'Invalid Thumb' );
+        try {
+            $thumb = \Dsc\Mongo\Collections\Assets::cachedThumb($slug);
+            if (empty($thumb['bin'])) {
+            	throw new \Exception;
+            }
+        } 
+        catch (\Exception $e) {
+            return $this->app->error( 404, 'Invalid Thumb' );
         }
-    
-        $f3->set('model', $model );
-        $f3->set('item', $item );
-    
-        $flash->store((array) $item->cast());
-    
-	    $view = \Dsc\System::instance()->get('theme');
-	    echo $view->renderLayout('Assets/Site/Views::assets/thumb.php');
+        
+        $flash->store($thumb);
+        echo $this->theme->renderView('Assets/Site/Views::assets/thumb.php');
     }
     
 }
