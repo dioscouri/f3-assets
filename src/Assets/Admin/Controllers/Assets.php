@@ -19,7 +19,8 @@ class Assets extends \Admin\Controllers\BaseAuth
     }
     
     public function index()
-    {
+    {   
+        
         $model = $this->getModel();
         $state = $model->emptyState()->populateState()->getState();
         \Base::instance()->set('state', $state );

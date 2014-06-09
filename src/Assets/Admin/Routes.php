@@ -23,6 +23,8 @@ class Routes extends \Dsc\Routes\Group
             'url_prefix' => '/admin'
         ));
         
+        $this->addSettingsRoutes();
+
         $this->addCrudGroup('Assets', 'Asset');
         
         $this->add('/asset/rethumb/@id', 'GET', array(
