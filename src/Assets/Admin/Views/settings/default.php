@@ -45,33 +45,46 @@
                     
                     <div class="form-group">
                         <div class="row">
+                         <div class="form-group">
                             <div class="col-md-5">
                                 <label>Max Size</label>
                                 <input name="aws[maxsize]" placeholder="15000000" value="<?php echo $flash->old('aws.maxsize'); ?>" class="form-control" type="text" />
                             </div>
-                            <div class="col-md-2">
+                            </div>
+                             <div class="form-group">
+                            <div class="col-md-5">
                                 <label>Bucketname</label>
                                 <input name="aws[bucketname]" placeholder="" value="<?php echo $flash->old('aws.bucketname'); ?>" class="form-control" type="text" />
                             </div>
+                            </div>
+                            <div class="form-group">
                             <div class="col-md-5">
                                 <label>Endpoint</label>
                                 <input name="aws[endpoint]" placeholder="" value="<?php echo $flash->old('aws.endpoint'); ?>" class="form-control" type="text" />
                             </div>
+                            </div>
+                            <div class="form-group">
                             <div class="col-md-5">
-                                <label>clientPublicKey</label>
+                                <label>Client Public Key</label>
                                 <input name="aws[clientPublicKey]" placeholder="" value="<?php echo $flash->old('aws.clientPublicKey'); ?>" class="form-control" type="text" />
                             </div>
+                            </div>
+                            <div class="form-group">
                             <div class="col-md-5">
-                                <label>clientPrivateKey</label>
+                                <label>Client Private Key</label>
                                 <input name="aws[clientPrivateKey]" placeholder="" value="<?php echo $flash->old('aws.clientPrivateKey'); ?>" class="form-control" type="text" />
                             </div>
-                             <div class="col-md-5">
-                                <label>serverPublicKey</label>
-                                <input name="aws[serverPublicKey]" placeholder="" value="<?php echo $flash->old('aws.serverPublicKey'); ?>" class="form-control" type="text" />
                             </div>
+                            <div class="form-group">
                              <div class="col-md-5">
-                                <label>serverPrivateKey</label>
+                                <label>Server Public Key</label>
+                                <input name="aws[serverPublicKey]" placeholder="" value="<?php echo $flash->old('aws.serverPublicKey'); ?>" class="form-control" type="text" />
+                            </div></div>
+                            <div class="form-group">
+                             <div class="col-md-5">
+                                <label>Server Private Key</label>
                                 <input name="aws[serverPrivateKey]" placeholder="" value="<?php echo $flash->old('aws.serverPrivateKey'); ?>" class="form-control" type="text" />
+                            </div>
                             </div>
                         </div>
                     </div>

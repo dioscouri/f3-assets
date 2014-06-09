@@ -23,7 +23,7 @@ class Routes extends \Dsc\Routes\Group
             'url_prefix' => '/admin'
         ));
         
-        $this->addSettingsRoutes();
+        $this->addSettingsRoutes('/assets');
 
         $this->addCrudGroup('Assets', 'Asset');
         
