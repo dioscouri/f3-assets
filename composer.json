@@ -20,7 +20,8 @@
     },
     "autoload": {
         "psr-0": {
-            "Assets": "src/"
+            "Assets": "src/",
+            "Fineuploader": "Fineuploader/"
         }
     }    
 }
