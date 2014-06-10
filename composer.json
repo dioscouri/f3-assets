@@ -21,7 +21,7 @@
     "autoload": {
         "psr-0": {
             "Assets": "src/",
-            "Fineuploader": "Fineuploader/"
+            "Fineuploader": "src/"
         }
     }    
 }
