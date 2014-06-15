@@ -119,12 +119,7 @@
                             
                             <div class="form-group">
                                 <label>Type</label>
-                                <select name="type" class="form-control">
-                                    <option value="common.assets">Common Asset</option>
-                                    <?php foreach (\Dsc\Mongo\Collections\Assets::distinctTypes() as $type) { ?>
-                                    	<option value="<?php echo $type; ?>" <?php if ($flash->old('type') == $type) { echo "selected='selected'"; } ?>><?php echo $type; ?></option>
-                                    <?php } ?>                            
-                                </select>                            
+                                <input name="type" class="form-control ui-select2" data-tags='<?php echo json_encode( \Dsc\Mongo\Collections\Assets::distinctTypes() ); ?>' data-maximum="1" value="<?php echo $flash->old('type'); ?>" />
                             </div>
                             <!-- /.form-group -->
                             
