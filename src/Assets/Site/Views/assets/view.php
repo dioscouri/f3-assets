@@ -4,6 +4,8 @@ $lastModified=$flash->old("metadata.last_modified.time");
 //get a unique hash of this file (etag)
 if(!empty($height) && !empty($width)) {
 	$etagFile = md5($flash->old("md5").$height.$width);	
+} else {
+	$etagFile = $flash->old("md5");
 }
 
 //get the HTTP_IF_MODIFIED_SINCE header if set
