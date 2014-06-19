@@ -47,7 +47,16 @@ class Asset extends \Dsc\Controller
         $f3->set('item', $item );
         
         $flash->store((array) $item->cast());
-
+		
+        $height = $this->app->get('PARAMS.height');
+        $width = $this->app->get('PARAMS.width');
+        
+        if($height && $width) {
+        	$this->app->set('height', $height);
+        	$this->app->set('width', $width);
+        }
+        
+        
         switch ($flash->old('storage')) 
         {
             case "s3":
@@ -84,6 +93,13 @@ class Asset extends \Dsc\Controller
         } 
         catch (\Exception $e) {
             return $this->app->error( 404, 'Invalid Thumb' );
+        }
+        $height = $this->app->get('PARAMS.height');
+        $width = $this->app->get('PARAMS.width');
+        
+        if($height && $width) {
+        	$this->app->set('height', $height);
+        	$this->app->set('width', $width);
         }
         
         $flash->store($thumb);

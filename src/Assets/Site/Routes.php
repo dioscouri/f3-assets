@@ -31,6 +31,14 @@ class Routes extends \Dsc\Routes\Group
                 'controller' => 'Asset',
                 'action' => 'read'
             ));
+            $this->add('/@slug/@height/@width', 'GET|HEAD', array(
+            		'controller' => 'Asset',
+            		'action' => 'read'
+            ));
+           $this->add('/thumb/@slug/@height/@width', 'GET|HEAD', array(
+                'controller' => 'Asset',
+                'action' => 'thumb'
+            ));
         }        
     }
 }

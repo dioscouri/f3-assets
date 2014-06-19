@@ -2,7 +2,10 @@
 //get the last-modified-date of this very file
 $lastModified=$flash->old("metadata.last_modified.time");
 //get a unique hash of this file (etag)
-$etagFile = $flash->old("md5");
+if(!empty($height) && !empty($width)) {
+	$etagFile = md5($flash->old("md5").$height.$width);	
+}
+
 //get the HTTP_IF_MODIFIED_SINCE header if set
 $ifModifiedSince=(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false);
 //get the HTTP_IF_NONE_MATCH header if set (etag: unique file hash)
@@ -31,10 +34,19 @@ $chunks = ceil( $length / $chunkSize );
 
 $collChunkName = $model->collectionNameGridFS() . ".chunks";
 $collChunks = $model->getDb()->{$collChunkName};
- 
+$binImagedata = null;
 for( $i=0; $i<$chunks; $i++ )
 {
     $chunk = $collChunks->findOne( array( "files_id" => $item->_id, "n" => $i ) );
-    echo (string) $chunk["data"]->bin;
+     $binImagedata .=  $chunk["data"]->bin;
 }
+
+if(!empty($height) && !empty($width)) {
+	$img = new \Dsc\Image(imagecreatefromstring($binImagedata));
+	$img->resize($width, $height,false);
+	echo $img->toBuffer();	
+} else {
+	echo $binImagedata;	
+}
+
 ?>
