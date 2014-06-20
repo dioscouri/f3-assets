@@ -16,7 +16,7 @@ class Routes extends \Dsc\Routes\Group
         
         else
         {
-            $cache_period = 3600*24;
+            $cache_period = 3600*24*60;
             
             $this->app->route('GET|HEAD /asset/thumb/@slug', '\Assets\Site\Controllers\Asset->thumb', $cache_period);
             $this->app->route('GET|HEAD /asset/@slug', '\Assets\Site\Controllers\Asset->read', $cache_period);
