@@ -1,17 +1,17 @@
 <?php
 //get the last-modified-date of this very file
-$lastModified=$flash->old("last_modified");
+//$lastModified=$flash->old("last_modified");
 //get a unique hash of this file (etag)
-$etagFile = $flash->old("md5");
+//$etagFile = $flash->old("md5");
 //get the HTTP_IF_MODIFIED_SINCE header if set
-$ifModifiedSince=(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false);
+//$ifModifiedSince=(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false);
 //get the HTTP_IF_NONE_MATCH header if set (etag: unique file hash)
-$etagHeader=(isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
+//$etagHeader=(isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
 
 //set last-modified header
-header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModified)." GMT");
+//header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModified)." GMT");
 //set etag-header
-header("Etag: $etagFile");
+//header("Etag: $etagFile");
 //make sure caching is turned on
 header('Cache-Control: public');
 // set content type header
