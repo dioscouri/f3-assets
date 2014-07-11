@@ -290,8 +290,8 @@ class Asset extends \Admin\Controllers\BaseAuth
     {
         $f3 = \Base::instance();
         $model = $this->getModel();
-        $id = $model->inputfilter()->clean( $f3->get('PARAMS.id'), 'alnum' );
-        $model->setState('filter.id', $id);
+        $id = $model->inputfilter()->clean( $f3->get('PARAMS.id'), 'string' );
+        $model->setState('filter.slug', $id);
 
         try {
             $item = $model->getItem();
@@ -302,6 +302,31 @@ class Asset extends \Admin\Controllers\BaseAuth
         }
 
         return $item;
+    }
+    
+    public function rotate() {
+    	$asset = $this->getItem();
+    	$length = $asset->length;
+    	$chunkSize =$asset->chunkSize;
+    	$chunks = ceil( $length / $chunkSize );
+    	 
+    	$collChunkName = $asset->collectionNameGridFS() . ".chunks";
+    	$collChunks = $asset->getDb()->{$collChunkName};
+    	$binImagedata = null;
+    	for( $i=0; $i<$chunks; $i++ )
+    	{
+    		$chunk = $collChunks->findOne( array( "files_id" => $asset->_id, "n" => $i ) );
+    		$binImagedata .=  $chunk["data"]->bin;
+    	}
+    	
+    	$dscImage = New \Dsc\Image(\imagecreatefromstring($binImagedata));
+    	
+    	$dscImage->rotate($this->app->get('PARAMS.degrees'), null, false);
+    	$buffer = $dscImage->toBuffer();
+    	
+    	$asset->replace($buffer);
+    	$this->app->reroute('/admin/asset/edit/'.$this->app->get('PARAMS.id'));
+    	
     }
     
     protected function displayCreate() 

@@ -116,7 +116,7 @@
                 <?php foreach($paginated->items as $item) { ?>
                     <tr>
                         <td class="checkbox-column">
-                            <input type="checkbox" class="icheck-input" name="ids[]" value="<?php echo $item->_id; ?>">
+                            <input type="checkbox" class="icheck-input" name="ids[]" value="<?php echo $item->slug; ?>">
                         </td>
                         
                         <td class="">
@@ -131,7 +131,7 @@
             				    </div> <!-- /.thumbnail -->                
                                 <?php } else { ?>
                                     <div class="thumbnail text-center">
-                                    <a href="./admin/asset/edit/<?php echo $item->id; ?>">
+                                    <a href="./admin/asset/edit/<?php echo $item->slug; ?>">
                                     <img src="<?php echo \Dsc\Image::dataUri( $item->thumb->bin ); ?>" alt="<?php echo $item->{'title'}; ?>" />
                                     </a>
                                     </div>
@@ -141,7 +141,7 @@
                         
                         <td class="">
                             <h5>
-                            <a href="./admin/asset/edit/<?php echo $item->id; ?>">
+                            <a href="./admin/asset/edit/<?php echo $item->slug; ?>">
                             <?php echo $item->{'title'}; ?>
                             </a>
                             </h5>
@@ -176,14 +176,14 @@
                         </td>
                             
                         <td class="text-center">
-                            <a class="btn btn-xs btn-secondary" href="./admin/asset/edit/<?php echo $item->_id; ?>">
+                            <a class="btn btn-xs btn-secondary" href="./admin/asset/edit/<?php echo $item->slug; ?>">
                                 <i class="fa fa-pencil"></i>
                             </a>
                             &nbsp;
-                            <a class="btn btn-xs btn-danger" data-bootbox="confirm" href="./admin/asset/delete/<?php echo $item->_id; ?>">
+                            <a class="btn btn-xs btn-danger" data-bootbox="confirm" href="./admin/asset/delete/<?php echo $item->slug; ?>">
                                 <i class="fa fa-times"></i>
                             </a>
-                            <a class="btn btn-xs btn-success" href="./admin/asset/rethumb/<?php echo $item->_id; ?>">
+                            <a class="btn btn-xs btn-success" href="./admin/asset/rethumb/<?php echo $item->slug; ?>">
                                 <i class="fa fa-magic"></i>
                             </a>                
                         </td>

@@ -55,6 +55,14 @@ class Routes extends \Dsc\Routes\Group
             'action' => 'handleS3'
         ));
         
+        $this->add('/asset/rotate/@id/@degrees', array(
+        		'GET',
+        		'POST'
+        ), array(
+        		'controller' => 'Asset',
+        		'action' => 'rotate'
+        ));
+        
         $this->add('/asset/handleS3/@id', 'DELETE', array(
             'controller' => 'Asset',
             'action' => 'handleS3'
