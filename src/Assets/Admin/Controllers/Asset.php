@@ -7,6 +7,7 @@ class Asset extends \Admin\Controllers\BaseAuth
 {
     use \Dsc\Traits\Controllers\CrudItemCollection;
 
+    protected $crud_item_key = 'slug';
     protected $list_route = '/admin/assets';
     protected $create_item_route = '/admin/asset/create';
     protected $get_item_route = '/admin/asset/read/{id}';    
