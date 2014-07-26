@@ -65,7 +65,7 @@ jQuery(document).ready(function () {
             $editBtn = $fileEl.find(".edit-btn");
 
         if (response.asset_id) {
-            $editBtn.attr("href", './admin/asset/edit/'+response.asset_id);
+            $editBtn.attr("href", './admin/asset/edit/'+response.slug);
             $editBtn.removeClass('hide').show();
         }
     });    
