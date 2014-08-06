@@ -352,6 +352,9 @@ class Asset extends \Admin\Controllers\BaseAuth
 
         $this->app->set('meta.title', 'Edit Asset');
         
+        $flash = \Dsc\Flash::instance();
+        $flash->store($this->getItem()->castBinarySafe());
+        
 		$view = \Dsc\System::instance()->get('theme');
 		$view->event = $view->trigger( 'onDisplayAdminAssetEdit', array( 'item' => $this->getItem(), 'tabs' => array(), 'content' => array() ) );
         echo $view->renderTheme('Assets/Admin/Views::assets/edit.php');
