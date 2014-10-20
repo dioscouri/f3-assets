@@ -49,7 +49,7 @@ jQuery(document).ready(function () {
                 // REQUIRED: We are using a custom domain
                 // for our S3 bucket, in this case.  You can
                 // use any valid URL that points to your bucket.
-                endpoint: "<?php echo \Base::instance()->get('aws.endpoint'); ?>",
+                endpoint: "https://<?php echo \Base::instance()->get('aws.endpoint'); ?>",
 
                 // REQUIRED: The AWS public key for the client-side user
                 // we provisioned.
@@ -118,7 +118,7 @@ jQuery(document).ready(function () {
                 $editBtn = $fileEl.find(".edit-btn");
 
             if (response.asset_id) {
-                $editBtn.attr("href", './admin/asset/edit/'+response.asset_id );
+                $editBtn.attr("href", './admin/asset/edit/'+response.slug );
                 $editBtn.removeClass('hide').show();
             }
         });
