@@ -15,7 +15,7 @@ header("Etag: $etagFile");
 //make sure caching is turned on
 header('Cache-Control: public');
 // set content type header
-header( 'Content-type: image/jpeg' );
+header( 'Content-type: image/png' );
 
 //check if page has changed. If not, send 304 and exit
 if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])==$lastModified || $etagHeader == $etagFile)
