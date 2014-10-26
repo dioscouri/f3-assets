@@ -110,5 +110,31 @@ class Routes extends \Dsc\Routes\Group
             'controller' => 'Assets',
             'action' => 'elementImage'
         ));
+        
+        /**
+         * Replace URLs
+         */        
+        $this->add('/asset/@slug/replace/url', 'POST', array(
+            'controller' => 'Asset',
+            'action' => 'replaceUrl'
+        ));
+        
+        $this->add('/asset/@slug/replace/urlS3', 'POST', array(
+            'controller' => 'Asset',
+            'action' => 'replaceUrlS3'
+        ));
+        
+        $this->add('/asset/@slug/replace/traditional', 'POST', array(
+            'controller' => 'Asset',
+            'action' => 'replaceTraditional'
+        ));
+        
+        $this->add('/asset/@slug/replace/s3', array(
+            'POST',
+            'DELETE'
+        ), array(
+            'controller' => 'Asset',
+            'action' => 'replaceS3'
+        ));        
     }
 }

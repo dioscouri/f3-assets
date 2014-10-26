@@ -47,7 +47,10 @@
                 </li>
                 <li>
                     <a href="#tab-details" data-toggle="tab"> Details </a>
-                </li>                
+                </li>
+                <li>
+                    <a href="#tab-replace" data-toggle="tab"> Replace </a>
+                </li>                                
                 <?php if (!empty($this->event)) { foreach ((array) $this->event->getArgument('tabs') as $key => $title ) { ?>
                 <li>
                     <a href="#tab-<?php echo $key; ?>" data-toggle="tab"> <?php echo $title; ?> </a>
@@ -247,6 +250,11 @@
                     <?php } ?>                
                 
                 </div>
+                <!-- /.tab-pane -->
+                
+                <div class="tab-pane" id="tab-replace">
+                    <?php echo $this->renderLayout('Assets/Admin/Views::assets/replace.php'); ?>    
+                </div>                
                 <!-- /.tab-pane -->
                 
                 <?php if (!empty($this->event)) { foreach ((array) $this->event->getArgument('content') as $key => $content ) { ?>

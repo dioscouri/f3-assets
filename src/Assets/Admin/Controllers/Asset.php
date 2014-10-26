@@ -434,4 +434,140 @@ class Asset extends \Admin\Controllers\BaseAuth
     	
     	\Base::instance()->reroute( $this->list_route );
     }
+    
+    public function replaceTraditional()
+    {
+        $app = \Base::instance();
+        $files_path = $app->get('TEMP') . "files";
+        $chunks_path = $app->get('TEMP') . "chunks";
+    
+        if (!file_exists($chunks_path)) {
+            mkdir( $chunks_path, \Base::MODE, true );
+        }
+    
+        if (!file_exists($files_path)) {
+            mkdir( $files_path, \Base::MODE, true );
+        }
+    
+        $uploader = new \Fineuploader\Traditional\Handler;
+    
+        // Specify the list of valid extensions, ex. array("jpeg", "xml", "bmp")
+        $uploader->allowedExtensions = array(); // all files types allowed by default
+    
+        // Specify max file size in bytes.
+        $uploader->sizeLimit = 10 * 1024 * 1024; // default is 10 MiB
+    
+        // Specify the input name set in the javascript.
+        $uploader->inputName = "qqfile"; // matches Fine Uploader's default inputName value by default
+    
+        // If you want to use the chunking/resume feature, specify the folder to temporarily save parts.
+        $uploader->chunksFolder = $chunks_path;
+    
+        $method = $_SERVER["REQUEST_METHOD"];
+        if ($method == "POST") {
+            header("Content-Type: text/plain");
+    
+            // Call handleUpload() with the name of the folder, relative to PHP's getcwd()
+            $result = $uploader->handleUpload( $files_path );
+    
+            // To return a name used for uploaded file you can use the following line.
+            $result["uploadName"] = $uploader->getUploadName();
+    
+            $result["originalName"] = $uploader->getName();
+    
+            // was upload successful?
+            if (!empty($result['success']))
+            {
+                // OK, we have the file in the tmp folder, let's now fire up the assets model and save it to Mongo
+                $slug = $this->inputfilter->clean( $this->app->get('PARAMS.slug'), 'string' );
+                $asset = $this->getModel()->setState('filter.slug', $slug)->getItem();
+                if (empty($asset->id))
+                {
+                    throw new \Exception('Invalid Asset');
+                }
+    
+                // The file's location in the File System
+                $filename = $result["uploadName"];
+                $pathinfo = pathinfo($filename);
+                $buffer = file_get_contents( $files_path . "/" . $filename );    
+                $originalname = $result["originalName"];
+                $pathinfo_original = pathinfo($originalname);
+
+                $values = array(
+                    'storage' => 'gridfs',
+                    'contentType' => $asset->getMimeType( $buffer ),
+                    'md5' => md5_file( $files_path . "/" . $filename ),
+                    'url' => null,
+                    "title" => \Joomla\String\Normalise::toSpaceSeparated( $asset->inputfilter()->clean( $originalname ) ),
+                    "filename" => $originalname,
+                );
+    
+                if (empty($values['title'])) {
+                    $values['title'] = $values['md5'];
+                }
+                
+                // save the file
+                $asset = $asset->replace( $buffer, $values );
+                
+                $result["asset_id"] = (string) $asset->id;
+                $result["slug"] = $asset->{'slug'};
+            }
+    
+            echo json_encode($result);
+        }
+        else {
+            header("HTTP/1.0 405 Method Not Allowed");
+        }    
+    }
+    
+    public function replaceUrl()
+    {
+        $slug = $this->inputfilter->clean( $this->app->get('PARAMS.slug'), 'string' );
+        $asset = $this->getModel()->setState('filter.slug', $slug)->getItem();
+        if (empty($asset->id))
+        {
+            throw new \Exception('Invalid Asset');
+        }
+        
+        $url = $this->input->get( 'upload_url', null, 'default' );
+    
+        $custom_redirect = \Dsc\System::instance()->get( 'session' )->get( 'assets.handleUrl.redirect' );
+        $redirect = $custom_redirect ? $custom_redirect : $this->create_item_route;
+    
+        if (!empty($url)) 
+        {
+            try {
+                $web = \Web::instance();
+                $request = $web->request( $url );
+                if (!empty($request['body']))
+                {
+                    $buffer = $request['body'];
+                }
+                
+                $url_path = parse_url( $url , PHP_URL_PATH );
+                $pathinfo = pathinfo( $url_path );
+                $filename = $this->inputfilter->clean( $url_path );
+                $originalname = str_replace( "/", "-", $filename );
+                
+                $values = array(
+                    'storage' => 'gridfs',
+                    'contentType' => $asset->getMimeType( $buffer ),
+                    'md5' => md5( $filename ),
+                    "filename" => $filename,
+                    "source_url" => $url,
+                );                
+                
+                $asset = $asset->replace( $buffer, $values );
+                
+                \Dsc\System::addMessage( 'Asset replaced' );
+                
+            }
+            catch (\Exception $e) 
+            {
+                \Dsc\System::addMessage( $e->getMessage(), 'error');
+            }
+        }
+
+        $this->app->reroute( $redirect );
+    }
 }
