@@ -15,8 +15,8 @@
                     </li>
                     <?php } ?>
                     <li>
- 		          		<a class="btn btn-info" href="./admin/asset/rethumb/<?php echo (string)$flash->old('_id'); ?>">Rebuild Thumb</a>
- 		          		<?php \Dsc\System::instance()->get( 'session' )->set( 'asset.rethumb.redirect', '/admin/asset/edit/' . $flash->old('_id') ); ?>
+ 		          		<a class="btn btn-info" href="./admin/asset/rethumb/<?php echo (string)$flash->old('slug'); ?>">Rebuild Thumb</a>
+ 		          		<?php \Dsc\System::instance()->get( 'session' )->set( 'asset.rethumb.redirect', '/admin/asset/edit/' . $flash->old('slug') ); ?>
                     </li>                    
                     <li>
                      	<div class="btn-group">
