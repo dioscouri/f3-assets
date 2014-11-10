@@ -256,7 +256,7 @@
                     <?php echo $this->renderLayout('Assets/Admin/Views::assets/replace.php'); ?>    
                 </div>                
                 <!-- /.tab-pane -->
-                
+
                 <?php if (!empty($this->event)) { foreach ((array) $this->event->getArgument('content') as $key => $content ) { ?>
                 <div class="tab-pane" id="tab-<?php echo $key; ?>">
                     <?php echo $content; ?>

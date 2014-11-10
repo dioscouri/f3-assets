@@ -74,6 +74,6 @@
         <!-- /.form-group -->
         
 
+        </div>
     </div>
-    
 </div>
