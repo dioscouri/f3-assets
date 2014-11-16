@@ -72,7 +72,7 @@
                             <div class="form-group">
                                 <div>Full-size:</div> 
                                 <a target="_blank" href="./asset/<?php echo $item->{'slug'}; ?>">
-                                /<?php echo $item->{'slug'}; ?>
+                                /asset/<?php echo $item->{'slug'}; ?>
                                 </a>
                             </div>
                             <!-- /.form-group -->
@@ -80,7 +80,7 @@
                             <div class="form-group">
                                 <div>Thumb:</div> 
                                 <a target="_blank" href="./asset/thumb/<?php echo $item->{'slug'}; ?>">
-                                /thumb/<?php echo $item->{'slug'}; ?>
+                                /asset/thumb/<?php echo $item->{'slug'}; ?>
                                 </a>
                             </div>
                             <!-- /.form-group -->                            

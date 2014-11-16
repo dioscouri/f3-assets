@@ -147,7 +147,7 @@
                             </h5>
             
                             <a class="help-block" target="_blank" href="./asset/<?php echo $item->{'slug'}; ?>">
-                            /<?php echo $item->{'slug'}; ?>
+                            /asset/<?php echo $item->{'slug'}; ?>
                             </a>
                             
                             <p class="help-block">
