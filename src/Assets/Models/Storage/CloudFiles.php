@@ -1,8 +1,8 @@
 <?php 
 
-namespace Assets\Models\CDN;
+namespace Assets\Models\Storage;
 
-use OpenCloud\Rackspace;
+use \OpenCloud\Rackspace;
 
 Class CloudFiles implements StorageInterface
 {	
@@ -25,10 +25,13 @@ Class CloudFiles implements StorageInterface
 		} 
 		
 		$this->client = new Rackspace(Rackspace::US_IDENTITY_ENDPOINT, $array);
-		//
-		$this->container = $this->setContainer($name);
+		// 
 		
 		$this->storeRegion = $this->client->objectStoreService(null, $app->get('cdn.region'));
+		
+		$this->setContainer($app->get('cdn.container'));
+		
+
 		
 		return $this;
 	}
@@ -38,23 +41,28 @@ Class CloudFiles implements StorageInterface
 		return $this->client;
 	}
 	
-	
 	public function createObject($remoteFileName,  $local) {
 		$handle = fopen($local, 'r');
-		$this->container->uploadObject($remoteFileName, $handle);
+		
+		$this->object = $this->container->uploadObject($remoteFileName, $handle);
 		return $this;
 	}
-
+	
+	public function deleteObject($remoteFileName){}
+	public function updateObject($remoteFileName){}
+	
 	public function makeContainer($name) {
 		
 	}
+	public function createContainer($name){}
+	public function deleteContainer($bool = false){}
 	
 	public function setContainer($name, $create = true){
-		// Obtain an Object Store service object from the client.
-		$objectStoreService = $this->client->objectStoreService(null, $this->region);
+		
 		
 		// Create a container for your objects (also referred to as files).
-		$this->container = $objectStoreService->getContainer($name);
+		$this->container = $this->storeRegion->getContainer($name);
+			
 		
 		return $this;	
 	}
@@ -65,10 +73,30 @@ Class CloudFiles implements StorageInterface
 	}
 	
 	public function getObject($remoteFileName) {
-		$this->object = $this->container->getObject($remoteFileName);
+		if(empty($this->object)) {
+			$this->object = $this->container->getObject($remoteFileName);
+		}
+		
 		return $this->object;
 	}
 	
+	public function putObjectFromAsset($asset) {
+		
+		try {
+			$upload = $asset->__resource;
+			
+			$this->createObject( $upload['name'], $upload['local']);
+			
+			$asset->url = $this->getObjectUrl();
+			$asset->storage = 'cloudfiles';
+			
+		} catch (\Exception $e) {
+			echo $e->getMessage(); 
+			die();
+		}
+		
+		return $asset;
+	}
 	
 	/*
 	 * Returns a stream
@@ -92,7 +120,7 @@ Class CloudFiles implements StorageInterface
 		if(!empty($remoteFileName)) {
 			$this->getObject($remoteFileName);
 		}
-		return $this->object->getPublicUrl();
+		return (string) $this->object->getPublicUrl();
 		 
 	}
 

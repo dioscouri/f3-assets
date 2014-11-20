@@ -3,7 +3,7 @@ namespace Assets\Models;
 
 class Assets extends \Dsc\Mongo\Collections\Assets 
 {
-	var $__resource = null;
+	var $__resource = array();
 	var $__storage = null;
 	
 	public function setStorage($type = 'gridfs') {
@@ -26,22 +26,60 @@ class Assets extends \Dsc\Mongo\Collections\Assets
 		return $this;
 	}
 	
-	private  function store() {
-		//store this asset
-		$this->__storage->store($this);
-	
-	}
-	
-	public  function add() {
+
+	//setup data for putInStorage call
+	public  function putBinaryInStorage() {
 		
 	}
+	//setup data for putInStorage call
+	public  function putFileInStorage() {
+	
+	}
+	//setup data for putInStorage call
+	public  function putUploadInStorage($array, $name = null) {
+		try {
+			if(!empty($array['tmp_name'])) { 
+				$ext = pathinfo($array['name'], PATHINFO_EXTENSION);
+				
+				if(!empty($name)) {
+					$array['name'] = $name . '.'.$ext;
+				} else {
+					if(!empty($this->slug)) {
+						$array['name'] = $this->slug. '.'.$ext;
+					}
+					
+				} 
+
+				$this->setResource($array['tmp_name'], $array['name']);
+			} else {
+				 throw new \Exception('File is not a valid upload array');
+			}
+			
+			return $this->putInStorage();
+		} catch (\Exception $e) {
+			
+		}
+		
+		
+
+	}
+	
+	public  function putInStorage() {
+	$result = $this->__storage->putObjectFromAsset($this);
+	
+	return $result;
+	}
+	
+	public  function setResource($file, $name,  $array = array()) {
+		
+		$this->__resource = array('local' => $file, 'name' => $name);
+	
+	}
+
+	
 	
 	protected function beforeSave()
-	{	
-		//TRY TO DO THE STORAGE OF THE RESOURCE IN The STORAGE, else FAIL.
-		$this->store();
-		
-		
+	{		
 		
 		if (empty($this->type)) {
 			$this->type = $this->__type;
