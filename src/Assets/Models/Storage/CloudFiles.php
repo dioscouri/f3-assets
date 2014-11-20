@@ -9,7 +9,8 @@ Class CloudFiles implements StorageInterface
 	var $client = null;
 	var $container = null;
 	var $region = 'DFW';
-	
+	var $object = null;
+	var $storeRegion =  null;
 	
 	function __construct() {
 		$this->setClient();
@@ -24,11 +25,21 @@ Class CloudFiles implements StorageInterface
 		} 
 		
 		$this->client = new Rackspace(Rackspace::US_IDENTITY_ENDPOINT, $array);
+		//
+		$this->container = $this->setContainer($name);
+		
+		$this->storeRegion = $this->client->objectStoreService(null, $app->get('cdn.region'));
+		
 		return $this;
 	}
 	
+	public function getClient() {
+
+		return $this->client;
+	}
 	
-	public function store( $remoteFileName,  $local) {
+	
+	public function createObject($remoteFileName,  $local) {
 		$handle = fopen($local, 'r');
 		$this->container->uploadObject($remoteFileName, $handle);
 		return $this;
@@ -38,7 +49,7 @@ Class CloudFiles implements StorageInterface
 		
 	}
 	
-	public function getContainer($name, $create = true){
+	public function setContainer($name, $create = true){
 		// Obtain an Object Store service object from the client.
 		$objectStoreService = $this->client->objectStoreService(null, $this->region);
 		
@@ -48,17 +59,41 @@ Class CloudFiles implements StorageInterface
 		return $this;	
 	}
 	
-	public function deleteContainer($bool = false){
+	public function getContainer($name, $create = true){
 		
+		return $this->container;
 	}
-	public function deleteAsset($bool = false){
-		
+	
+	public function getObject($remoteFileName) {
+		$this->object = $this->container->getObject($remoteFileName);
+		return $this->object;
 	}
-	public function getContent(){
-		
-	}
-	public function getUrl(){
-		
+	
+	
+	/*
+	 * Returns a stream
+	 * https://developer.rackspace.com/docs/cloud-files/getting-started/?lang=php
+	 */
+	
+    public function getObjectContents($remoteFileName = null) {
+    	if(!empty($remoteFileName)) {
+    		$this->getObject($remoteFileName);
+    	}
+    	return $this->object->getContent();
+    	
+    }
+    
+    
+    /*
+     * Returns a URL string
+    * 
+    */
+	public function getObjectUrl($remoteFileName = null){
+		if(!empty($remoteFileName)) {
+			$this->getObject($remoteFileName);
+		}
+		return $this->object->getPublicUrl();
+		 
 	}
 
 }
