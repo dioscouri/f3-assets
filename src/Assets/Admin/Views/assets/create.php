@@ -1,3 +1,6 @@
+<script src="./Assets/fineuploader/all.fineuploader.js"></script>
+<link rel="stylesheet" href="./Assets/fineuploader/fineuploader.css" type="text/css" />
+
 <?php $settings = \Assets\Models\Settings::fetch(); ?>
 
 <div class="row">
