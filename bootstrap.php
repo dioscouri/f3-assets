@@ -4,12 +4,12 @@ class AssetsBootstrap extends \Dsc\Bootstrap
     protected $dir = __DIR__;
     protected $namespace = 'Assets';
     
-    protected function runAdmin()
+    protected function preAdmin()
     {
         $this->checkSymlink();
     }
     
-    protected function runSite()
+    protected function preSite()
     {
         $this->checkSymlink();
     }    
