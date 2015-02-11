@@ -55,8 +55,8 @@ jQuery(document).ready(function () {
 
         thumbnails: {
             placeholders: {
-                notAvailablePath: "./fineuploader/placeholders/not_available-generic.png",
-                waitingPath: "./fineuploader/placeholders/waiting-generic.png"
+                notAvailablePath: "./Assets/fineuploader/placeholders/not_available-generic.png",
+                waitingPath: "./Assets/fineuploader/placeholders/waiting-generic.png"
             }
         }
     })
