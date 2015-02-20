@@ -23,6 +23,36 @@ class AssetsBootstrap extends \Dsc\Bootstrap
             $res = symlink($source, $target);
         }
     }
+    
+    protected function runAdmin()
+    {
+        \Dsc\System::instance()->getDispatcher()->addListener(\Activity\Listener::instance());
+    
+        if (class_exists('\Minify\Factory'))
+        {
+            \Minify\Factory::registerPath($this->dir . "/src/");
+    
+            $files = array(
+                'Assets/Assets/fineuploader/all.fineuploader.js',
+            );
+    
+            foreach ($files as $file)
+            {
+                \Minify\Factory::js($file);
+            }
+            
+            $files = array(
+                'Assets/Assets/fineuploader/fineuploader.css',
+            );
+            
+            foreach ($files as $file)
+            {
+                \Minify\Factory::css($file);
+            }            
+        }
+    
+        parent::runAdmin();
+    }    
 }
 
 $app = new AssetsBootstrap();
