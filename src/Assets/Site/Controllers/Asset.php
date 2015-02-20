@@ -55,6 +55,8 @@ class Asset extends \Dsc\Controller
         switch ($flash->old('storage')) 
         {
             case "s3":
+            case "cloudfiles":
+            case "cdn":
                 $this->app->reroute( $flash->old('url') );
                 
                 break;
