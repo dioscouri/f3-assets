@@ -26,8 +26,6 @@ class AssetsBootstrap extends \Dsc\Bootstrap
     
     protected function runAdmin()
     {
-        \Dsc\System::instance()->getDispatcher()->addListener(\Activity\Listener::instance());
-    
         if (class_exists('\Minify\Factory'))
         {
             \Minify\Factory::registerPath($this->dir . "/src/");
