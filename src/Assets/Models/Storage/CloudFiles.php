@@ -31,8 +31,6 @@ Class CloudFiles implements StorageInterface
 		
 		$this->setContainer($app->get('cdn.container'));
 		
-
-		
 		return $this;
 	}
 	
@@ -124,7 +122,50 @@ Class CloudFiles implements StorageInterface
 		 
 	}
 
+	//METHOD for queueing assets to be uploaded to CDN by queuer
 	
+	public static function gridfsToCDN($asset_id) {
+		try {
+			//get the current asset
+			$asset = (new \Assets\Models\Assets)->setState('filter.id', $asset_id)->getItem();
+			if(!empty($asset->id)) {
+				//if we new the servers full URL we could  just serve the asset url to  get object
+				$cdn = new static;
+				$url = \Base::instance()->get('cdn.siteURL'). '/asset/'. $asset->slug;
+				$cdn->createObject($asset->filename, $url);
+					
+					
+				$asset->set('url', $cdn->getObjectUrl());
+				$asset->set('storage', 'cloudfiles');
+				$asset->save();
+					
+					
+				//store the data from the original asset
+				$oldData = $asset->cast();
+				unset($oldData['_id']);
+				unset($oldData['length']);
+				unset($oldData['chunckSize']);
+					
+				//MD5 needs to change
+				$oldData['md5'] = md5($oldData['title'] . uniqid());
+				//save grid data
+					
+				//DELETE THIS ASSET
+				$asset->remove();
+					
+				//MAKE NEW ASSET WITH NEW ID BUT SAME SLUG
+				$model = new \Assets\Models\Assets;
+					
+				$model->bind( $oldData );
+				$model->set('url', $cdn->getObjectUrl());
+				$model->set('storage', 'cloudfiles');
+				$model->save();
+			}
+		} catch (\Exception $e) {
+			echo $e->getMessage(); die();
+		}
+	
+	}
 	
 	
 }
