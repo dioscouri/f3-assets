@@ -27,8 +27,26 @@ class Asset extends \Dsc\Controller
     
     public function read() 
     {
+        $slug = $this->inputfilter->clean( $this->app->get('PARAMS.slug'), 'PATH' );
+        
         $flash = \Dsc\Flash::instance();
         $this->app->set('flash', $flash );
+        
+        $height = $this->app->get('PARAMS.height');
+        $width = $this->app->get('PARAMS.width');
+        
+        if($height && $width) {
+            $this->app->set('height', $height);
+            $this->app->set('width', $width);
+        }
+        /*
+        $cached = \Dsc\Mongo\Collections\Assets::cached($slug);
+        if (!empty($cached['bin'])) {
+            $flash->store($cached);
+            echo $this->theme->renderView('Assets/Site/Views::assets/cache.php');
+            return;
+        }
+        */
         
         $model = $this->getModel();
         $item = $this->getItem();
@@ -43,15 +61,6 @@ class Asset extends \Dsc\Controller
         
         $flash->store((array) $item->cast());
 		
-        $height = $this->app->get('PARAMS.height');
-        $width = $this->app->get('PARAMS.width');
-        
-        if($height && $width) {
-        	$this->app->set('height', $height);
-        	$this->app->set('width', $width);
-        }
-        
-        
         switch ($flash->old('storage')) 
         {
             case "s3":
