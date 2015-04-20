@@ -80,25 +80,39 @@ class Asset extends \Dsc\Controller
         $this->app->set('flash', $flash );
         $slug = $this->inputfilter->clean( $this->app->get('PARAMS.slug'), 'PATH' );
         
-        try {
-            $thumb = \Dsc\Mongo\Collections\Assets::cachedThumb($slug);
-            if (empty($thumb['bin'])) {
-            	throw new \Exception;
-            }
-        } 
-        catch (\Exception $e) {
-            return $this->app->error( 404, 'Invalid Thumb' );
-        }
-        $height = $this->app->get('PARAMS.height');
-        $width = $this->app->get('PARAMS.width');
+        $item = $this->getItem();
+        switch ($item->storage)
+        {
+        	case "s3":
+        	case "cloudfiles":
+        	case "cdn":
+        		$this->app->reroute( $item->thumb );
         
-        if($height && $width) {
-        	$this->app->set('height', $height);
-        	$this->app->set('width', $width);
+        		break;
+        	case "gridfs":
+        	default:
+    
+	        try {
+	            $thumb = \Dsc\Mongo\Collections\Assets::cachedThumb($slug);
+	            if (empty($thumb['bin'])) {
+	            	throw new \Exception;
+	            }
+	        } 
+	        catch (\Exception $e) {
+	            return $this->app->error( 404, 'Invalid Thumb' );
+	        }
+	        $height = $this->app->get('PARAMS.height');
+	        $width = $this->app->get('PARAMS.width');
+	        
+	        if($height && $width) {
+	        	$this->app->set('height', $height);
+	        	$this->app->set('width', $width);
+	        }
+	        
+	        $flash->store($thumb);
+	        echo $this->theme->renderView('Assets/Site/Views::assets/thumb.php');
+	        break;
         }
-        
-        $flash->store($thumb);
-        echo $this->theme->renderView('Assets/Site/Views::assets/thumb.php');
     }
     
 }

@@ -220,6 +220,8 @@ class Asset extends \Admin\Controllers\BaseAuth
                 // $storedfile has newly stored file's Document ID
                 $result["asset_id"] = (string) $storedfile;
                 $result["slug"] = $model->{'slug'};
+                
+                \Dsc\Queue::task('\Assets\Models\Storage\CloudFiles::gridfstoCDN', array($result['asset_id']));
             } 
             
             echo json_encode($result);

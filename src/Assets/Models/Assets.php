@@ -108,6 +108,3 @@ class Assets extends \Dsc\Mongo\Collections\Assets
 	
 	
 }
-
-//
-//
