@@ -51,6 +51,7 @@ class Asset extends \Dsc\Controller
         $model = $this->getModel();
         $item = $this->getItem();
         
+
         if (empty($item->id)) 
         {
         	return $this->app->error( 404, 'Invalid Item' );        	
@@ -59,9 +60,9 @@ class Asset extends \Dsc\Controller
         $this->app->set('model', $model );
         $this->app->set('item', $item );
         
-        $flash->store((array) $item->cast());
+       // $flash->store((array) $item->cast());
 		
-        switch ($flash->old('storage')) 
+        switch ($item->storage) 
         {
             case "s3":
             case "cloudfiles":

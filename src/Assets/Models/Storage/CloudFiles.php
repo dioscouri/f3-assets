@@ -127,7 +127,7 @@ Class CloudFiles implements StorageInterface
 	public static function gridfsToCDN($asset_id) {
 		try {
 			//get the current asset
-			$asset = (new \Assets\Models\Assets)->setState('filter.id', $asset_id)->getItem();
+			$asset = (new \Assets\Models\Assets)->setState('filter.slug', $asset_id)->getItem();
 			if(!empty($asset->id)) {
 				//if we new the servers full URL we could  just serve the asset url to  get object
 				$cdn = new static;
