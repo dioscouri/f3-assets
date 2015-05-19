@@ -151,7 +151,7 @@ Class CloudFiles implements StorageInterface
 				$oldData = $asset->cast();
 				unset($oldData['_id']);
 				unset($oldData['length']);
-				unset($oldData['chunckSize']);
+				unset($oldData['chunkSize']);
 					
 				//MD5 needs to change
 				$oldData['md5'] = md5($oldData['title'] . uniqid());

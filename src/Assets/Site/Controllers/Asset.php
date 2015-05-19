@@ -67,7 +67,7 @@ class Asset extends \Dsc\Controller
             case "s3":
             case "cloudfiles":
             case "cdn":
-                $this->app->reroute( $flash->old('url') );
+                $this->app->reroute( $item->url );
                 
                 break;
             case "gridfs":
