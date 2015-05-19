@@ -3,6 +3,10 @@ namespace Assets\Models;
 
 class Settings extends \Dsc\Mongo\Collections\Settings
 {
+	public $images = array(
+			'default_thumb' => 'http://placehold.it/150x150'
+	);
+	
     public function isS3Enabled()
     {
         if (!class_exists('\Aws\S3\S3Client'))

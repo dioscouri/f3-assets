@@ -31,8 +31,14 @@
                     <hr />
                     
                     <div class="form-group">
-                        <label>Default Mode</label>
-                                         
+                        <div class="row">
+                         <div class="form-group">
+                            <div class="col-md-5">
+                                <label>Default Thumbnail</label>
+                                <input name="images[default_thumb]" placeholder="Link to a default thumbnail" value="<?php echo $flash->old('images.default_thumb'); ?>" class="form-control" type="text" />
+                            </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.form-group -->                   
                     

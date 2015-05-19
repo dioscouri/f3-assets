@@ -90,7 +90,11 @@ class Asset extends \Dsc\Controller
         $this->app->set('flash', $flash );
         $slug = $this->inputfilter->clean( $this->app->get('PARAMS.slug'), 'PATH' );
         
-        $item = $this->getItem();
+        $item = $this->getItem();			
+		if( $item == null ){			
+			$this->app->reroute( \Assets\Models\Settings::fetch()->get('images.default_thumb'));
+			exit(0);
+		}
         switch ($item->storage)
         {
         	case "s3":
