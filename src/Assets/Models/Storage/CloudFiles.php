@@ -124,20 +124,32 @@ Class CloudFiles implements StorageInterface
 
 	//METHOD for queueing assets to be uploaded to CDN by queuer
 	
-	public static function gridfsToCDN($asset_id) {
+public static function gridfsToCDN($asset_id, $path = null) {
 		try {
 			//get the current asset
-			$asset = (new \Assets\Models\Assets)->setState('filter.slug', $asset_id)->getItem();
+			if(\ MongoId::isValid($asset_id)) {
+				$asset = (new \Assets\Models\Assets)->setState('filter.id', $asset_id)->getItem();
+			} else {
+				$asset = (new \Assets\Models\Assets)->setState('filter.slug', $asset_id)->getItem();
+			}
+			
 			if(!empty($asset->id)) {
 				//if we new the servers full URL we could  just serve the asset url to  get object
 				$cdn = new static;
 				
 				$url = \Base::instance()->get('cdn.siteURL'). '/asset/'. $asset->slug;
 				
-				$cdn->createObject($asset->filename, $url);
+	
+				if($path) {
+					$name = $path . $asset->filename;
+				} else {
+					$name = $path . $asset->filename;
+				}
+				
+				$cdn->createObject($name, $url);
 				$asset->set('url', $cdn->getObjectUrl());
 				
-				$thumbnailPath = '/thumbs' .$asset->filename;
+				$thumbnailPath = '/thumbs/' .$name;
 				$thumbUrl = \Base::instance()->get('cdn.siteURL'). '/asset/thumb/'. $asset->slug;
 				
 				$cdn->createObject($thumbnailPath, $thumbUrl);
@@ -165,9 +177,12 @@ Class CloudFiles implements StorageInterface
 				$model->bind( $oldData );
 				$model->set('storage', 'cloudfiles');
 				$model->save();
+			} else {
+				throw new \Exception('Asset Not Found');
 			}
+			
 		} catch (\Exception $e) {
-			echo $e->getMessage(); die();
+			throw new \Exception($e->getMessage());
 		}
 	
 	}
@@ -175,7 +190,7 @@ Class CloudFiles implements StorageInterface
 	
 	//METHOD for queueing assets to be uploaded to CDN by queuer
 	
-	public static function gridfsToCDNThumbs($asset_id) {
+ /*	public static function gridfsToCDNThumbs($asset_id) {
 		try {
 			//get the current asset
 			$asset = (new \Assets\Models\Assets)->setState('filter.slug', $asset_id)->getItem();
@@ -225,7 +240,7 @@ Class CloudFiles implements StorageInterface
 		} 
 	
 	}
-	
+	*/
 	
 }
 
