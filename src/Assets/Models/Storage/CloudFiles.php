@@ -118,7 +118,7 @@ Class CloudFiles implements StorageInterface
 		if(!empty($remoteFileName)) {
 			$this->getObject($remoteFileName);
 		}
-		return (string) $this->object->getPublicUrl();
+		return (string) $this->object->getPublicUrl(\OpenCloud\ObjectStore\Constants\UrlType::SSL);
 		 
 	}
 
