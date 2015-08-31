@@ -108,7 +108,7 @@ class Asset extends \Admin\Controllers\BaseAuth
                         'thumb' => $thumb,
                         'url' => $url,
                         'length' => $objectInfoValues['ContentLength'],
-                        "title" => \Joomla\String\Normalise::toSpaceSeparated( $model->inputfilter()->clean( $name ) ),
+                        "title" => \Dsc\String::toSpaceSeparated( $model->inputfilter()->clean( $name ) ),
                         'filename' => $name,
                         's3' => array(
                             'bucket' => $bucket,
@@ -202,7 +202,7 @@ class Asset extends \Admin\Controllers\BaseAuth
                     'md5' => md5_file( $files_path . "/" . $filename ),
                     'thumb' => $thumb,
                     'url' => null,
-           			"title" => \Joomla\String\Normalise::toSpaceSeparated( $model->inputfilter()->clean( $originalname ) ),
+           			"title" => \Dsc\String::toSpaceSeparated( $model->inputfilter()->clean( $originalname ) ),
                     "filename" => $originalname,
                 );
                                 
@@ -500,7 +500,7 @@ class Asset extends \Admin\Controllers\BaseAuth
                     'contentType' => $asset->getMimeType( $buffer ),
                     'md5' => md5_file( $files_path . "/" . $filename ),
                     'url' => null,
-                    "title" => \Joomla\String\Normalise::toSpaceSeparated( $asset->inputfilter()->clean( $originalname ) ),
+                    "title" => \Dsc\String::toSpaceSeparated( $asset->inputfilter()->clean( $originalname ) ),
                     "filename" => $originalname,
                 );
     
