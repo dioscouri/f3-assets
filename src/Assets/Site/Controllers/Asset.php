@@ -39,15 +39,7 @@ class Asset extends \Dsc\Controller
             $this->app->set('height', $height);
             $this->app->set('width', $width);
         }
-        /*
-        $cached = \Dsc\Mongo\Collections\Assets::cached($slug);
-        if (!empty($cached['bin'])) {
-            $flash->store($cached);
-            echo $this->theme->renderView('Assets/Site/Views::assets/cache.php');
-            return;
-        }
-        */
-        
+         
         $model = $this->getModel();
         $item = $this->getItem();
         
@@ -68,15 +60,12 @@ class Asset extends \Dsc\Controller
             case "cloudfiles":
             case "cdn":
                 $this->app->reroute( $item->url );
-                
                 break;
             case "gridfs":
             default:
                 $this->app->set('meta.title', $item->slug);
-                
                 $view = \Dsc\System::instance()->get('theme');
                 echo $view->renderLayout('Assets/Site/Views::assets/view.php');
-                
                 break;
         }
     }
