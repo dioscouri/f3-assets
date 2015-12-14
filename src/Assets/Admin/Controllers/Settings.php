@@ -13,6 +13,8 @@ class Settings extends \Admin\Controllers\BaseAuth
         if(!class_exists('imagick')) {
     	 	\Dsc\System::instance()->addMessage( "ImageMagic is required for Assets to function correctly", 'warning');
     	}
+		
+		parent::beforeRoute();
     }
 
     protected function getModel()
