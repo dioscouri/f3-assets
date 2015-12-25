@@ -114,6 +114,17 @@
                             <!-- /.form-group -->
                             
                             <div class="form-group">
+                                <label>Caption</label>
+                                <input type="text" name="caption" value="<?php echo $flash->old('caption'); ?>" class="form-control" />
+                            </div>
+                            <!-- /.form-group -->
+                            
+                            <div class="form-group">
+                                <label>Credit</label>
+                                <input type="text" name="caption" value="<?php echo $flash->old('credit'); ?>" class="form-control" />
+                            </div>
+                            <!-- /.form-group -->
+                            <div class="form-group">
                                 <label>Tags: Enter multiple tags, separated by a comma</label>
                                 <input name="tags" data-tags='<?php echo json_encode( \Dsc\Mongo\Collections\Assets::distinctTags() ); ?>' value="<?php echo implode(",", (array) $flash->old('tags') ); ?>" type="text" name="tags" class="form-control ui-select2-tags" />
                             </div>
